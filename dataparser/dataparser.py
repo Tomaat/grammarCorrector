@@ -1,6 +1,6 @@
 from sgmllib import SGMLParser # maybe we need this after a while 
 from nltk.tokenize import *
-global count 
+
  
 class Sentence: 
 	def __init__(self, sentance_tuple):
@@ -64,7 +64,8 @@ class Mistake:
 								"Um":"Unclear meaning (cannot be corrected)",
 							}
 
-	
+	def giveFullMistakeDeclaration(self):			
+		return self.error_has[self.error_type]
 
 	def setErrorWord(self,error_tuple):
 		splited_sentane = error_tuple[0].split(' ')
