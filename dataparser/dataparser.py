@@ -1,7 +1,7 @@
 from sgmllib import SGMLParser # maybe we need this after a while 
 from nltk.tokenize import *
 
-
+ 
 class Sentence: 
 	def __init__(self, sentance_tuple):
 		self.raw_sentance = sentance_tuple[0]
@@ -20,6 +20,10 @@ class Sentence:
 		# return words without the punctuatuin 
 		return self.sentence_words
 
+	def getErrorList():
+		# return a list with array objects for that sentence 
+		return self.error_list
+
 	def setSentenceErros(self, sentance_tuple):
 		error_list = []
 		for error_tuple in sentance_tuple[1]:
@@ -29,12 +33,12 @@ class Sentence:
 
 class Mistake:
 	def __init__(self, error_tuple):
-		self.error_type = error_tuple[1]
-		self.error_word = None  
-		self.correction = error_tuple[2]
-		self.error_start_index = error_tuple[0][2] 
-		self.error_end_index = error_tuple[0][4] 
-		self.error_has = error_has = {
+		self.error_type = error_tuple[1] # type of the grammer mistake 
+		self.correction = error_tuple[2]	# the correction of the mistake
+		self.error_start_index = error_tuple[0].split(' ')[1]  	# start index in the sentence for where the mistake has been made
+		self.error_end_index = error_tuple[0].split(' ')[2] 	# end index of the mistake 
+		self.error_word =  self.setErrorWord(error_tuple) 		# the word, of the sentence part that is wrong
+		self.error_hash = error_has = {
 								"Vt":"Verb tense",
 								"Vm":"Verb modal",
 								"V0":"Missing verb",
@@ -61,38 +65,28 @@ class Mistake:
 								"Rloc":"Local redundancy",
 								"Cit":"Citation",
 								"Others":"Other errors",
-								"Um":"Unclear meaning (cannot be corrected)",
-							}
+								"Um":"Unclear meaning (cannot be corrected)",						# hash with the full discription of every mistake in the dataset 
+		}
 
 	def giveFullMistakeDeclaration(self):
+		# returns the the full description of the mistake 			
 		return self.error_has[self.error_type]
 
-
-
+	def setErrorWord(self,error_tuple):
+		# returns the word where the mistake has been made, is the word is empty, a word has been forgotten or another  mistake has been made
+		splited_sentane = error_tuple[0].split(' ')
+		try:
+			return splited_sentane[int(self.error_start_index):int (self.error_end_index)]
+		except ValueError:
+			print "Error word can not be set, error tuple:"+error_tuple[0]
 
 if __name__ == '__main__':
 	with open ('../release3.2/data/conll14st-preprocessed.m2') as datafile: # import sgml data-file
 		data_lines = datafile.readlines()
 		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
-		sentence_tuples = [(x[0],[tuple(y.split('|||')) for y in x[1:]]) for x in data_raw]
+		sentence_tuples = [(sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
 		processed_sentences = []
 		for sentence_tuple in sentence_tuples[1:]: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
 			processed_sentences.append(Sentence(sentence_tuple))
-			
+		
 	print "end of program"
-
-
-
-"""
-Some experimental code
-
-sentance, errors_tuple = sentance_tuples[6]
-splited_sentanec = sentance.split(' ')
-a,b,c = errors_tuple[1][0].split(' ')
-print splited_sentanec[int(b):int(c)] 
-
-"""
-	
-	     
-
-
