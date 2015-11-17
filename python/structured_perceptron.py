@@ -23,15 +23,93 @@ for all sentences:
 
 import numpy as np
 
-def train_perceptron(rows_feature_vector):
+
+def set_train(bool):
+	train = bool
+
+def get_train():
+	return train
+
+
+def get_ideal_dict():
+	return ideal_dict ## how do we set the ideal dict?
+
+
+
+def structured_perceptron(sentence_dict, no_input_nodes):
+	""" Input:	Dictionary of the sentence you are correcting. Based on dependency tree.
+				Number of input nodes. This corresponds to the rows of your weight matrix.
+		Output:	Sequence of errors (???)
+
+		Method that 'runs' the perceptron. Behaves differently depending on whether in 
+		training phase or not.
+
+	"""
+
+	if (get_train() == True):
+		ideal_dict = get_ideal_dict
+		train_perceptron(sentence_dict, ideal_dict, no_input_nodes)
+
+	else:
+		give_sequence(sentence_dict)
+
+
+
+
+def train_perceptron(sentence_dict, ideal_dict, no_input_nodes):
 	""" Input:	Number of rows of the feature vector --> equals number of input nodes
+				Number of input nodes. This corresponds to the rows of your weight matrix.
 		Output:
 
 		Method to train the entire perceptron
+
 	"""
 
-	weight_matrix = init_weights(rows_feature_vector)
-	scores_word = []
+	weight_matrix = init_weights(no_input_nodes)
+
+	# 1) Loop over the sentence dictionary, 2) get array with all errors, 3) get array with possible feature vectors per error
+	for position in range(len(sentence_dict)):
+		all_error_vectors = sentence_dict[position]
+		best_score_end = 0
+
+		for feature_vectors in all_error_vectors:  # [(feature_vector, no_previous), (feature_vector, no_previous), etc]
+
+			best_vector_score = 0
+			count = 0
+			position_best_score = 0
+			best_feature_vector_tuple = ()
+
+			for feature_vector_tuple in feature_vectors:
+				vector_score = calculate_score_word(feature_vector_tuple[0], weight_matrix)
+				count += 1
+				if (vector_score > best_vector_score):
+					best_vector_score = vector_score
+					position_best_score = count
+					best_feature_vector_tuple = feature_vector_tuple
+
+			# Only keep the feature vector for a certain error that got the highest score
+			feature_vectors[position_best_score] = best_feature_vector_tuple
+
+			# Only in the end you're interested in the best score and you want to know how to follow the best path
+			if position == len(sentence_dict):
+				if best_vector_score > best_score_end:
+					best_score_end = best_vector_score
+					best_feature_vector_end = best_feature_vector_tuple
+
+				all_error_vectors = best_feature_vector_tuple
+
+	# Now you have a dictionary with for every word a vector with the best feature vector tuples
+
+	# Follow the backpointers to get the correct sequence
+	# Once you know for sure what vector you're going to use, you can immediately update the weights with this
+	for position in range(len(sentence_dict)), 0, -1):
+		all_errors = sentence_dict[position]
+
+		# HIER VERDER!!
+
+
+
+	'''scores_word = []
 
 	# This might change, depending on the output of the dependency tree and the decision we make considering the feature vectors --> not finished, and in some kind of pseudo code
 	# Now we're looping over all feature vectors for a word, calculating the score and adding it to an array with tuples for this word
@@ -49,8 +127,20 @@ def train_perceptron(rows_feature_vector):
 			# at some point you have found a total score for the sentence --> this is the best score for this sentence and based on that you know your tag sequence
 
 		if (total_score > ideal_score):
-			updated_weight_matrix = update_weights
+			updated_weight_matrix = update_weights '''
 
+
+
+def give_sequence(sentence_dict):
+	""" Input:	Dictionary of the sentence you are correcting. Based on dependency tree.
+		Output:	Sequence of error tags
+
+		Method that runs the viterbi algorithm to get final error sequence of the sentence.
+		Only called once the perceptron has been trained. (???)
+
+	"""
+
+	return error_sequence
 
 
 def viterbi_ideal_score(feature_vectors, weight_matrix):
