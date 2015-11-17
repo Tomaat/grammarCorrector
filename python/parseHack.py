@@ -15,6 +15,7 @@ from nltk.grammar import (DependencyProduction, DependencyGrammar,
 from nltk.parse.dependencygraph import DependencyGraph
 from nltk.internals import raise_unorderable_types
 from nltk.compat import total_ordering, python_2_unicode_compatible
+from nltk.tree import Tree
 
 #################################################################
 # Dependency Span
@@ -292,7 +293,7 @@ class ProbabilisticProjectiveDependencyParser(object):
                             chart[i][j].add(DependencySpan(i-1,i,i-1,[-1], [tag]))
                     else:
                         print('No tag found for input token \'%s\', parse is impossible.' % tokens[i-1])
-                        return []
+                        
         for i in range(1,len(self._tokens)+1):
             for j in range(i-2,-1,-1):
                 for k in range(i-1,j,-1):
@@ -314,8 +315,10 @@ class ProbabilisticProjectiveDependencyParser(object):
             dg = DependencyGraph(conll_format)
             score = self.compute_prob(dg)            
             trees.append((score, dg.tree()))
-        trees.sort()
-        return [(score,tree) for (score, tree) in trees]
+        trees.sort(key=lambda e: -e[0])
+        if trees == []:
+            trees = [(0.0,Tree(tokens[0],tokens[1:]))]
+        return ((score,tree) for (score, tree) in trees)
 
 
     def concatenate(self, span1, span2):
@@ -455,7 +458,7 @@ class ProbabilisticProjectiveDependencyParser(object):
                     
                     # If the grammar is not covered 
                     if m_count != 0:
-                        prob *= (h_count / m_count)
+                        prob *= (float(h_count) / float(m_count))
                     else:
                         prob = 0.00000001  # Very small number  
                     
@@ -473,9 +476,9 @@ class ProbabilisticProjectiveDependencyParser(object):
                     m_count = self._grammar._events[mod_event]
 
                     if m_count != 0:
-                        prob *= (h_count / m_count)
+                        prob *= (float(h_count) / float(m_count))
                     else:
-                        prob = 0.00000001  # Very small number  
+                        prob = 0.00000001  # Very small number
 
         return prob
 

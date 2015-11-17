@@ -1,5 +1,6 @@
 import nltk
 import parseHack
+import pickle
 
 class dfirst(object):
 	def __init__(self,tree):
@@ -38,65 +39,82 @@ class dfirst(object):
 
 class tbankparser:
 	def __init__(self):
-		self.tbank = nltk.corpus.dependency_treebank
-		self.pars = self.tbank.parsed_sents()
-		self.sens = self.tbank.sents()
-		self.n = len(self.sens)
+		self._tbank = nltk.corpus.dependency_treebank
+		self._parsed = self._tbank.parsed_sents()
+		self._sents = self._tbank.sents()
+		self._n = len(self._sents)
 	
 	def sen(self,i=0):
-		return self.sens[i]
+		return self._sents[i]
 	
-	def strip(self,s):
-		s = str(s).replace("'","")
-		s = s.replace('"','')
-		if s == "":
-			s = "-"
-		return "'"+s+"'"
+	# @staticmethod
+	# def _strip(word):
+		# word = str(word).replace("'","")
+		# word = word.replace('"','')
+		# if word == "":
+			# word = "-"
+		# return "'"+word+"'"
 	
-	def par(self,i=0):
-		tr = self.pars[i].tree()
-		todo = [tr]
-		p = ""
-		while len(todo) > 0:
-			ctr = todo.pop(0)
-			p += self.strip(ctr.label())+" --> "
-			for i in range(0,len(ctr)):
-				ans = ctr[i]
+	# def _par(self,i=0):
+		# tr = self._parsed[i].tree()
+		# todo = [tr]
+		# p = ""
+		# while len(todo) > 0:
+			# ctr = todo.pop(0)
+			# p += tbankparser._strip(ctr.label())+" --> "
+			# for i in range(0,len(ctr)):
+				# ans = ctr[i]
 				
-				if not isinstance(ans,nltk.tree.Tree):
-					p += self.strip(ans)+" "
-				else:
-					todo.append(ans)
-					p += self.strip(ans.label())+" "
-			p += "\n"
-		return p
+				# if not isinstance(ans,nltk.tree.Tree):
+					# p += tbankparser._strip(ans)+" "
+				# else:
+					# todo.append(ans)
+					# p += tbankparser._strip(ans.label())+" "
+			# p += "\n"
+		# return p
 	
-	def getParser(self,max=None):
-		if max == None:
-			max = self.n
-		p = ""
-		for i in range(0,max):
-			p += self.par(i)
-		gram = nltk.DependencyGrammar.fromstring(p)
-		return nltk.ProjectiveDependencyParser(gram)
+	# def getParser(self,max=None):
+		# if max == None:
+			# max = self._n
+		# p = ""
+		# for i in range(0,max):
+			# p += self._par(i)
+		# gram = nltk.DependencyGrammar.fromstring(p)
+		# self._parser = nltk.ProjectiveDependencyParser(gram)
 	
-	def getPParser(self,max=None):
-		if max == None:
-			max = self.n
-		
-		pars = parseHack.ProbabilisticProjectiveDependencyParser()
-		pars.train(self.pars[:max])
-		
-		return pars
+	def getParser(self,max=None,load=False,save=False,filename='parser.pkl'):
+		if load:
+			parser = pickle.load(open(filename,'r') )
+		else:
+			if max == None:
+				max = self._n
+			
+			parser = parseHack.ProbabilisticProjectiveDependencyParser()
+			parser.train(self._parsed[:max])
+			if save:
+				pickle.dump(parser,open(filename,'w') )
+		self._parser = parser
 	
-	def pprint(self,sen=0,max=None, ptype=1, pars=None):
-		if pars == None:
-			pars = self.getParser(max)
-		ps = pars.parse(self.sen(sen))
+	def pprint(self,sen=0,max=None, ptype=1,):
+		if not hasattr(self,'_parser'):
+			self.getParser(max)
+		ps = self._parser.parse(self.sen(sen))
 		print self.sen(sen)
 		for t in ps:
 			if ptype==1:
 				t.pprint()
 			elif ptype==2:
 				t.pretty_print()
+	
+	def parse(self,sentence):
+		if isinstance(sentence,str):
+			sentence = sentence.split()
+		if not hasattr(self,'_parser'):
+			self.getParser(self._n)
 		
+		(score,tree), = self._parser.parse(sentence)
+		
+		print score
+		tree.pprint()
+		
+		return dfirst(tree)
