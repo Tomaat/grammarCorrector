@@ -24,111 +24,108 @@ for all sentences:
 import numpy as np
 
 
-def set_train(bool):
-	train = bool
-
-def get_train():
-	return train
-
-
-def get_ideal_dict():
-	return ideal_dict ## how do we set the ideal dict?
 
 
 
-def structured_perceptron(sentence_dict, no_input_nodes):
-	""" Input:	Dictionary of the sentence you are correcting. Based on dependency tree.
-				Number of input nodes. This corresponds to the rows of your weight matrix.
-		Output:	Sequence of errors (???)
-
-		Method that 'runs' the perceptron. Behaves differently depending on whether in 
-		training phase or not.
-
-	"""
-
-	if (get_train() == True):
-		ideal_dict = get_ideal_dict
-		train_perceptron(sentence_dict, ideal_dict, no_input_nodes)
-
-	else:
-		give_sequence(sentence_dict)
+###########################################################################################################
 
 
 
 
-def train_perceptron(sentence_dict, ideal_dict, no_input_nodes):
-	""" Input:	Number of rows of the feature vector --> equals number of input nodes
-				Number of input nodes. This corresponds to the rows of your weight matrix.
-		Output:
 
-		Method to train the entire perceptron
+def train_perceptron(all_tags, history):
+
+	weight_matrix = init_weights(len(all_tags))
+
+	# For loop around this, so that you loop through all sentences --> weights should be updated
+	train_perceptron_once(sentence, target_dict, all_tags, history)
+
+
+
+def train_perceptron_once(sentence, target_dict, all_tags, history):
+	"""	Input:	Sentence that is fed into the perceptron
+				Dictionary with feature vectors of the correct tagged sentence
 
 	"""
 
-	weight_matrix = init_weights(no_input_nodes)
-
-	# 1) Loop over the sentence dictionary, 2) get array with all errors, 3) get array with possible feature vectors per error
-	for position in range(len(sentence_dict)):
-		all_error_vectors = sentence_dict[position]
-		best_score_end = 0
-
-		for feature_vectors in all_error_vectors:  # [(feature_vector, no_previous), (feature_vector, no_previous), etc]
-
-			best_vector_score = 0
-			count = 0
-			position_best_score = 0
-			best_feature_vector_tuple = ()
-
-			for feature_vector_tuple in feature_vectors:
-				vector_score = calculate_score_word(feature_vector_tuple[0], weight_matrix)
-				count += 1
-				if (vector_score > best_vector_score):
-					best_vector_score = vector_score
-					position_best_score = count
-					best_feature_vector_tuple = feature_vector_tuple
-
-			# Only keep the feature vector for a certain error that got the highest score
-			feature_vectors[position_best_score] = best_feature_vector_tuple
-
-			# Only in the end you're interested in the best score and you want to know how to follow the best path
-			if position == len(sentence_dict):
-				if best_vector_score > best_score_end:
-					best_score_end = best_vector_score
-					best_feature_vector_end = best_feature_vector_tuple
-
-				all_error_vectors = best_feature_vector_tuple
-
-	# Now you have a dictionary with for every word a vector with the best feature vector tuples
-
-	# Follow the backpointers to get the correct sequence
-	# Once you know for sure what vector you're going to use, you can immediately update the weights with this
-	for position in range(len(sentence_dict)), 0, -1):
-		all_errors = sentence_dict[position]
-
-		# HIER VERDER!!
+	viterbi(sentence, all_tags, history, weight_matrix)
 
 
+def viterbi(sentence, all_tags, history, weight_matrix):
+	""" Input:	The sentence to be tagged
+				A list of all possible tags (strings)
+				History: how far you want to look back
 
-	'''scores_word = []
+	"""
 
-	# This might change, depending on the output of the dependency tree and the decision we make considering the feature vectors --> not finished, and in some kind of pseudo code
-	# Now we're looping over all feature vectors for a word, calculating the score and adding it to an array with tuples for this word
-	for feature_vectors in feature_vectors_sentence:
+	sentence_dict = {} # per word all possible tags
+	no_tags = len(all_tags)
 
-		ideal_score = viterbi_ideal_score(correct_feature_vectors, weight_matrix) # this should also change --> how do you get your correct feature vectors
+	# Viterbi forward path
+	for i,wrd in enumerate(sentence): # now you know the position of the word in your sentence
+		feature_vector_array = np.zeros((no_tags, 2)) # now we assume we have only two features per tag (n.b. so this is not only correct or false, it's features)
+		tag_score_array = np.zeros((no_tags))
 		
-		for feature_vector in feature_vectors
+		for j,tag in enumerate(all_tags): 
+			# here you're gonna add your history. First pretending we don't take history into account:
+			
+			#for z in range(history):
+			#	sentence_dict.get(i-z):
 
-			# Viterbi --> new function as you also need this for computing your ideal score
-			update_feature_vector#...
-			score = calculate_score_word(feature_vector, weight_matrx)
-			scores_word.append((feature_vector, score))
+			feature_vector_tag = construct_feature_vector(wrd, tag) # still add the history to this function
+			feature_vector_array[j,:] = feature_vector_tag
+			#print 'feature_vector_tag: ', feature_vector_tag
+			
+			tag_score = np.dot(feature_vector_tag, weight_matrix.transpose()) # with history you need to take the max here
+			tag_score_array[j] = tag_score
+			#print 'tag_score: ', tag_score
+		
+		sentence_dict[i] = (tag_score_array, feature_vector_array)
 
-			# at some point you have found a total score for the sentence --> this is the best score for this sentence and based on that you know your tag sequence
+	# Viterbi backward path
+	final_feature_vectors = []
 
-		if (total_score > ideal_score):
-			updated_weight_matrix = update_weights '''
+	for entry in range(len(sentence_dict)-1, -1, -1):
+		(score, vector) = sentence_dict[entry]
+		high_score =  score.argmax()
+		best_vector = vector[high_score]
+		final_feature_vectors.append(best_vector) # but now we still need to implement the history
+	
+	print final_feature_vectors
 
+
+	#print sentence_dict
+
+
+def construct_feature_vector(word, tag):
+	""" Input:	word
+				Tag
+		Output:	Feature vector --> Now this is a random vector. Maurits writes this method based on the data.
+
+		Method to construct the feature vector of a word, also based on the word before
+
+	"""
+	return np.random.randint(2, size=2)
+
+
+if __name__ == '__main__':
+	weights = np.random.random((1, 2))
+	print 'weights: ', weights, weights.shape[0], weights.shape[1]
+	viterbi(['hello','world'],['g','f'],0, weights)
+
+
+def init_weights(no_rows):
+	"""	Input:	number of rows of the feature vector --> Construct weight matrix with this many rows
+		Output:	initialized weight matrix, with random values for the weights
+
+		Method to initalize the weights of the perceptron. 
+	"""
+
+	weight_matrix = np.random.random((no_rows, 1))
+	return weight_matrix
+
+
+###################################################################################################################3
 
 
 def give_sequence(sentence_dict):
@@ -156,15 +153,7 @@ def viterbi_ideal_score(feature_vectors, weight_matrix):
 	return ideal_score
 
 
-def init_weights(no_rows):
-	"""	Input:	number of rows of the feature vector --> Construct weight matrix with this many rows
-		Output:	initialized weight matrix, with random values for the weights
 
-		Method to initalize the weights of the perceptron. 
-	"""
-
-	weight_matrix = np.random.random((no_rows, 1))
-	return weight_matrix
 
 def calc_score_word(feature_vector, weight_matrix):
 	""" Input: 	Feature vector of the word you're looking at
@@ -178,13 +167,8 @@ def calc_score_word(feature_vector, weight_matrix):
 	return score
 
 
-def construct_feature_vect():
-	""" Input:	
-		Output:	
 
-		Method to construct the feature vector of a word, also based on the word before
 
-	"""
 
 def update_feature_vect():
 	""" Input:
@@ -204,6 +188,7 @@ def update_weights():
 	"""
 
 	return updated_weights
+
 
 
 
