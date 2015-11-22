@@ -56,6 +56,7 @@ def viterbi(sentence, all_tags, history, weight_matrix):
 				A list of all possible tags (strings)
 				History: how far you want to look back
 
+		Output:	A list with all feature vectors, in order per word
 	"""
 
 	sentence_dict = {} # per word all possible tags
@@ -81,13 +82,20 @@ def viterbi(sentence, all_tags, history, weight_matrix):
 			#[(history_vectors, feature_vector), (history_vectors, feature_vector), ...] --> Though I guess one history vector should be enough, as then you've got a backpointer for every feature vector
 			# history vector should be an array with numbers --> numbers correspnding to tag positions
 
+			print "feature vectors tag: ", feature_vectors_tag
+
+
 			best_tag_score = 0 # init scores --> delete once more clever list implementation with max
+			best_feature_vector = np.zeros(2) # number of features --> CHANGE
+			history_word = -1 # what's the position of the tag the current tag is 'coming from'
 			for tple in feature_vectors_tag:
+				print "tuple: ", tple
 				tag_score = np.dot(tple[1], weight_matrix.transpose()) # might want to this with this python list stuff, but like this for now
+				print "tag_score: ", tag_score
 				if tag_score > best_tag_score:
 					best_tag_score = tag_score
-					best_feature_vector = vector
-					history = tple[0]
+					best_feature_vector = tple[1]
+					history_word = tple[0]
 
 
 			tag_score_array[j] = best_tag_score
@@ -104,7 +112,8 @@ def viterbi(sentence, all_tags, history, weight_matrix):
 	for entry in range(dict_len-1, -1, -1):
 		
 		(score, vector, history) = sentence_dict[entry]
-		
+		history_best_vector = -1
+
 		# if you're at the end of the sentence you have to make your decision slightly differently
 		if entry == dict_len: 
 			high_score =  score.argmax()
@@ -114,13 +123,13 @@ def viterbi(sentence, all_tags, history, weight_matrix):
 			best_vector = vector[history_best_vector]
 			history_best_vector = history[history_best_vector]
 		
-		final_feature_vectors.append(best_vector)
+		final_feature_vectors.append(best_vector) ## might want to change the order of this, or not, depends a bit on how we decide to give the output for the sequence
 
 
 
 
 	
-	print final_feature_vectors
+	print "final feature vectors: ", final_feature_vectors
 
 
 	#print sentence_dict
@@ -137,8 +146,9 @@ def construct_feature_vector(word, tag, history_vectors):
 
 	# for now this is just a dummy method, assuming history=1
 	feature_vector = np.random.randint(2, size=2)
-	history = np.random.randin(2, size=2) 
-	return_list = [history, feature_vector]
+	history = [0,1] # just assuming the first vector is coming from the first mistake and the second vector is coming from the second mistake
+	return_list = [(history, feature_vector)]
+	return return_list
 
 
 if __name__ == '__main__':
