@@ -65,31 +65,60 @@ def viterbi(sentence, all_tags, history, weight_matrix):
 	for i,wrd in enumerate(sentence): # now you know the position of the word in your sentence
 		feature_vector_array = np.zeros((no_tags, 2)) # now we assume we have only two features per tag (n.b. so this is not only correct or false, it's features)
 		tag_score_array = np.zeros((no_tags))
+		history_list = []
 		
 		for j,tag in enumerate(all_tags): 
-			# here you're gonna add your history. First pretending we don't take history into account:
+			# here you're gonna add your history. 
 			
-			#for z in range(history):
-			#	sentence_dict.get(i-z):
+			history_vectors = []
+			for z in range(history):				
+				history_tuple = sentence_dict.get(i-z)
+				if history_tuple != None:
+					history_vectors.append(history_tuple[1]) # you need to add this feature vector --> then you've got some sort of backpointer
 
-			feature_vector_tag = construct_feature_vector(wrd, tag) # still add the history to this function
-			feature_vector_array[j,:] = feature_vector_tag
-			#print 'feature_vector_tag: ', feature_vector_tag
-			
-			tag_score = np.dot(feature_vector_tag, weight_matrix.transpose()) # with history you need to take the max here
-			tag_score_array[j] = tag_score
-			#print 'tag_score: ', tag_score
+
+			feature_vectors_tag = construct_feature_vector(wrd, tag, history_vectors) # now it should return a vector based on the history --> please return list with numpy arrays
+			#[(history_vectors, feature_vector), (history_vectors, feature_vector), ...] --> Though I guess one history vector should be enough, as then you've got a backpointer for every feature vector
+			# history vector should be an array with numbers --> numbers correspnding to tag positions
+
+			best_tag_score = 0 # init scores --> delete once more clever list implementation with max
+			for tple in feature_vectors_tag:
+				tag_score = np.dot(tple[1], weight_matrix.transpose()) # might want to this with this python list stuff, but like this for now
+				if tag_score > best_tag_score:
+					best_tag_score = tag_score
+					best_feature_vector = vector
+					history = tple[0]
+
+
+			tag_score_array[j] = best_tag_score
+			feature_vector_array[j,:] = best_feature_vector
+			history_list.append(history)
+
 		
-		sentence_dict[i] = (tag_score_array, feature_vector_array)
+		sentence_dict[i] = (tag_score_array, feature_vector_array, history_list)
 
 	# Viterbi backward path
 	final_feature_vectors = []
 
-	for entry in range(len(sentence_dict)-1, -1, -1):
-		(score, vector) = sentence_dict[entry]
-		high_score =  score.argmax()
-		best_vector = vector[high_score]
-		final_feature_vectors.append(best_vector) # but now we still need to implement the history
+	dict_len = len(sentence_dict)
+	for entry in range(dict_len-1, -1, -1):
+		
+		(score, vector, history) = sentence_dict[entry]
+		
+		# if you're at the end of the sentence you have to make your decision slightly differently
+		if entry == dict_len: 
+			high_score =  score.argmax()
+			best_vector = vector[high_score]
+			history_best_vector = history[high_score] # is a number
+		else:
+			best_vector = vector[history_best_vector]
+			history_best_vector = history[history_best_vector]
+		
+		final_feature_vectors.append(best_vector)
+
+
+
+
 	
 	print final_feature_vectors
 
@@ -97,7 +126,7 @@ def viterbi(sentence, all_tags, history, weight_matrix):
 	#print sentence_dict
 
 
-def construct_feature_vector(word, tag):
+def construct_feature_vector(word, tag, history_vectors):
 	""" Input:	word
 				Tag
 		Output:	Feature vector --> Now this is a random vector. Maurits writes this method based on the data.
@@ -105,7 +134,11 @@ def construct_feature_vector(word, tag):
 		Method to construct the feature vector of a word, also based on the word before
 
 	"""
-	return np.random.randint(2, size=2)
+
+	# for now this is just a dummy method, assuming history=1
+	feature_vector = np.random.randint(2, size=2)
+	history = np.random.randin(2, size=2) 
+	return_list = [history, feature_vector]
 
 
 if __name__ == '__main__':
