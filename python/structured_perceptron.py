@@ -52,14 +52,16 @@ def init_weights(no_rows):
 	return weight_matrix
 
 
-def train_perceptron_once(sentence, target_feature_vector, all_tags, history, weight_matrix):
+def train_perceptron_once(sentence, target_feature_vectors, all_tags, history, weight_matrix):
 	"""	Input:	Sentence that is fed into the perceptron
 				Dictionary with feature vectors of the correct tagged sentence
 
 	"""
 
 	feature_vectors_sentence = viterbi(sentence, all_tags, history, weight_matrix)
-	new_weights = update_weights(weight_matrix, feature_vectors_sentence, target_feature_vector)
+	new_weights = update_weights(weight_matrix, feature_vectors_sentence, target_feature_vectors)
+	print "old_weights: ", weight_matrix
+	print "new_weights: ", new_weights
 
 
 def viterbi(sentence, all_tags, history, weight_matrix):
@@ -164,13 +166,6 @@ def construct_feature_vector(word, tag, history_vectors):
 	return return_list
 
 
-if __name__ == '__main__':
-	weights = np.random.random((1, 2))
-	print 'weights: ', weights, weights.shape[0], weights.shape[1]
-	viterbi(['hello','world'],['g','f'],0, weights)
-
-
-
 def update_weights(old_weights, feature_vectors_sentence, target_feature_vectors):
 	""" Input:	Old weight matrix
 				Feature vectors as predicted by viterbi
@@ -182,9 +177,22 @@ def update_weights(old_weights, feature_vectors_sentence, target_feature_vectors
 
 	for i in range(len(feature_vectors_sentence)):
 		diff = target_feature_vectors[i] - feature_vectors_sentence[i]
+		print "diff: ", diff 
 		updated_weights = np.add(old_weights, diff) 
+		old_weights = updated_weights
+		print "updated weights: ", updated_weights
 
 	return updated_weights
+
+if __name__ == '__main__':
+
+
+	weights = np.random.random((1, 2))
+	target_feature_vectors = [np.array((1, 0)), np.array((1,1))]
+	train_perceptron_once(['hello','world'], target_feature_vectors, ['g','f'],0, weights)
+
+	#print 'weights: ', weights, weights.shape[0], weights.shape[1]
+	#viterbi(['hello','world'],['g','f'],0, weights)
 
 
 ###################################################################################################################3
