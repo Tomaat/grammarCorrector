@@ -4,8 +4,64 @@ from Mistake import Mistake
 from Sentence import Sentence 
 import sys
 from nltk import word_tokenize, pos_tag 
+import re
+'''Normalization used in pre-processing.
+	- All words are lower cased
+	- Digits in the range 1800-2100 are represented as !YEAR;
+	- Other digits are represented as !DIGITS
+	:rtype: str
+	'''
+def normalize(word):
+    if '-' in word and word[0] != '-':
+        return "!HYPHEN"
+    elif re.match(r"[^@]+@[^@]+\.[^@]+", word):
+    	return '!EMAIL'
+    elif word.isdigit() and len(word) == 4:
+        return '!YEAR'
+    elif word.isdigit() and len(word) >= 6 and len(word) <= 12:
+        return '!PHONENUMBER'
+    elif word[0].isdigit():
+        return '!DIGITS'
+    else:
+        return word.lower()
 
+def makeFeatures(context_words, context_tags, i):
+	feature_array = [] 
+	
+	def add(name, *args):
+		feature_array.append('+'.join((name,) + tuple(args)))
+	
+	add('i suffix', context_words[i][-3:])
+	add('i pref1', context_words[i][0])
+	add('i-1 tag', context_tags[i-1])
+	add('i-2 tag', context_tags[i-1])
+	add('i tag+i-2 tag', context_tags[i-1], context_tags[i-1])
+	add('i word', context_words[i])
+	add('i-1 tag+i word', context_tags[i-1], context_words[i])
+	add('i-1 word', context_words[i-1])
+	add('i-1 suffix', context_words[i-1][-3:])
+	add('i-2 word', context_words[i-2])
+	add('i+1 word', context_words[i+1])
+	add('i+1 suffix', context_words[i+1][-3:])
+	add('i+2 word', context_words[i+2])
+	return feature_array
 
+def makeFeatureDict(processed_sentences):
+	feature_dictionary = {} # thiss willl be a dict with key the peature name, value the index in the 
+	index = 0
+	START = ['-START2-', '-START-']
+	END = ['-END-', '-END2-']
+	for sentence in processed_sentences:
+		context_words = START + [normalize(word_tag[0]) for word_tag in sentence.words_tags] + END
+		context_tags  = START + [word_tag[1] for word_tag in sentence.words_tags] + END
+		for i, tagTouple in enumerate(sentence.words_tags): 
+           		features =  makeFeatures(context_words, context_tags, i )
+            		for feature in features:
+
+				if feature not in feature_dictionary:
+                    			feature_dictionary[feature] = index	
+					index += 1
+	return feature_dictionary
 
 if __name__ == '__main__':
 	print "start of program"
@@ -18,14 +74,14 @@ if __name__ == '__main__':
 		processed_sentences = []
 		
 		print "parsing sentences"
-		for sentence_tuple in sentence_tuples[1:1000]: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
+		for sentence_tuple in sentence_tuples[1:100]: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
 			processed_sentences.append(Sentence(sentence_tuple))
-			
-			
+	print "make feature vectors"
+	feature_dictionary = makeFeatureDict(processed_sentences)
+	print feature_dictionary
 	print "end of program" 
 
 def construct_feature_vector(word, tag, history_vectors):
-
 	return None   
 
 

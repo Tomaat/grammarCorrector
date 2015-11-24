@@ -19,13 +19,8 @@ class Sentence:
 			return 	[(word, "Ne") for word in splited_sentences]
 		else:
 			word_tags = []
-			print len(self.error_list)
-			
-			print self.error_list[error_index].error_end_index
 			for word in splited_sentences:
 				if (error_index + 1) <= len(self.error_list):
-					#print "true"
-					
 					if ((pointer_one == int(self.error_list[error_index].error_start_index) and pointer_one == int(self.error_list[error_index].error_end_index)) 
 				    or  (pointer_one == int(self.error_list[error_index].error_start_index) and pointer_two == int(self.error_list[error_index].error_end_index))):
 						word_tags.append((word, self.error_list[error_index].error_type))
