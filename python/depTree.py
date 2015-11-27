@@ -13,9 +13,12 @@
 		parsed = tbank.parse(sentence)
 		
 		for i,w in enumerate(dt.dfirst(parsed)): # loop breadth-first through sentence
-			word = w.orth_
-			tag = w.tag_
+			word = w.orth_ # string of word
+			tag = w.tag_ # string of tag
 			# do things with words and tags
+
+		list_of_words_only = [w.orth_ for w in dt.dfirst(parsed)]
+		list_of_tags_only = [w.tag_ for w in dt.dfirst(parsed)]
 """
 
 import os

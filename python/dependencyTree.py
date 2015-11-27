@@ -1,5 +1,6 @@
 """
 	Usage:
+		import nltk
 		import dependencyTree as dt
 
 		tbank = dt.tbankparser()
@@ -12,10 +13,13 @@
 
 		parsed = tbank.parse(sentence)
 		
-		for w in dt.dfirst(parsed): # loop breadth-first through sentence
-			word = w.orth_
-			tag = w.tag_
+		for i,w in enumerate(dt.dfirst(parsed)): # loop breadth-first through sentence
+			word = w.orth_ # string of word
+			tag = w.tag_ # string of tag
 			# do things with words and tags
+
+		list_of_words_only = [w.orth_ for w in dt.dfirst(parsed)]
+		list_of_tags_only = [w.tag_ for w in dt.dfirst(parsed)]
 """
 
 import nltk
@@ -73,7 +77,7 @@ class dfirst(object):
 			raise StopIteration()
 
 class tbankparser:
-	def __init__(self,filename='../release3.2/data/conll14st-preprocessed.m2'):
+	def __init__(self,filename='../release3.2/data/train.data'):
 		f = open(filename,'r')
 		data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
 		self._sentence_tuples = ((sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw)
