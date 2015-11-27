@@ -72,7 +72,8 @@ def makeFeatureDict(processed_sentences):
                     			feature_dictionary[feature] = index	
 					index += 1
 	return feature_dictionary
-def construct_feature_vector(word, tag, feature_dictionary, word_context, tag_history ,history_vectors=None):
+
+def construct_feature_vector(word, tag, feature_dictionary, word_context, tag_history=None ,history_vectors=None):
 	 """
 	 - word: moet het woord zijn - als string - van het huidige woord
 	 - tag: string met de huidige tag van het woord.
