@@ -1,9 +1,41 @@
+"""
+	Usage:
+		import dependencyTree as dt
+
+		tbank = dt.tbankparser()
+		# for noise: tbank.add_noise(1000,True,True)
+
+		# for each sentence:
+
+		sentence = "The quick brown fox jumps over the lazy dog"
+		# or: sentence = ["The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"]
+
+		parsed = tbank.parse(sentence)
+		
+		for w in dt.dfirst(parsed): # loop breadth-first through sentence
+			word = w.orth_
+			tag = w.tag_
+			# do things with words and tags
+"""
+
 import nltk
 import parseHack
 import pickle
 import time
 import random
 import copy
+
+class wordHack(object):
+	def __init__(self,word,tag):
+		self.orth_ = word
+		self.tags_ = tag
+		self.tag_ = list(tag)[0]
+
+	def __repr__(self):
+		return self.orth_+':'+self.tag_
+	def __str__(self):
+		return self.__repr__()
+
 
 class dfirst(object):
 	def __init__(self,tree):
@@ -41,11 +73,16 @@ class dfirst(object):
 			raise StopIteration()
 
 class tbankparser:
-	def __init__(self):
+	def __init__(self,filename='../release3.2/data/conll14st-preprocessed.m2'):
+		f = open(filename,'r')
+		data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
+		self._sentence_tuples = ((sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw)
+		f.close()
 		self._tbank = nltk.corpus.dependency_treebank
 		self._parsed = self._tbank.parsed_sents()
 		self._sents = self._tbank.sents()
 		self._n = len(self._sents)
+
 	
 	def sen(self,i=0):
 		return self._sents[i]
@@ -56,44 +93,97 @@ class tbankparser:
 		else:
 			if max == None:
 				max = self._n
-			
+			self._m = max
 			parser = parseHack.ProbabilisticProjectiveDependencyParser()
 			parser.train(self._parsed[:max])
 			if save:
 				pickle.dump(parser,open(filename,'w') )
 		self._parser = parser
 	
-	def _chose_word(self,i):
-		keys = self._parsed[i].nodes.keys()[1:-1]
-		w = random.choice(keys)
-		return w
+	def _change_real_word(self,i):
+		cursen = self._parsed[i]
+		keys = cursen.nodes.keys()[1:-1]
+		poss = []
+		for w in keys:
+			if cursen.nodes[w]['word'] in self._flaws:
+				poss.append(w)
+		if poss == []:
+			wi = 1
+			new_word = cursen.nodes[1]['word']
+		else:
+			wi = random.choice(poss)
+			node = cursen.nodes[wi]
+			word = node['word']
+
+			possto = self._flaws[word]
+			new_word = random.choice(possto)
+			new_word = u' '.join(new_word)
+		return new_word, wi
 	
-	def _change_word(self,node):
+	def _change_word(self,i):
+		keys = self._parsed[i].nodes.keys()[1:-1]
+		wi = random.choice(keys)
+		node = self._parsed[i].nodes[wi]
+
 		word = node['word']
-		tag = node['tag']
+		#tag = node['tag']
 		if len(word) > 0:
 			i = random.randint(1,len(word))
 			c = random.choice([c for c in 'abcdefghijklmnopqrstuvwxyz']+[''])
 			new_word = word[:i-1]+c+word[i:]
 		else:
 			new_word = word
-		return new_word
+		return new_word,wi
 	
-	def _add_noise(self,n=1,keep=True):
+	def add_noise(self,n=1,keep=True,real=True):
+		if not hasattr(self,'_parser'):
+			self.getParser(self._n)
+		if real:
+			change = self._change_real_word
+			if not hasattr(self,'_flaws'):
+				self._get_flaws()
+		else:
+			change = self._change_word
 		for p in range(n):
-			i = random.randint(0,self._n-1)
+			i = random.randint(0,self._m-1)
 			if len(self._parsed[i].nodes) < 4:
 				continue
-			wi = self._chose_word(i)
-			new_word = self._change_word(self._parsed[i].nodes[wi])
+			new_word,wi = change(i)
 			if keep:
 				new_graph = copy.deepcopy(self._parsed[i])
 				new_graph.nodes[wi]['word'] = new_word
 				self._parsed.append(new_graph)
+				self._m += 1
 			else:
 				self._parsed[i].nodes[wi]['word'] = new_word
 			#print i,wi,new_word
-		
+
+
+	def _get_flaws(self):
+		flaws = {}
+		for s,f in self._sentence_tuples:
+			sp = s.split()[1:]
+			for er in f:
+				x = er[0].split()
+				be = int(x[1])
+				en = int(x[2])
+				good = unicode(er[2])
+				bad = sp[be:en]
+				old = flaws.get(good,())
+				if not bad in old:
+					old = old + ( sp[be:en], )
+				flaws[good] = old
+		self._flaws = flaws
+	
+	def __str__(self):
+		ans = ''
+		if not hasattr(self,'_parser'):
+			self.getParser(self._n)
+		for i in range(0,max(self._m,30)):
+			 ans += ' '.join(self._parsed[i].nodes[z]['word'] for z in self._parsed[i].nodes.keys()[1:-1])
+			 ans += '\r\n'
+		return ans
+
 	def pprint(self,sen=0,max=None, ptype=1,):
 		if not hasattr(self,'_parser'):
 			self.getParser(max)
@@ -113,10 +203,27 @@ class tbankparser:
 		
 		x = self._parser.parse(sentence)
 		(score,tree) = x.next()
-		print score
-		tree.pprint()
-		
-		return dfirst(tree)
+		#print score
+		#tree.pprint()
+		self._possify(tree)
+
+		return tree
+
+	def _possify(self,tree):
+		assert type(tree) == nltk.tree.Tree
+		word = tree.label()
+		tag = self._parser._grammar._tags.get(word,{'Null'})
+		tree.set_label(wordHack(word,tag))
+		for i in range(0,len(tree)):
+			if type(tree[i]) == nltk.tree.Tree:
+				self._possify(tree[i])
+			else:
+				word = tree[i]
+				tag = self._parser._grammar._tags.get(word,{'Null'})
+				tree[i] = wordHack(word,tag)
+
+
+
 	
 	# @staticmethod
 	# def _strip(word):

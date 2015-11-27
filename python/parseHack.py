@@ -292,7 +292,7 @@ class ProbabilisticProjectiveDependencyParser(object):
                         for tag in self._grammar._tags[tokens[i-1]]:
                             chart[i][j].add(DependencySpan(i-1,i,i-1,[-1], [tag]))
                     else:
-                        print('No tag found for input token \'%s\', parse is impossible.' % tokens[i-1])
+                        chart[i][j].add(DependencySpan(i-1,i,i-1,[-1], [u'NULL']))
                         
         for i in range(1,len(self._tokens)+1):
             for j in range(i-2,-1,-1):

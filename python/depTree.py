@@ -1,3 +1,23 @@
+"""
+	Usage:
+		import spacy
+		import depTree as dt
+
+		tbank = dt.tbankparser()
+
+		# for each sentence:
+
+		sentence = "The quick brown fox jumps over the lazy dog"
+		# or: sentence = ["The", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"]
+
+		parsed = tbank.parse(sentence)
+		
+		for i,w in enumerate(dt.dfirst(parsed)): # loop breadth-first through sentence
+			word = w.orth_
+			tag = w.tag_
+			# do things with words and tags
+"""
+
 import os
 from time import time
 import spacy
@@ -16,24 +36,6 @@ def pprint(tree, indent=0):
 		for children in tree.children:
 			pprint(children, indent+1)
 		print " "*indent,")"
-
-
-class maurits(object):
-	def __init__(self,maxNum):
-		self._maxNum = maxNum
-		self._now = 0
-
-	def __iter__(self):
-		return self
-	def __next__(self):
-		return self.next()
-	def next(self):
-		if self._now < self._maxNum:
-			self._now += 1
-			return self._now
-		else:
-			raise StopIteration()
-
 
 class dfirst(object):
 	def __init__(self,tree):
@@ -72,6 +74,7 @@ class all_sents(object):
 		f = open(filename,'r')
 		data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
 		self._sentence_tuples = ((sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw)
+		f.close()
 
 	def __iter__(self):
 		return self
@@ -99,6 +102,7 @@ class tbankparser:
 		elif isinstance(sentence,list):
 			sentence = u' '.join(sentence)
 		parsed = self.nlp(sentence)
+		#pprint(parsed)
 		return parsed
 
 def demo():
