@@ -2,11 +2,7 @@ class FeaturesVector:
 	def __init__(self, word, history, ):
 		self.word = _normalize(word)
 		self.vector = # maak nparray van lengte alle vectoren
-		
-
 	
-		
-
 	def _make_tagdict(self, sentences):
 		'''Make a tag dictionary for single-tag words.'''
 		counts = defaultdict(lambda: defaultdict(int))

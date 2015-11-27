@@ -1,16 +1,18 @@
 from sgmllib import SGMLParser # maybe we need this after a while 
 from nltk.tokenize import *
-from Mistake import Mistake 
 from Sentence import Sentence 
 import sys
 from nltk import word_tokenize, pos_tag 
 import re
-'''Normalization used in pre-processing.
+
+
+'''
+	Normalization used in pre-processing.
 	- All words are lower cased
 	- Digits in the range 1800-2100 are represented as !YEAR;
 	- Other digits are represented as !DIGITS
 	:rtype: str
-	'''
+'''
 def normalize(word):
     if '-' in word and word[0] != '-':
         return "!HYPHEN"
@@ -44,6 +46,13 @@ def makeFeatures(context_words, context_tags, i):
 	add('i+1 word', context_words[i+1])
 	add('i+1 suffix', context_words[i+1][-3:])
 	add('i+2 word', context_words[i+2])
+
+	# add feature die zegt hoe ver een woord van een ander woord is, 
+	# check if word is in dict , wel/geen woord 
+	#
+
+	#word (string)
+	# een tag 
 	return feature_array
 
 def makeFeatureDict(processed_sentences):
@@ -79,6 +88,7 @@ if __name__ == '__main__':
 	print "make feature vectors"
 	feature_dictionary = makeFeatureDict(processed_sentences)
 	print feature_dictionary
+	print len(feature_dictionary)
 	print "end of program" 
 
 def construct_feature_vector(word, tag, history_vectors):
@@ -87,6 +97,5 @@ def construct_feature_vector(word, tag, history_vectors):
 
 """
 [(history_vectors, feature_vector), (history_vectors, feature_vector), ...]
-
 """
 
