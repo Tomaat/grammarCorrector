@@ -1,12 +1,38 @@
 import os
+from time import time
 import spacy
+from spacy.en import LOCAL_DATA_DIR, English
 
 def pprint(tree, indent=0):
+	if type(tree) == spacy.tokens.doc.Doc:
+		tree = tree[:].root
+	elif type(tree) == spacy.tokens.span.Span:
+		tree = tree.root
 	assert type(tree) == spacy.tokens.token.Token
-	print  " "*indent, "(",tree
-	for children in tree.children:
-		pprint(children, indent+1)
-	print " "*indent,")"
+	if list(tree.children) == []:
+		print " "*indent, "(",tree,")"
+	else:
+		print  " "*indent, "(",tree
+		for children in tree.children:
+			pprint(children, indent+1)
+		print " "*indent,")"
+
+
+class maurits(object):
+	def __init__(self,maxNum):
+		self._maxNum = maxNum
+		self._now = 0
+
+	def __iter__(self):
+		return self
+	def __next__(self):
+		return self.next()
+	def next(self):
+		if self._now < self._maxNum:
+			self._now += 1
+			return self._now
+		else:
+			raise StopIteration()
 
 
 class dfirst(object):
@@ -40,10 +66,32 @@ class dfirst(object):
 		else:
 			raise StopIteration()
 
+class all_sents(object):
+	def __init__(self,filename='../release3.2/data/conll14st-preprocessed.m2'):
+		self.filename = filename
+		f = open(filename,'r')
+		data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
+		self._sentence_tuples = ((sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw)
+
+	def __iter__(self):
+		return self
+	def __next__(self):
+		return self.next()
+	def next(self):
+		s,e = self._sentence_tuples.next()
+		sp = s.split()[1:]
+		fe = ['NE']*len(sp)
+		for er in e:
+			x = er[0].split()
+			be = int(x[1])
+			en = int(x[2])
+			fe[be:en] = [er[1]]*(en-be)
+		return sp,fe
+
 class tbankparser:
 	def __init__(self):
-		DIR = os.environ.get('SPACY_DATA', spacy.en.LOCAL_DATA_DIR)
-		self.nlp = spacy.en.English(data_dir=DIR)
+		DIR = os.environ.get('SPACY_DATA', LOCAL_DATA_DIR)
+		self.nlp = English(data_dir=DIR)
 	
 	def parse(self,sentence):
 		if isinstance(sentence,str):
@@ -52,3 +100,26 @@ class tbankparser:
 			sentence = u' '.join(sentence)
 		parsed = self.nlp(sentence)
 		return parsed
+
+def demo():
+	sent = "The big man gives a red present to the pretty girl"
+	sentf = "The bgi man give an red prsent to the pretty grl"
+	t1 = time()
+	tbank = tbankparser()
+	print "loaded data in %f sec."%(time()-t1)
+	t2 = time()
+	parsed_sent = tbank.parse(sent)
+	t2 = time()-t2
+	t3 = time()
+	parsed_sentf = tbank.parse(sentf)
+	t3 = time()-t3
+	print "parsed sentences in %f and %f sec."%(t2,t3)
+	print sent
+	pprint(parsed_sent[:].root)
+	print list(dfirst(parsed_sent))
+	print sentf
+	pprint(parsed_sentf[:].root)
+	print list(dfirst(parsed_sentf))
+
+if __name__ == '__main__':
+	demo()
