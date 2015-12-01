@@ -40,6 +40,10 @@ class wordHack(object):
 	def __str__(self):
 		return self.__repr__()
 
+def sen_idx(sentence,word):
+	"""black magic to get the index of the word in the tokenised string
+	"""
+	return len(sentence[sentence.find(word.orth_)].split())
 
 class dfirst(object):
 	def __init__(self,tree):

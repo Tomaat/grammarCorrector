@@ -40,6 +40,12 @@ def pprint(tree, indent=0):
 			pprint(children, indent+1)
 		print " "*indent,")"
 
+def sen_idx(sentence,word):
+	"""black magic to get the index of the word in the tokenised string
+	"""
+	return len(sentence[:word.idx].split())
+
+
 class dfirst(object):
 	def __init__(self,tree):
 		self.ttype = spacy.tokens.doc.Doc
@@ -105,6 +111,7 @@ class tbankparser:
 		elif isinstance(sentence,list):
 			sentence = u' '.join(sentence)
 		parsed = self.nlp(sentence)
+
 		#pprint(parsed)
 		return parsed
 
