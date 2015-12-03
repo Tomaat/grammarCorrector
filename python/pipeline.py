@@ -53,22 +53,16 @@ def main():
 	all_sentences, feature_dict = dp.process(FILE)
 	t2 = time()-t1
 	print 'loading tree bank'
-	tbank_s = dts.tbankparser()
-	tbank_ne = dtp.tbankparser()
-	tbank_nr = dtp.tbankparser()
-	tbank_o = dtp.tbankparser()
-	tbank_nr.add_noise(1000,True,False)
-	tbank_ne.add_noise(1000,True,True)
-
+	tbank = dts.tbankparser()
+	
 	t3 = time()-t1-t2
-	it = 10	
-	sp._init_(len(feature_dict,dt) )
-	print 'SSE random weights',flaws(all_sentences[:4],feature_dict,tbank)	
+	sp._init_(len(feature_dict),dts )
+	print 'SSE random weights',flaws(dts,all_sentences[:4],feature_dict,tbank)	
 	t4 = time()
-	weights = sp.train_perceptron(all_sentences, feature_dict, tbank, it, history=0)
+	weights = sp.train_perceptron(all_sentences, feature_dict, tbank, history=0)
 	t4 = time()-t4
 	t1=time()-t1
-	print 'after %d iterations over %d sentences'%(it,len(all_sentences)), flaws(all_sentences[:4],feature_dict,tbank,weights)
+	print 'after %d iterations over %d sentences'%(it,len(all_sentences)), flaws(dts, all_sentences[:4],feature_dict,tbank,weights)
 	print 'total %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4)
 
 
@@ -87,7 +81,7 @@ def flaws(dt,all_sentences,feature_dict,tbank,weight_matrix=None,history=0):
 		target_feature_vectors = []
 		for i,wrd in enumerate(context_words):
 			target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-					feature_dict, context_words, context_tags, i, tag_history=None ,history_vectors=None) )
+					feature_dict, context_words, i, history_vectors=None, true_tags=context_tags ) )
 
 		E = sp.test_perceptron_once(E, parsed_tree, target_feature_vectors, feature_dict, 
 					history, weight_matrix, context_words, context_tags)

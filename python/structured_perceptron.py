@@ -67,28 +67,27 @@ def _init_(size,tb):
 	SIZE,dt = size,tb
 
 
-def train_perceptron(all_sentences, feature_dict, tbank, it=1, history=1):
+def train_perceptron(all_sentences, feature_dict, tbank, history=1):
 	weight_matrix = init_weights(len(feature_dict))
 
-	for p in range(0,it):
-		for sentence in all_sentences:
-			if len(sentence.raw_sentence) < 1:
-				continue
-			parsed_tree = tbank.parse(sentence.raw_sentence)
-			# For loop around this, so that you loop through all sentences --> weights should be updated
-			sentence.words_tags
-			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
-			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
-			
-			target_feature_vectors = []
-			for i,wrd in enumerate(context_words):
-				target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-						feature_dict, context_words, context_tags, i, tag_history=None ,history_vectors=None) )
+	for sentence in all_sentences:
+		if len(sentence.raw_sentence) < 1:
+			continue
+		parsed_tree = tbank.parse(sentence.raw_sentence)
+		# For loop around this, so that you loop through all sentences --> weights should be updated
+		sentence.words_tags
+		context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
+		context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
+		
+		target_feature_vectors = []
+		for i,wrd in enumerate(context_words):
+			target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
+					feature_dict, context_words, i, history_vectors=None, true_tags=context_tags) )
 
-			weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
-						history, weight_matrix, context_words, context_tags)
+		weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
+					history, weight_matrix, context_words, context_tags)
 
-	
+
 	return weight_matrix
 
 
@@ -134,10 +133,6 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 	sentence_dict = {} # per word all possible tags
 	no_tags = len(all_tags)
 
-
-
-
-
 	# --------------------------- Viterbi forward path --------------------------- #
 
 	for i,wrd in enumerate(dt.dfirst(parsed_tree) ): # now you know the position of the word in your sentence
@@ -150,14 +145,14 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 			# here you're gonna add your history. 
 			
 			history_vectors = []
-			for z in range(history):				
+			for z in range(1,history+1):				
 				history_tuple = sentence_dict.get(i-z)
 				if history_tuple != None:
 					history_vectors.append(history_tuple[1]) # you need to add this feature vector --> then you've got some sort of backpointer
-
+			
 			#feature_vectors_tag = construct_feature_vector(wrd.orth_, tag, history_vectors) # now it should return a vector based on the history --> please return list with numpy arrays
 			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, 
-					feature_dict, context_words, context_tags, i, None ,history_vectors)
+					feature_dict, context_words, i ,history_vectors)
 			#[(history_vectors, feature_vector), (history_vectors, feature_vector), ...] --> Though I guess one history vector should be enough, as then you've got a backpointer for every feature vector
 			# history vector should be an array with numbers --> numbers correspnding to tag positions
 
@@ -167,6 +162,7 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 			best_tag_score = 0 # init scores --> delete once more clever list implementation with max
 			best_feature_vector = np.zeros(SIZE) # number of features --> CHANGE
 			history_word = -1 # what's the position of the tag the current tag is 'coming from'
+			#print len(feature_vectors_tag)
 			for tple in feature_vectors_tag:
 				#print "tuple: ", tple
 				tag_score = np.dot(tple[1], weight_matrix.transpose()) # might want to this with this python list stuff, but like this for now
@@ -183,7 +179,6 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 
 		
 		sentence_dict[i] = (tag_score_array, feature_vector_array, history_list)
-
 
 
 	# --------------------------- Viterbi backward path --------------------------- #

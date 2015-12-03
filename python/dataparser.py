@@ -5,6 +5,7 @@ import sys
 from nltk import word_tokenize, pos_tag 
 import re
 import numpy as np
+from structured_perceptron import all_tags
 
 '''
 	Normalization used in pre-processing.
@@ -73,7 +74,7 @@ def makeFeatureDict(processed_sentences):
 					index += 1
 	return feature_dictionary
 
-def construct_feature_vector(word, tag, feature_dictionary, context_words, context_tags, i, tag_history=None ,history_vectors=None):
+def construct_feature_vector(word, tag, feature_dictionary, context_words, i,history_vectors=None, true_tags=None):
 	"""
 	 - word: moet het woord zijn - als string - van het huidige woord
 	 - tag: string met de huidige tag van het woord.
@@ -94,32 +95,49 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, conte
 	 kunnen we daar niet iets mee?
 	 """
 	context_words = ['-START2-', '-START-'] + context_words + ['END-', 'END2']
-	context_tags = ['-START2-', '-START-'] + context_tags + ['END-', 'END2']
-	feature_vector = np.zeros(len(feature_dictionary))
-	feature_array = [] 
+	#/#context_tags = ['-START2-', '-START-'] + context_tags + ['END-', 'END2']
+	ans = []
 	
-	def add(name, *args):
-		feature_array.append('+'.join((name,) + tuple(args)))
+	if history_vectors == []:
+		XX = ['-START-']
+	else:
+		XX = all_tags
+	if not true_tags is None:
+		XX = (['-START-']+true_tags)[i:i+1]
 	
-	add('i suffix', normalize(word)[-3:])
-	add('i pref1', normalize(word)[0])
-	add('i tag', tag)
-	add('i-1 tag', context_tags[i-1])
-	add('i-2 tag', context_tags[i-2])
-	add('i tag+i-2 tag', context_tags[i], context_tags[i-2])
-	add('i word', context_words[i])
-	add('i-1 tag+i word', context_tags[i-1], context_words[i])
-	add('i-1 word', context_words[i-1])
-	add('i-1 suffix', context_words[i-1][-3:])
-	add('i-2 word', context_words[i-2])
-	add('i+1 word', context_words[i+1])
-	add('i+1 suffix', context_words[i+1][-3:])
-	add('i+2 word', context_words[i+2])
-	
-	for feature in feature_array:
-		if feature in feature_dictionary:
-			feature_vector[feature_dictionary[feature]] =  1
-	return [(history_vectors, feature_vector)  ]
+	for tag1 in XX:
+		feature_vector = np.zeros(len(feature_dictionary))
+		feature_array = [] 
+		
+		def add(name, *args):
+			feature_array.append('+'.join((name,) + tuple(args)))
+		
+		add('i suffix', normalize(word)[-3:])
+		add('i pref1', normalize(word)[0])
+		add('i tag', tag)
+		add('i-1 tag', tag1)
+		#/#add('i-1 tag', context_tags[i-1])
+		#/#add('i-2 tag', context_tags[i-2])
+		#/#add('i tag+i-2 tag', context_tags[i], context_tags[i-2])
+		add('i word', context_words[i])
+		#/#add('i-1 tag+i word', context_tags[i-1], context_words[i])
+		add('i-1 word', context_words[i-1])
+		add('i-1 suffix', context_words[i-1][-3:])
+		add('i-2 word', context_words[i-2])
+		add('i+1 word', context_words[i+1])
+		add('i+1 suffix', context_words[i+1][-3:])
+		add('i+2 word', context_words[i+2])
+		
+		#TODO:
+		# pos tags toevoegen
+		# vorm van het woord (Horse: Xxxxx)
+		# geschiedenis: de (goed/fout) tag van het vorige woord
+
+		for feature in feature_array:
+			if feature in feature_dictionary:
+				feature_vector[feature_dictionary[feature]] =  1
+		ans += [ (history_vectors, feature_vector) ]
+	return ans
 
 
 def process(filename):

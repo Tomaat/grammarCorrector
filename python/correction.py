@@ -4,6 +4,7 @@ from nltk import ConditionalFreqDist
 from nltk import ngrams
 from math import log10
 import spacy
+import depTree as dt
 
 from random import choice
 
@@ -79,7 +80,7 @@ class Correction(NGrams):
 		self.final_corrections = []
 		self.final_sorted_list = []
 
-	def find_correction(self, ngram_dict, error_sequence, error_tag):
+	def find_correction(self, ngram_dict, error_sequence, error_tag, nlp):
 		""" Input:	the n-gram that ends in the error
 					the error tag predicted by the structured perceptron
 
@@ -132,7 +133,7 @@ class Correction(NGrams):
 
 		# 2) Select n-grams based on word distance (spacy) --> you might not want to do this --> lot of effort
 		print "Getting all the English spacy stuff..."
-		nlp = spacy.en.English()
+		
 		print "Done with that!"
 
 		spacy_error = nlp(unicode(error_sequence[len_sequence], encoding="utf-8"))
@@ -162,5 +163,6 @@ if __name__ == '__main__':
 
 	c = Correction()
 	from spacy.en import LOCAL_DATA_DIR, English
+	tbank = dt.tbankparser()
 	print "Finding corrections..."
-	c.find_correction(ngram_dict, ("will", "behave", "jist"), 'true')
+	c.find_correction(ngram_dict, ("will", "behave", "jist"), 'true', tbank.nlp)
