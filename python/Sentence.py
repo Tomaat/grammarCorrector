@@ -11,26 +11,12 @@ class Sentence:
 
 	def makeTagTouples(self):
 		splited_sentences = self.raw_sentence.split(' ') #Do we need a better way to split a sentence? Little bit tricky to split in spaces
-		pointer_one = 0
-		pointer_two = 1
-		error_index = 0
 		if not self.error_list:
 			return 	[(word, "Ne") for word in splited_sentences]
 		else:
-			word_tags = []
-			for word in splited_sentences:
-				if (error_index + 1) <= len(self.error_list):
-					if ((pointer_one == int(self.error_list[error_index].error_start_index) and pointer_one == int(self.error_list[error_index].error_end_index)) 
-				    or  (pointer_one == int(self.error_list[error_index].error_start_index) and pointer_two == int(self.error_list[error_index].error_end_index))):
-						word_tags.append((word, self.error_list[error_index].error_type))
-						error_index += 1 
-					else:
-						word_tags.append((word, "Ne"))
-				else:
-					word_tags.append((word, "Ne"))
-				
-				pointer_one += 1
-				pointer_two += 1
+			word_tags = [(word, "Ne") for word in splited_sentences]
+			for error in self.error_list:
+				word_tags[error.error_start_index:error.error_end_index] = [error.error_type] * (error.error_end_index - error.error_start_index)
 			return word_tags
 				
 	def posTagSentece(self, raw_sentence):
