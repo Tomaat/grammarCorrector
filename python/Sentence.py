@@ -16,7 +16,7 @@ class Sentence:
 		else:
 			word_tags = [(word, "Ne") for word in splited_sentences]
 			for error in self.error_list:
-				word_tags[error.error_start_index:error.error_end_index] = [error.error_type] * (error.error_end_index - error.error_start_index)
+				word_tags[error.error_start_index:error.error_end_index] = [(splited_sentences[error.error_start_index],error.error_type)] * (error.error_end_index - error.error_start_index)
 			return word_tags
 				
 	def posTagSentece(self, raw_sentence):
@@ -38,8 +38,8 @@ class Mistake:
 	def __init__(self,raw_sentence ,error_tuple):
 		self.error_type = error_tuple[1] # type of the grammer mistake 
 		self.correction = error_tuple[2]	# the correction of the mistake
-		self.error_start_index = error_tuple[0].split(' ')[1]  	# start index in the sentence for where the mistake has been made
-		self.error_end_index = error_tuple[0].split(' ')[2] 	# end index of the mistake 
+		self.error_start_index = int(error_tuple[0].split(' ')[1])  	# start index in the sentence for where the mistake has been made
+		self.error_end_index = int(error_tuple[0].split(' ')[2])	# end index of the mistake 
 		self.splited_sentane = raw_sentence[2:].split(' ')
 		self.error_word =  self.setErrorWord(error_tuple, self.splited_sentane) 		# the word, of the sentence part that is wrong
 		self.error_hash = error_has = {

@@ -48,9 +48,11 @@ def run_all():
 
 def main():
 	t1 = time()
-	FILE = '../release3.2/data/conll14st-preprocessed.m2.small'
+	TRAIN_FILE = '../release3.2/data/train.dat'
+	VAL_FILE = '../release3.2/data/val.dat'
 	print 'loading sentences'
-	all_sentences, feature_dict = dp.process(FILE)
+	all_sentences, feature_dict = dp.process(TRAIN_FILE)
+	val_sentences, 
 	t2 = time()-t1
 	print 'loading tree bank'
 	tbank = dts.tbankparser()

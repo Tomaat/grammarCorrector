@@ -97,7 +97,7 @@ def init_weights(no_rows):
 
 		Method to initalize the weights of the perceptron. 
 	"""
-	np.random.seed(42)
+	np.random.seed(43)
 	weight_matrix = np.random.random((1,no_rows))
 	return weight_matrix
 
