@@ -90,7 +90,7 @@ def run_all(hist=1,tiny='.tiny'):
 	print '\n\n'.join(anses)
 
 def main(history=1,tiny='.tiny'):
-	assert history > 1, "use at least some history"
+	assert history >= 1, "use at least some history"
 	t1 = time()
 	TRAIN_FILE = '../release3.2/data/train.data'+tiny
 	VAL_FILE = '../release3.2/data/validate.data'+tiny
@@ -141,4 +141,4 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 	return E
 
 if __name__ == '__main__':
-	run_all()
+	main()

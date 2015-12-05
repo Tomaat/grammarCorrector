@@ -30,6 +30,7 @@ import dataparser as dp
 ###########################################################################################################
 
 all_tags = {
+			"-TAGSTART-":"root of tree",
 			"Ne":"No Error",
 			"Vt":"Verb tense",
 			"Vm":"Verb modal",
@@ -60,7 +61,6 @@ all_tags = {
 			"Um":"Unclear meaning (cannot be corrected)",						# hash with the full discription of every mistake in the dataset 
 		}.keys()
 tag_idxes = { tag:i for i,tag in enumerate(all_tags) }
-tag_idxes['-TAGSTART-'] = -1
 SIZE = 1873
 dt = None
 
@@ -177,33 +177,36 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words):
 			# 		history_vectors.append((history_tuple[1:3])) # you need to add this feature vector --> then you've got some sort of backpointer
 			
 			#feature_vectors_tag = construct_feature_vector(wrd.orth_, tag, history_vectors) # now it should return a vector based on the history --> please return list with numpy arrays
+			#print wrd.orth_,tag,history_vectors
 			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, 
 					feature_dict, context_words, i , history, history_vectors)
 			#[(history_vectors, feature_vector), (history_vectors, feature_vector), ...] --> Though I guess one history vector should be enough, as then you've got a backpointer for every feature vector
 			
-			best_tag_score = 0 # init scores --> delete once more clever list implementation with max
+			best_tag_score = -1e1000 # init scores --> delete once more clever list implementation with max
 			best_feature_vector = np.zeros(SIZE) # number of features --> CHANGE
-			history_word = -1 # what's the position of the tag the current tag is 'coming from'
+			history_word = ('Um') # what's the position of the tag the current tag is 'coming from'
 			#print len(feature_vectors_tag)
-			#print feature_vectors_tag
+			#print feature_vectors_tag[0][0][0:28]
 			for tple in feature_vectors_tag:
 				#print "tuple: ", tple
 				tag_score = np.dot(tple[0], weight_matrix.transpose()) # might want to this with this python list stuff, but like this for now
 				#print "tag_score: ", tag_score
 				if tag_score > best_tag_score:
 					best_tag_score = tag_score
-					#best_feature_vector = tple[0]
+					best_feature_vector = tple[0]
 					history_word = tple[1]
 
 
 			tag_score_array[j] = best_tag_score
+			#print best_feature_vector
 			feature_vector_array[j,:] = best_feature_vector
+			#print feature_vector_array[j,0:28]
 			history_list.append(history_word)
 
 		# print 'scores',tag_score_array
 		# print 'fvec',feature_vector_array
 		# print 'hislist',history_list
-
+		#print feature_vector_array[:,0:28]
 		sentence_dict[i] = (tag_score_array, feature_vector_array, history_list)
 
 
@@ -236,7 +239,7 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words):
 
 
 	#print "final feature vectors: ", final_feature_vectors
-
+	#print [v[0:28] for v in final_feature_vectors]
 	return final_feature_vectors
 
 

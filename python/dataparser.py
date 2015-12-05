@@ -124,7 +124,10 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 	for history_tags in history_vectors[1]:
 		feature_vector = np.zeros(len(feature_dictionary))
 		
-		#print history_words, history_tags
+		# if history_tags == -1:
+		# 	print history_words, history_tags, history_vectors
+		# if history_tags == ('NaN',):
+		# 	print 'nan'
 		feature_array = makeFeatures(word,tag,history_words,history_tags)
 		
 		# def add(name, *args):
