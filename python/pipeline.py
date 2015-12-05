@@ -125,20 +125,21 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		parsed_tree = tbank.parse(sentence.raw_sentence)
 		context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
 		context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
-		context_tags = [sentence.pos_tag_sentence[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
-	
+		context_pos_tags = [sentence.pos_tags_sentence[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
+		
+
 		target_feature_vectors = []
 		for i,wrd in enumerate(context_words):
 			history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
 			if len(history_vectors[1][0]) > history:
 				history_vectors = ('ph', [tuple(context_tags[i-history:i])] )
 			target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-					feature_dict, context_words, i, history, history_vectors) )
+					feature_dict, context_words, i, history, history_vectors, context_pos_tags) )
 
 		if not with_tags:
 			context_tags = None
 		E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
-					history, weight_matrix, context_words, context_tags)
+					history, weight_matrix, context_words, context_tags, context_pos_tags)
 	return E
 
 if __name__ == '__main__':

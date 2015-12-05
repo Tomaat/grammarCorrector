@@ -131,10 +131,10 @@ def get_tag_from_vector(feature_vector,feature_dict):
 				tags.append(all_tags[i])
 	return tags
 
-def test_perceptron_once(E, parsed_tree, feature_dict, history, weight_matrix, context_words, context_tags=None):
+def test_perceptron_once(E, parsed_tree, feature_dict, history, weight_matrix, context_words, context_pos_tags,  context_tags=None):
 	if context_tags is None:
 		context_tags = ['Ne']*len(parsed_tree)
-	feature_vectors_sentence = viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words)
+	feature_vectors_sentence = viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, context_pos_tags)
 
 	for i,v in enumerate(feature_vectors_sentence):
 		possible_tags = get_tag_from_vector(v,feature_dict)
@@ -146,7 +146,7 @@ def test_perceptron_once(E, parsed_tree, feature_dict, history, weight_matrix, c
 	return E
 		
 
-def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words):
+def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, context_pos_tags):
 	""" Input:	The sentence to be tagged
 				A list of all possible tags (strings)
 				History: how far you want to look back
@@ -179,7 +179,7 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words):
 			#feature_vectors_tag = construct_feature_vector(wrd.orth_, tag, history_vectors) # now it should return a vector based on the history --> please return list with numpy arrays
 			#print wrd.orth_,tag,history_vectors
 			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, 
-					feature_dict, context_words, i , history, history_vectors)
+					feature_dict, context_words, i , history, history_vectors, context_pos_tags)
 			#[(history_vectors, feature_vector), (history_vectors, feature_vector), ...] --> Though I guess one history vector should be enough, as then you've got a backpointer for every feature vector
 			
 			best_tag_score = -1e1000 # init scores --> delete once more clever list implementation with max

@@ -91,7 +91,7 @@ def makeFeatureDict(processed_sentences,history=1):
 
 	return feature_dictionary
 
-def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors):
+def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, history_pos_tags):
 	history_words = ['-START-'] + context_words[:i]
 	if len(history_words) > history:
 		history_words = context_words[i-history:i]
@@ -108,7 +108,7 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 		# 	print history_words, history_tags, history_vectors
 		# if history_tags == ('NaN',):
 		# 	print 'nan'
-		feature_array = makeFeatures(word,tag,history_words,history_tags)
+		feature_array = makeFeatures(word,tag,history_words,history_tags, history_pos_tags)
 		
 		for feature in feature_array:
 			if feature in feature_dictionary:
