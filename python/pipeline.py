@@ -92,7 +92,7 @@ def run_all(hist=1,tiny='.tiny'):
 def main(history=1,tiny='.tiny'):
 	assert history >= 1, "use at least some history"
 	t1 = time()
-	TRAIN_FILE = '../release3.2/data/train.data'+tiny
+	TRAIN_FILE = train.data+ tiny 
 	VAL_FILE = '../release3.2/data/validate.data'+tiny
 	print 'loading sentences'
 	all_sentences, feature_dict = dp.process(TRAIN_FILE)
@@ -125,7 +125,12 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		parsed_tree = tbank.parse(sentence.raw_sentence)
 		context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
 		context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
+		context_tags = [sentence.pos_tag_sentence[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
 		
+		print sentence.pos_tag_sentence 
+		print sentence.raw_sentence
+		print context_tags
+
 		target_feature_vectors = []
 		for i,wrd in enumerate(context_words):
 			history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
