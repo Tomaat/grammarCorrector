@@ -28,7 +28,7 @@ def normalize(word):
     else:
         return word.lower()
 
-def makeFeatures(context_words, context_tags, i):
+def makeFeatures(context_words, context_tags, context_postags, i):
 	feature_array = [] 
 	
 	def add(name, *args):
@@ -48,6 +48,9 @@ def makeFeatures(context_words, context_tags, i):
 	add('i+1 word', context_words[i+1])
 	add('i+1 suffix', context_words[i+1][-3:])
 	add('i+2 word', context_words[i+2])
+	add('i pos-tag',context_postags[i])
+	add('i-1 pos-tag',context_postags[i-1])
+	add('i-1 pos-tag',context_postags[i-2])
 
 	# add feature die zegt hoe ver een woord van een ander woord is, 
 	# check if word is in dict , wel/geen woord 
@@ -55,6 +58,7 @@ def makeFeatures(context_words, context_tags, i):
 
 	#word (string)
 	# een tag 
+	print feature_array
 	return feature_array
 
 def makeFeatureDict(processed_sentences):
@@ -65,8 +69,9 @@ def makeFeatureDict(processed_sentences):
 	for sentence in processed_sentences:
 		context_words = START + [normalize(word_tag[0]) for word_tag in sentence.words_tags] + END
 		context_tags  = START + [word_tag[1] for word_tag in sentence.words_tags] + END
+		context_postags  = START + [word_tag[1] for word_tag in sentence.pos_tags_sentence] + END
 		for i, tagTouple in enumerate(sentence.words_tags): 
-           		features =  makeFeatures(context_words, context_tags, i )
+           		features =  makeFeatures(context_words, context_tags, context_postags, i )
             		for feature in features:
 
 				if feature not in feature_dictionary:

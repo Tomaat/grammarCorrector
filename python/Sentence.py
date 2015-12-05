@@ -10,13 +10,12 @@ class Sentence:
 		self.words_tags = self.makeTagTouples() 
 
 	def makeTagTouples(self):
-		splited_sentences = self.raw_sentence.split(' ') #Do we need a better way to split a sentence? Little bit tricky to split in spaces
+		word_list = [(word, "Ne") for word in splited_sentences]
 		if not self.error_list:
-			return 	[(word, "Ne") for word in splited_sentences]
+			return 	
 		else:
-			word_tags = [(word, "Ne") for word in splited_sentences]
 			for error in self.error_list:
-				word_tags[error.error_start_index:error.error_end_index] = [error.error_type] * (error.error_end_index - error.error_start_index)
+				word_list[error.error_start_index:error_start_index] = [error.error_type] * ( int(error.error_end_index) - int(error.error_start_index))
 			return word_tags
 				
 	def posTagSentece(self, raw_sentence):
