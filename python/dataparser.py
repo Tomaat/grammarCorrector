@@ -5,7 +5,8 @@ import sys
 from nltk import word_tokenize, pos_tag 
 import re
 import numpy as np
-from structured_perceptron import all_tags
+import structured_perceptron as sp
+#from structured_perceptron import all_tags
 
 '''
 	Normalization used in pre-processing.
@@ -28,29 +29,33 @@ def normalize(word):
     else:
         return word.lower()
 
-def makeFeatures(context_words, context_tags, context_postags, i):
+def makeFeatures(word,tag,history_words,history_tags):
 	feature_array = [] 
 	
 	def add(name, *args):
 		feature_array.append('+'.join((name,) + tuple(args)))
+
+	nword = normalize(word)
+
+	add('i suffix', nword[-3:])
+	add('i pref1', nword[0])
+	add('i tag',tag)
+	add('i word', nword)
+	for i,w in enumerate(history_words):
+		add('i-'+str(i+1)+' word',w)
+		add('i-'+str(i+1)+' tag',history_tags[i])
+
 	
-	add('i suffix', context_words[i][-3:])
-	add('i pref1', context_words[i][0])
-	add('i tag',context_tags[i])
-	add('i-1 tag', context_tags[i-1])
-	add('i-2 tag', context_tags[i-2])
-	add('i tag+i-2 tag', context_tags[i], context_tags[i-2])
-	add('i word', context_words[i])
-	add('i-1 tag+i word', context_tags[i-1], context_words[i])
-	add('i-1 word', context_words[i-1])
-	add('i-1 suffix', context_words[i-1][-3:])
-	add('i-2 word', context_words[i-2])
-	add('i+1 word', context_words[i+1])
-	add('i+1 suffix', context_words[i+1][-3:])
-	add('i+2 word', context_words[i+2])
-	add('i pos-tag',context_postags[i])
-	add('i-1 pos-tag',context_postags[i-1])
-	add('i-1 pos-tag',context_postags[i-2])
+	# add('i-1 tag', context_tags[i-1])
+	# add('i-2 tag', context_tags[i-2])
+	# add('i tag+i-2 tag', context_tags[i], context_tags[i-2])
+	# add('i-1 tag+i word', context_tags[i-1], nword)
+	# add('i-1 word', context_words[i-1])
+	# add('i-1 suffix', context_words[i-1][-3:])
+	# add('i-2 word', context_words[i-2])
+	# add('i+1 word', context_words[i+1])
+	# add('i+1 suffix', context_words[i+1][-3:])
+	# add('i+2 word', context_words[i+2])
 
 	# add feature die zegt hoe ver een woord van een ander woord is, 
 	# check if word is in dict , wel/geen woord 
@@ -58,28 +63,35 @@ def makeFeatures(context_words, context_tags, context_postags, i):
 
 	#word (string)
 	# een tag 
-	print feature_array
 	return feature_array
 
-def makeFeatureDict(processed_sentences):
+def makeFeatureDict(processed_sentences,history=1):
 	feature_dictionary = {} # thiss willl be a dict with key the peature name, value the index in the 
 	index = 0
-	START = ['-START2-', '-START-']
-	END = ['-END-', '-END2-']
-	for sentence in processed_sentences:
-		context_words = START + [normalize(word_tag[0]) for word_tag in sentence.words_tags] + END
-		context_tags  = START + [word_tag[1] for word_tag in sentence.words_tags] + END
-		context_postags  = START + [word_tag[1] for word_tag in sentence.pos_tags_sentence] + END
-		for i, tagTouple in enumerate(sentence.words_tags): 
-           		features =  makeFeatures(context_words, context_tags, context_postags, i )
-            		for feature in features:
+	for tag in sp.all_tags:
+		feature_dictionary['i tag+'+tag] = index
+		index += 1
 
+	for sentence in processed_sentences:
+		context_words = [word_tag[0] for word_tag in sentence.words_tags]
+		context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
+		for i, tagTouple in enumerate(sentence.words_tags):
+			history_words = ['-START-']+context_words[:i]
+			history_tags = ['-TAGSTART-']+context_tags[:i]
+			if len(history_words) > history:
+				history_words = context_words[i-history:i]
+				history_tags = context_tags[i-history:i]
+
+			features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags)
+			
+			for feature in features:
 				if feature not in feature_dictionary:
-                    			feature_dictionary[feature] = index	
+					feature_dictionary[feature] = index	
 					index += 1
+
 	return feature_dictionary
 
-def construct_feature_vector(word, tag, feature_dictionary, context_words, i,history_vectors=None, true_tags=None):
+def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors):
 	"""
 	 - word: moet het woord zijn - als string - van het huidige woord
 	 - tag: string met de huidige tag van het woord.
@@ -88,10 +100,8 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i,his
 	 - word_context is een array met strings van de woorden, dit kunnen de woorden zijn in volgorde van de 
 	 	tree, maar ook in de originele volgorde van de zin. ! VERGEET NIET DAT START = ['-START2-', '-START-']
 	END = ['-END-', '-END2-'] toegvoegd moeten worden. en dat de woorden genormaliseerd moeten worden die in deze array staat
-
 	context_words = START + [normalize(word_tag[0]) for word_tag in sentence_words] + END 
 	 - dit moet 
-
 	 -als het niet lukt om de vorige tags mee te geven dan kan je ze voor nu uitzetten.
 	 
 	 - we moeten op een manier wel zien te ontdekken wat de tags zijn van de woorden 
@@ -99,39 +109,43 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i,his
 	 voor het woord dat we nu gaan taggen, je volgt toch verschillende paden voor viterbi,
 	 kunnen we daar niet iets mee?
 	 """
-	context_words = ['-START2-', '-START-'] + context_words + ['END-', 'END2']
+	history_words = ['-START-'] + context_words[:i]
+	if len(history_words) > history:
+		history_words = context_words[i-history:i]
 	#/#context_tags = ['-START2-', '-START-'] + context_tags + ['END-', 'END2']
+	#print 'hisin',history_vectors
 	ans = []
+	if history_vectors[1] == []:
+		history_vectors = (history_vectors[0], [('-TAGSTART-',)] )
 	
-	if history_vectors == []:
-		XX = ['-START-']
-	else:
-		XX = all_tags
-	if not true_tags is None:
-		XX = (['-START-']+true_tags)[i:i+1]
-	
-	for tag1 in XX:
+	#print 'hisout',history_vectors
+	for history_tags in history_vectors[1]:
 		feature_vector = np.zeros(len(feature_dictionary))
-		feature_array = [] 
 		
-		def add(name, *args):
-			feature_array.append('+'.join((name,) + tuple(args)))
+		# if history_tags == -1:
+		# 	print history_words, history_tags, history_vectors
+		# if history_tags == ('NaN',):
+		# 	print 'nan'
+		feature_array = makeFeatures(word,tag,history_words,history_tags)
 		
-		add('i suffix', normalize(word)[-3:])
-		add('i pref1', normalize(word)[0])
-		add('i tag', tag)
-		add('i-1 tag', tag1)
-		#/#add('i-1 tag', context_tags[i-1])
-		#/#add('i-2 tag', context_tags[i-2])
-		#/#add('i tag+i-2 tag', context_tags[i], context_tags[i-2])
-		add('i word', context_words[i])
-		#/#add('i-1 tag+i word', context_tags[i-1], context_words[i])
-		add('i-1 word', context_words[i-1])
-		add('i-1 suffix', context_words[i-1][-3:])
-		add('i-2 word', context_words[i-2])
-		add('i+1 word', context_words[i+1])
-		add('i+1 suffix', context_words[i+1][-3:])
-		add('i+2 word', context_words[i+2])
+		# def add(name, *args):
+		# 	feature_array.append('+'.join((name,) + tuple(args)))
+		
+		# add('i suffix', normalize(word)[-3:])
+		# add('i pref1', normalize(word)[0])
+		# add('i tag', tag)
+		# add('i-1 tag', tag1)
+		# #/#add('i-1 tag', context_tags[i-1])
+		# #/#add('i-2 tag', context_tags[i-2])
+		# #/#add('i tag+i-2 tag', context_tags[i], context_tags[i-2])
+		# add('i word', context_words[i])
+		# #/#add('i-1 tag+i word', context_tags[i-1], context_words[i])
+		# add('i-1 word', context_words[i-1])
+		# add('i-1 suffix', context_words[i-1][-3:])
+		# add('i-2 word', context_words[i-2])
+		# add('i+1 word', context_words[i+1])
+		# add('i+1 suffix', context_words[i+1][-3:])
+		# add('i+2 word', context_words[i+2])
 		
 		#TODO:
 		# pos tags toevoegen
@@ -141,7 +155,12 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i,his
 		for feature in feature_array:
 			if feature in feature_dictionary:
 				feature_vector[feature_dictionary[feature]] =  1
-		ans += [ (history_vectors, feature_vector) ]
+
+		history_tags = history_tags+(tag,)
+		if len(history_tags) > history:
+			history_tags = history_tags[1:]
+
+		ans += [ (feature_vector, history_tags) ]
 	return ans
 
 
@@ -157,6 +176,8 @@ def process(filename):
 		
 		#print "parsing sentences"
 		for sentence_tuple in sentence_tuples: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
+			if len( sentence_tuple[0]) < 1:
+				continue
 			processed_sentences.append(Sentence(sentence_tuple))
 	#print "make feature vectors"
 	feature_dictionary = makeFeatureDict(processed_sentences)
@@ -174,4 +195,3 @@ if __name__ == '__main__':
 """
 [(history_vectors, feature_vector), (history_vectors, feature_vector), ...]
 """
-
