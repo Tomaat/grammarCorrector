@@ -57,9 +57,6 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 
 	add('i structure', word_sturct)
 	add('i-1 suffix', history_words[i-1][-3:])
-	for feature in feature_array:
-		print feature
-	print "-------------------------------------------------------------------------"
 	return feature_array
 
 def makeFeatureDict(processed_sentences,history=1):
@@ -75,17 +72,11 @@ def makeFeatureDict(processed_sentences,history=1):
 		context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
 		context_pos_tags = [ pos_tag_tuple[1] for pos_tag_tuple in sentence.pos_tags_sentence]
 
-		
-		print sentence.words_tags
-		
 		for i, tagTouple in enumerate(sentence.words_tags):
 			history_words = ['-START-']+ context_words[:i]
 			history_tags = ['-TAGSTART-']+ context_tags[:i]
 			history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[:i]
 			
-			print history_tags
-			print history_pos_tags
-
 			if len(history_words) > history:
 				history_words = context_words[i-history:i]
 				history_tags = context_tags[i-history:i]
@@ -109,7 +100,7 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 	if history_vectors[1] == []:
 		history_vectors = (history_vectors[0], [('-TAGSTART-',)] )
 	
-	#print 'hisout',history_vectors
+	
 	for history_tags in history_vectors[1]:
 		feature_vector = np.zeros(len(feature_dictionary))
 		
@@ -130,9 +121,7 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 		ans += [ (feature_vector, history_tags) ]
 	return ans
 
-	# def add(name, *args):
-		# 	feature_array.append('+'.join((name,) + tuple(args)))
-		
+	
 		# add('i suffix', normalize(word)[-3:])
 		# add('i pref1', normalize(word)[0])
 		# add('i tag', tag)
@@ -150,7 +139,6 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 		# add('i+2 word', context_words[i+2])
 
 def process(filename):
-	#print "start of program"
 	reload(sys)  
 	sys.setdefaultencoding('utf8') # hack for some encoding problems in the sentences 
 	processed_sentences = []
@@ -159,24 +147,15 @@ def process(filename):
 		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
 		sentence_tuples = [(sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
 		
-		#print "parsing sentences"
+		print "parsing sentences"
 		for sentence_tuple in sentence_tuples: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
 			if len( sentence_tuple[0]) < 1:
 				continue
 			processed_sentences.append(Sentence(sentence_tuple))
-	#print "make feature vectors"
+	print "make feature vectors"
 	feature_dictionary = makeFeatureDict(processed_sentences)
-	#print feature_dictionary
-	#print len(feature_dictionary)
-	#print "end of program"
+
 	return processed_sentences,feature_dictionary
 
 if __name__ == '__main__':
 	process('../release3.2/data/conll14st-preprocessed.m2.small')
-
- 
-
-
-"""
-[(history_vectors, feature_vector), (history_vectors, feature_vector), ...]
-"""

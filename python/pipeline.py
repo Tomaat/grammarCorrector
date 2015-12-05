@@ -126,11 +126,7 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
 		context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
 		context_tags = [sentence.pos_tag_sentence[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
-		
-		print sentence.pos_tag_sentence 
-		print sentence.raw_sentence
-		print context_tags
-
+	
 		target_feature_vectors = []
 		for i,wrd in enumerate(context_words):
 			history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
