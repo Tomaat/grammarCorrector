@@ -4,6 +4,7 @@ import depTree as dts
 import structured_perceptron as sp
 import dataparser as dp
 from multiprocessing import Pool
+import datetime
 
 DUMMY = """
 ans = 'hello {0} {1}'
@@ -92,11 +93,11 @@ def run_all(hist=1,tiny='.tiny'):
 def main(history=1,tiny='.tiny'):
 	assert history >= 1, "use at least some history"
 	t1 = time()
-	TRAIN_FILE = train.data+ tiny 
+	TRAIN_FILE = '../release3.2/data/train.data'+ tiny 
 	VAL_FILE = '../release3.2/data/validate.data'+tiny
 	print 'loading sentences'
-	all_sentences, feature_dict = dp.process(TRAIN_FILE)
-	val_sentences, _val_feat = dp.process(VAL_FILE)
+	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE)
+	val_sentences, _val_feat = dp.process_multi(VAL_FILE)
 	t2 = time()-t1
 	print 'loading tree bank'
 	tbank = dts.tbankparser()
@@ -120,27 +121,72 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		weight_matrix = sp.init_weights(len(feature_dict))
 	E = 0.0
 	for sentence in all_sentences:
-		if len(sentence.raw_sentence) < 1:
-			continue
-		parsed_tree = tbank.parse(sentence.raw_sentence)
-		context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
-		context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
-		context_pos_tags = [sentence.pos_tags_sentence[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
-		
+		try:
+			parsed_tree = tbank.parse(sentence.raw_sentence)
+			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
+			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
+			context_pos_tags = [w.tag_ for w in dt.dfirst(parsed_tree) ]
 
-		target_feature_vectors = []
-		for i,wrd in enumerate(context_words):
-			history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
-			if len(history_vectors[1][0]) > history:
-				history_vectors = ('ph', [tuple(context_tags[i-history:i])] )
-			target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-					feature_dict, context_words, i, history, history_vectors, context_pos_tags) )
+			target_feature_vectors = []
+			for i,wrd in enumerate(context_words):
+				history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
+				if len(history_vectors[1][0]) > history:
+					history_vectors = ('ph', [tuple(context_tags[i-history:i])] )
+				target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
+						feature_dict, context_words, i, history, history_vectors, context_pos_tags) )
 
-		if not with_tags:
-			context_tags = None
-		E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
-					history, weight_matrix, context_words, context_tags, context_pos_tags)
+			if not with_tags:
+				context_tags = None
+			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
+						history, weight_matrix, context_words, context_pos_tags, context_tags)
+		except:
+			log('flaw',sentence)
 	return E
 
+def log(f,m):
+	logfile = open('stdlog.log','a')
+	ts = datetime.datetime.fromtimestamp(time()).strftime('%Y-%m-%d %H:%M:%S -- ')
+	logfile.write(ts+f+' -- '+str(m))
+	logfile.write('\n')
+	logfile.close()
+
+
+def test():
+	TRAIN_FILE = '../release3.2/data/train.data.tiny'
+	print 'loading sentences'
+	t1=time()
+	all_sentences, feature_dict = dp.process(TRAIN_FILE)
+	t1=time()-t1
+	t2=time()
+	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE,6)
+	t2=time()-t2
+	print t1,t2
+
 if __name__ == '__main__':
-	main()
+	#log('test',(1,2,3))
+	#test()
+	main(2,'.small')
+
+
+# history=1;tiny='.tiny'
+# t1 = time()
+# TRAIN_FILE = '../release3.2/data/train.data'+ tiny 
+# VAL_FILE = '../release3.2/data/validate.data'+tiny
+# print 'loading sentences'
+# all_sentences, feature_dict = dp.process(TRAIN_FILE)
+# val_sentences, _val_feat = dp.process(VAL_FILE)
+# t2 = time()-t1
+# print 'loading tree bank'
+# tbank = dts.tbankparser()
+
+# t3 = time()-t1-t2
+# sp._init_(len(feature_dict),dts )
+# print 'SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)
+# print 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history)
+# t4 = time()
+# weights = sp.train_perceptron(all_sentences, feature_dict, tbank, history)
+# t4 = time()-t4
+# t1=time()-t1
+# print 'after %d sentences, only Ne-tags'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights,False)
+# print 'after %d sentences'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights)
+# print 'total %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4)

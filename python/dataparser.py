@@ -6,6 +6,8 @@ from nltk import word_tokenize, pos_tag
 import re
 import numpy as np
 import structured_perceptron as sp
+from multiprocessing import Pool
+from pipeline import log
 #from structured_perceptron import all_tags
 
 '''
@@ -61,40 +63,45 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 
 def makeFeatureDict(processed_sentences,history=1):
 	feature_dictionary = {} # this will be a dict with key the feature name as key 
-	index = 0
+	feature_dictionary['i tag+-TAGSTART-'] = 1
+	index = 1
 	for tag in sp.all_tags:
 		feature_dictionary['i tag+'+ tag] = index
 		index += 1
 
 	for sentence in processed_sentences:
-		
-		context_words = [word_tag[0] for word_tag in sentence.words_tags]
-		context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
-		context_pos_tags = [ pos_tag_tuple[1] for pos_tag_tuple in sentence.pos_tags_sentence]
+		try:
+			context_words = [word_tag[0] for word_tag in sentence.words_tags]
+			context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
+			context_pos_tags = [ pos_tag_tuple[1] for pos_tag_tuple in sentence.pos_tags_sentence]
 
-		for i, tagTouple in enumerate(sentence.words_tags):
-			history_words = ['-START-']+ context_words[:i]
-			history_tags = ['-TAGSTART-']+ context_tags[:i]
-			history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[:i]
-			
-			if len(history_words) > history:
-				history_words = context_words[i-history:i]
-				history_tags = context_tags[i-history:i]
-				history_pos_tags = context_pos_tags[i-history:i]
+			for i, tagTouple in enumerate(sentence.words_tags):
+				history_words = ['-START-']+ context_words[:i]
+				history_tags = ['-TAGSTART-']+ context_tags[:i]
+				history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[:i]
+				
+				if len(history_words) > history:
+					history_words = context_words[i-history:i]
+					history_tags = context_tags[i-history:i]
+					history_pos_tags = context_pos_tags[i-history:i]
 
-			features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags)
-			
-			for feature in features:
-				if feature not in feature_dictionary:
-					feature_dictionary[feature] = index	
-					index += 1
+				features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags)
+				
+				for feature in features:
+					if feature not in feature_dictionary:
+						feature_dictionary[feature] = index	
+						index += 1
+		except:
+			log('feat',sentence)
 
 	return feature_dictionary
 
-def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, history_pos_tags):
+def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
 	history_words = ['-START-'] + context_words[:i]
+	history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[:i]
 	if len(history_words) > history:
 		history_words = context_words[i-history:i]
+		history_pos_tags = context_pos_tags[i-history:i]
 	#/#context_tags = ['-START2-', '-START-'] + context_tags + ['END-', 'END2']
 	ans = []
 	if history_vectors[1] == []:
@@ -115,7 +122,7 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 				feature_vector[feature_dictionary[feature]] =  1
 
 		history_tags = history_tags+(tag,)
-		if len(history_tags) > history:
+		if len(history_tags) > history+1:
 			history_tags = history_tags[1:]
 
 		ans += [ (feature_vector, history_tags) ]
@@ -147,11 +154,40 @@ def process(filename):
 		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
 		sentence_tuples = [(sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
 		
-		print "parsing sentences"
-		for sentence_tuple in sentence_tuples: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
-			if len( sentence_tuple[0]) < 1:
-				continue
+	print "parsing sentences"
+	for sentence_tuple in sentence_tuples: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
+		if len( sentence_tuple[0]) < 1:
+			continue
+		try:
 			processed_sentences.append(Sentence(sentence_tuple))
+		except:
+			log('init',sentence_tuple)
+	print "make feature vectors"
+	feature_dictionary = makeFeatureDict(processed_sentences)
+
+	return processed_sentences,feature_dictionary
+
+def multi_once(sentence_tuple):
+	ans = None
+	try:
+		ans = Sentence(sentence_tuple)
+	except:
+		log('init_mul',sentence_tuple)
+	return ans
+
+def process_multi(filename,workers=8):
+	reload(sys)  
+	sys.setdefaultencoding('utf8') # hack for some encoding problems in the sentences 
+	processed_sentences = []
+	with open (filename) as datafile: # import sgml data-file
+		data_lines = datafile.readlines()
+		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
+		sentence_tuples = [(sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
+		
+	print "parsing sentences"
+	pool = Pool(workers)
+	processed_sentences = pool.map(multi_once,sentence_tuples)
+
 	print "make feature vectors"
 	feature_dictionary = makeFeatureDict(processed_sentences)
 
