@@ -5,6 +5,7 @@ import structured_perceptron as sp
 import dataparser as dp
 from multiprocessing import Pool
 import datetime
+import numpy as np
 
 DUMMY = """
 ans = 'hello {0} {1}'
@@ -108,6 +109,7 @@ def main(history=1,tiny='.tiny'):
 	print 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history)
 	t4 = time()
 	weights = sp.train_perceptron(all_sentences, feature_dict, tbank, history)
+	np.save('weights'+str(history)+tiny+'.npy',weights)
 	t4 = time()-t4
 	t1=time()-t1
 	print 'after %d sentences, only Ne-tags'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights,False)
