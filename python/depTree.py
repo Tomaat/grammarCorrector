@@ -52,6 +52,7 @@ class dfirst(object):
 		msg = 'wrong input of type %s for type %s!'%(str(type(tree) ), str(self.ttype))
 		assert type(tree) == self.ttype, msg
 		self.root = tree[:].root
+		self.tree = tree
 		self.current = -1
 		self.todo = []
 	def __iter__(self):
@@ -59,6 +60,14 @@ class dfirst(object):
 	def __next__(self):
 		return self.next()
 	def next(self):
+		return self.nextl()
+	def nextl(self):
+		self.current += 1
+		if self.current < len(self.tree):
+			return self.tree[self.current]
+		else:
+			raise StopIteration()
+	def nextd(self):
 		if self.current == -1:
 			self.current += 1
 			self.tree = list(self.root.children)

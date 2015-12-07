@@ -23,7 +23,7 @@ for all sentences:
 
 import numpy as np
 import dataparser as dp
-from pipeline import log
+import pipeline
 
 
 
@@ -39,6 +39,7 @@ all_tags = ["Ne",#:"No Error",
 			"ArtOrDet",#:"Article or Determiner",
 			"Nn",#:"Noun number",
 			"Npos",#:"Noun possesive",
+#'na'];xxx=[
 			"Pform",#:"Pronoun form",
 			"Pref",#:"Pronoun reference",
 			"Wcip",#:"Wrong collocation/idiom/preposition",
@@ -63,6 +64,7 @@ tag_idxes = { tag:i for i,tag in enumerate(all_tags) }
 tag_idxes["-TAGSTART-"] = -1
 SIZE = 1873
 dt = None
+it = 0
 
 def _init_(size,tb):
 	global SIZE,dt
@@ -70,9 +72,13 @@ def _init_(size,tb):
 
 
 def train_perceptron(all_sentences, feature_dict, tbank, history):
+	global it
+	it = 0
 	weight_matrix = init_weights(len(feature_dict))
 
 	for sentence in all_sentences:
+		print it,
+		it += 1
 		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			# For loop around this, so that you loop through all sentences --> weights should be updated
@@ -92,8 +98,8 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 
 			weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 						history, weight_matrix, context_words, context_pos_tags)
-		except:
-			log('train',sentence)
+		except Exception as ex:
+			pipeline.log('train',sentence)
 
 
 	return weight_matrix
@@ -141,7 +147,7 @@ def test_perceptron_once(E, parsed_tree, feature_dict, history, weight_matrix, c
 	for i,v in enumerate(feature_vectors_sentence):
 		possible_tags = get_tag_from_vector(v,feature_dict)
 		real_tag = context_tags[i]
-		#print i,possible_tags,real_tag
+		pipeline.out( (i,possible_tags,real_tag) )
 		if not real_tag in possible_tags:
 			E += 1
 		#E += np.sum((target_feature_vectors[i][0][1]-v)**2)
@@ -192,7 +198,8 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 			for tple in feature_vectors_tag:
 				#print "tuple: ", tple
 				tag_score = np.dot(tple[0], weight_matrix.transpose()) # might want to this with this python list stuff, but like this for now
-				#print "tag_score: ",wrd,tag, tag_score
+				#print "tag_score: ",wrd,tag, tple[1], tag_score
+				#print [(feature_dict.get('i-1 tag+'+zz,0),tple[0][feature_dict.get('i-1 tag+'+zz,0)],zz) for zz in all_tags]
 				if tag_score > best_tag_score:
 					best_tag_score = tag_score
 					best_feature_vector = tple[0]
@@ -266,14 +273,23 @@ def update_weights(old_weights, feature_vectors_sentence, target_feature_vectors
 
 		Method to update the weight matrix of the perceptron
 	"""
-
+	global it
+	#cum_weights = it*old_weights
+	#it += 1
+	#print it
 	for i in range(len(feature_vectors_sentence)):
 		#print i,target_feature_vectors[i][0][0],feature_vectors_sentence[i]
 		diff = target_feature_vectors[i][0][0] - feature_vectors_sentence[i]
 		#print "diff: ", diff 
 		updated_weights = np.add(old_weights, diff) 
-		old_weights = updated_weights
+		old_weights = np.tanh(updated_weights)
 		#print "updated weights: ", updated_weights
+
+	
+	#update_weights = (cum_weights + updated_weights)/it
+	
+	#norm = max(updated_weights.max(),-updated_weights.min())
+	#updated_weights = updated_weights/norm
 
 	return updated_weights
 

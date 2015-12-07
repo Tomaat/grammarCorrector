@@ -97,24 +97,24 @@ def main(history=1,tiny='.tiny'):
 	TRAIN_FILE = '../release3.2/data/train.data'+ tiny 
 	VAL_FILE = '../release3.2/data/validate.data'+tiny
 	print 'loading sentences'
-	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE)
-	val_sentences, _val_feat = dp.process_multi(VAL_FILE)
+	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE,history)
+	val_sentences, _val_feat = dp.process_multi(VAL_FILE,history)
 	t2 = time()-t1
 	print 'loading tree bank'
 	tbank = dts.tbankparser()
 
 	t3 = time()-t1-t2
 	sp._init_(len(feature_dict),dts )
-	print 'SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)
-	print 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history)
+	out( ('SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)) )
+	out( ( 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history) ) )
 	t4 = time()
 	weights = sp.train_perceptron(all_sentences, feature_dict, tbank, history)
 	np.save('weights'+str(history)+tiny+'.npy',weights)
 	t4 = time()-t4
 	t1=time()-t1
-	print 'after %d sentences, only Ne-tags'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights,False)
-	print 'after %d sentences'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights)
-	print 'total %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4)
+	out( ( 'after %d sentences, only Ne-tags'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights,False) ) )
+	out( ( 'after %d sentences'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights) ) )
+	out( ( 'total %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4) ) )
 
 
 
@@ -141,7 +141,7 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 				context_tags = None
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
 						history, weight_matrix, context_words, context_pos_tags, context_tags)
-		except:
+		except Exception as ex:
 			log('flaw',sentence)
 	return E
 
@@ -149,6 +149,12 @@ def log(f,m):
 	logfile = open('stdlog.log','a')
 	ts = datetime.datetime.fromtimestamp(time()).strftime('%Y-%m-%d %H:%M:%S -- ')
 	logfile.write(ts+f+' -- '+str(m))
+	logfile.write('\n')
+	logfile.close()
+def out(m):
+	logfile = open('stdout.out','a')
+	ts = datetime.datetime.fromtimestamp(time()).strftime('%Y-%m-%d %H:%M:%S -- ')
+	logfile.write(ts+str(m))
 	logfile.write('\n')
 	logfile.close()
 
@@ -170,13 +176,13 @@ if __name__ == '__main__':
 	main(2,'.small')
 
 
-# history=1;tiny='.tiny'
+# history=2;tiny='.tiny'
 # t1 = time()
 # TRAIN_FILE = '../release3.2/data/train.data'+ tiny 
 # VAL_FILE = '../release3.2/data/validate.data'+tiny
 # print 'loading sentences'
-# all_sentences, feature_dict = dp.process(TRAIN_FILE)
-# val_sentences, _val_feat = dp.process(VAL_FILE)
+# all_sentences, feature_dict = dp.process(TRAIN_FILE,history)
+# val_sentences, _val_feat = dp.process(VAL_FILE,history)
 # t2 = time()-t1
 # print 'loading tree bank'
 # tbank = dts.tbankparser()

@@ -6,8 +6,9 @@ from nltk import word_tokenize, pos_tag
 import re
 import numpy as np
 import structured_perceptron as sp
+#from structured_perceptron import all_tags
 from multiprocessing import Pool
-from pipeline import log
+import pipeline
 #from structured_perceptron import all_tags
 
 '''
@@ -43,14 +44,16 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 	add('i pref1', nword[0])
 	add('i tag',tag)
 	add('i word', nword)
-	for i,w in enumerate(history_words):
-		add('i-'+str(i+1)+' word',w)
-		add('i-'+str(i+1)+' tag',history_tags[i])
-		add('i-'+str(i+1)+' pos tag', history_pos_tags[i])
-		add('i tag + i-'+str(i+1)+' tag', tag, history_tags[i])
-		add('i-'+str(i+1)+' tag+i word', history_tags[i], nword)
-	word_sturct = ""
 
+	hmax = len(history_words)-1
+	for i in range(hmax+1):
+		add('i-'+str(i+1)+' word',history_words[hmax-i])
+		add('i-'+str(i+1)+' tag',history_tags[hmax-i])
+		add('i-'+str(i+1)+' pos tag', history_pos_tags[hmax-i])
+		add('i tag + i-'+str(i+1)+' tag', tag, history_tags[hmax-i])
+		add('i-'+str(i+1)+' tag+i word', history_tags[hmax-i], nword)
+	
+	word_sturct = ""
 	for char in word:
 		if char.isupper():
 			word_sturct += "X"
@@ -61,13 +64,18 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 	add('i-1 suffix', history_words[i-1][-3:])
 	return feature_array
 
-def makeFeatureDict(processed_sentences,history=1):
+def makeFeatureDict(processed_sentences,history):
 	feature_dictionary = {} # this will be a dict with key the feature name as key 
 	feature_dictionary['i tag+-TAGSTART-'] = 1
 	index = 1
 	for tag in sp.all_tags:
 		feature_dictionary['i tag+'+ tag] = index
 		index += 1
+	for p in range(history):
+		for tag in sp.all_tags:
+			feature_dictionary['i-'+str(p+1)+' tag+'+ tag] = index
+			index += 1
+
 
 	for sentence in processed_sentences:
 		try:
@@ -92,7 +100,7 @@ def makeFeatureDict(processed_sentences,history=1):
 						feature_dictionary[feature] = index	
 						index += 1
 		except:
-			log('feat',sentence)
+			pipeline.log('feat',sentence)
 
 	return feature_dictionary
 
@@ -112,7 +120,7 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 		feature_vector = np.zeros(len(feature_dictionary))
 		
 		# if history_tags == -1:
-		# 	print history_words, history_tags, history_vectors
+		#	print 'din',history_words, history_tags, history_vectors
 		# if history_tags == ('NaN',):
 		# 	print 'nan'
 		feature_array = makeFeatures(word,tag,history_words,history_tags, history_pos_tags)
@@ -120,9 +128,10 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 		for feature in feature_array:
 			if feature in feature_dictionary:
 				feature_vector[feature_dictionary[feature]] =  1
-
+		#print 'histtag', history_words, history_tags
+		#print 'fear',feature_array
 		history_tags = history_tags+(tag,)
-		if len(history_tags) > history+1:
+		if len(history_tags) > history:
 			history_tags = history_tags[1:]
 
 		ans += [ (feature_vector, history_tags) ]
@@ -145,7 +154,7 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 		# add('i+1 suffix', context_words[i+1][-3:])
 		# add('i+2 word', context_words[i+2])
 
-def process(filename):
+def process(filename,history):
 	reload(sys)  
 	sys.setdefaultencoding('utf8') # hack for some encoding problems in the sentences 
 	processed_sentences = []
@@ -160,10 +169,10 @@ def process(filename):
 			continue
 		try:
 			processed_sentences.append(Sentence(sentence_tuple))
-		except:
-			log('init',sentence_tuple)
+		except Exception as ex:
+			pipeline.log('init',sentence_tuple)
 	print "make feature vectors"
-	feature_dictionary = makeFeatureDict(processed_sentences)
+	feature_dictionary = makeFeatureDict(processed_sentences,history)
 
 	return processed_sentences,feature_dictionary
 
@@ -172,10 +181,10 @@ def multi_once(sentence_tuple):
 	try:
 		ans = Sentence(sentence_tuple)
 	except:
-		log('init_mul',sentence_tuple)
+		pipeline.log('init_mul',sentence_tuple)
 	return ans
 
-def process_multi(filename,workers=8):
+def process_multi(filename,history,workers=8):
 	reload(sys)  
 	sys.setdefaultencoding('utf8') # hack for some encoding problems in the sentences 
 	processed_sentences = []
@@ -189,7 +198,7 @@ def process_multi(filename,workers=8):
 	processed_sentences = pool.map(multi_once,sentence_tuples)
 
 	print "make feature vectors"
-	feature_dictionary = makeFeatureDict(processed_sentences)
+	feature_dictionary = makeFeatureDict(processed_sentences,history)
 
 	return processed_sentences,feature_dictionary
 
