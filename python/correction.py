@@ -110,8 +110,8 @@ class Correction(NGrams):
 					print "Corrections uni: ", self.pot_corrections
 
 		# For testing
-		self.pot_corrections.append((u'jus', 2))
-		self.pot_corrections.append((u'test', 8))
+		#self.pot_corrections.append((u'jus', 2))
+		#sself.pot_corrections.append((u'test', 8))
 
 		sortedlist = sorted(self.pot_corrections, key=lambda x:x[1])
 

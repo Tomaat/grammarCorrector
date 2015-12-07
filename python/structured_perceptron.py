@@ -23,44 +23,44 @@ for all sentences:
 
 import numpy as np
 import dataparser as dp
+from pipeline import log
 
 
 
 
 ###########################################################################################################
 
-all_tags = {
-			"-TAGSTART-":"root of tree",
-			"Ne":"No Error",
-			"Vt":"Verb tense",
-			"Vm":"Verb modal",
-			"V0":"Missing verb",
-			"Vform":"Verb form",
-			"SVA":"Subject-verb-agreement",
-			"ArtOrDet":"Article or Determiner",
-			"Nn":"Noun number",
-			"Npos":"Noun possesive",
-			"Pform":"Pronoun form",
-			"Pref":"Pronoun reference",
-			"Wcip":"Wrong collocation/idiom/preposition",
-			"Wa":"Acronyms",
-			"Wform":"Word form",
-			"Wtone":"Tone",
-			"Srun":"Runons, comma splice",
-			"Smod":"Dangling modifier",
-			"Spar":"Parallelism",
-			"Sfrag":"Fragment",
-			"Ssub":"Subordinate clause",
-			"WOinc":"Incorrect sentence form",
-			"WOadv":"Adverb/adjective position",
-			"Trans":"Link word/phrases",
-			"Mec":"Punctuation, capitalization, spelling, typos",
-			"Rloc":"Local redundancy",
-			"Cit":"Citation",
-			"Others":"Other errors",
-			"Um":"Unclear meaning (cannot be corrected)",						# hash with the full discription of every mistake in the dataset 
-		}.keys()
+all_tags = ["Ne",#:"No Error",
+			"Vt",#:"Verb tense",
+			"Vm",#:"Verb modal",
+			"V0",#:"Missing verb",
+			"Vform",#:"Verb form",
+			"SVA",#:"Subject-verb-agreement",
+			"ArtOrDet",#:"Article or Determiner",
+			"Nn",#:"Noun number",
+			"Npos",#:"Noun possesive",
+			"Pform",#:"Pronoun form",
+			"Pref",#:"Pronoun reference",
+			"Wcip",#:"Wrong collocation/idiom/preposition",
+			"Wa",#:"Acronyms",
+			"Wform",#:"Word form",
+			"Wtone",#:"Tone",
+			"Srun",#:"Runons, comma splice",
+			"Smod",#:"Dangling modifier",
+			"Spar",#:"Parallelism",
+			"Sfrag",#:"Fragment",
+			"Ssub",#:"Subordinate clause",
+			"WOinc",#:"Incorrect sentence form",
+			"WOadv",#:"Adverb/adjective position",
+			"Trans",#:"Link word/phrases",
+			"Mec",#:"Punctuation, capitalization, spelling, typos",
+			"Rloc",#:"Local redundancy",
+			"Cit",#:"Citation",
+			"Others",#:"Other errors",
+			"Um",#:"Unclear meaning (cannot be corrected)",						# hash with the full discription of every mistake in the dataset 
+		]
 tag_idxes = { tag:i for i,tag in enumerate(all_tags) }
+tag_idxes["-TAGSTART-"] = -1
 SIZE = 1873
 dt = None
 
@@ -73,25 +73,27 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 	weight_matrix = init_weights(len(feature_dict))
 
 	for sentence in all_sentences:
-		if len(sentence.raw_sentence) < 1:
-			continue
-		parsed_tree = tbank.parse(sentence.raw_sentence)
-		# For loop around this, so that you loop through all sentences --> weights should be updated
-		sentence.words_tags
-		context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
-		context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
-		
-		target_feature_vectors = []
-		for i,wrd in enumerate(context_words):
-			history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
-			if len(history_vectors[1][0]) > history:
-				history_vectors = ('ph', [tuple(context_tags[i-history:i])] )
-			#print history_vectors
-			target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-					feature_dict, context_words, i, history, history_vectors) )
+		try:
+			parsed_tree = tbank.parse(sentence.raw_sentence)
+			# For loop around this, so that you loop through all sentences --> weights should be updated
+			#sentence.words_tags
+			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
+			context_pos_tags = [w.tag_ for w in dt.dfirst(parsed_tree) ]
+			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
+			
+			target_feature_vectors = []
+			for i,wrd in enumerate(context_words):
+				history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
+				if len(history_vectors[1][0]) > history:
+					history_vectors = ('ph', [tuple(context_tags[i-history:i])] )
+				#print history_vectors
+				target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
+						feature_dict, context_words, i, history, history_vectors, context_pos_tags) )
 
-		weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
-					history, weight_matrix, context_words)
+			weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
+						history, weight_matrix, context_words, context_pos_tags)
+		except:
+			log('train',sentence)
 
 
 	return weight_matrix
@@ -108,13 +110,13 @@ def init_weights(no_rows):
 	return weight_matrix
 
 
-def train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, history, weight_matrix, context_words):
+def train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, history, weight_matrix, context_words, context_pos_tags):
 	"""	Input:	Sentence that is fed into the perceptron
 				Dictionary with feature vectors of the correct tagged sentence
 
 	"""
 
-	feature_vectors_sentence = viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words)
+	feature_vectors_sentence = viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, context_pos_tags)
 	#print 'hello', target_feature_vectors
 	new_weights = update_weights(weight_matrix, feature_vectors_sentence, target_feature_vectors)
 	#print "old_weights: ", weight_matrix
@@ -170,7 +172,7 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 		for j,tag in enumerate(all_tags): 
 			# here you're gonna add your history. 
 			
-			history_vectors = sentence_dict.get(i-1,(0,0,[],0))[1:3]
+			history_vectors = sentence_dict.get(i-1,(0,0,[]))[1:3]
 			# for z in range(1,history+1):				
 			# 	history_tuple = sentence_dict.get(i-z)
 			# 	if history_tuple != None:
@@ -181,16 +183,16 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, 
 					feature_dict, context_words, i , history, history_vectors, context_pos_tags)
 			#[(history_vectors, feature_vector), (history_vectors, feature_vector), ...] --> Though I guess one history vector should be enough, as then you've got a backpointer for every feature vector
-			
+			#print 'hv',history_vectors
 			best_tag_score = -1e1000 # init scores --> delete once more clever list implementation with max
 			best_feature_vector = np.zeros(SIZE) # number of features --> CHANGE
 			history_word = ('Um') # what's the position of the tag the current tag is 'coming from'
 			#print len(feature_vectors_tag)
-			#print feature_vectors_tag[0][0][0:28]
+			#print feature_vectors_tag[0][0][0:29]
 			for tple in feature_vectors_tag:
 				#print "tuple: ", tple
 				tag_score = np.dot(tple[0], weight_matrix.transpose()) # might want to this with this python list stuff, but like this for now
-				#print "tag_score: ", tag_score
+				#print "tag_score: ",wrd,tag, tag_score
 				if tag_score > best_tag_score:
 					best_tag_score = tag_score
 					best_feature_vector = tple[0]
@@ -200,13 +202,13 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 			tag_score_array[j] = best_tag_score
 			#print best_feature_vector
 			feature_vector_array[j,:] = best_feature_vector
-			#print feature_vector_array[j,0:28]
+			#print feature_vector_array[j,0:29]
 			history_list.append(history_word)
 
 		# print 'scores',tag_score_array
 		# print 'fvec',feature_vector_array
 		# print 'hislist',history_list
-		#print feature_vector_array[:,0:28]
+		#print 'best', feature_vector_array[:,0:28]
 		sentence_dict[i] = (tag_score_array, feature_vector_array, history_list)
 
 
@@ -218,28 +220,25 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, context_words, co
 	for entry in range(dict_len-1, -1, -1):
 		
 		(score, vector, history_list) = sentence_dict[entry]
-		history_best_vector = -1
+		#history_best_vector = -1
 
 		# if you're at the end of the sentence you have to make your decision slightly differently
 		if entry == dict_len-1: 
 			high_score =  score.argmax()
 			best_vector = vector[high_score]
-			if len(history_list[high_score]) < 2:
-				history_best_vector = -1
-			else:
-				history_best_vector = tag_idxes[history_list[high_score][-2]] # is a number
+			history_best_vector = tag_idxes[history_list[high_score][-2]] # is a number
+			#print high_score, history_list
+			#print 'bv',history_best_vector
 		else:
 			best_vector = vector[history_best_vector]
-			if len(history_list[high_score]) < 2:
-				history_best_vector = -1
-			else:
-				history_best_vector = tag_idxes[history_list[high_score][-2]] # is a number
+			history_best_vector = tag_idxes[history_list[high_score][-2]] # is a number
+			#print 'bv2',history_best_vector
 		#print history_list[high_score]
 		final_feature_vectors.append(best_vector) ## might want to change the order of this, or not, depends a bit on how we decide to give the output for the sequence
 
 
 	#print "final feature vectors: ", final_feature_vectors
-	#print [v[0:28] for v in final_feature_vectors]
+	#print [v[0:29] for v in final_feature_vectors]
 	return final_feature_vectors
 
 
