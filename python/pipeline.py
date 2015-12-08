@@ -125,22 +125,30 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 	for sentence in all_sentences:
 		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
+			print parsed_tree
 			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
-			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
 			context_pos_tags = [w.tag_ for w in dt.dfirst(parsed_tree) ]
-
+			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
+			histories = []
 			target_feature_vectors = []
 			for i,wrd in enumerate(context_words):
-				history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
-				if len(history_vectors[1][0]) > history:
-					history_vectors = ('ph', [tuple(context_tags[i-history:i])] )
+				if i < history:
+					history_tags = tuple(['-TAGSTART-']+context_tags[0:i])
+					history_words = ['-START-']+context_words[0:i]
+					history_pos_tags = ['-POSTAGSTART-']+context_pos_tags[0:i]
+				else:
+					history_tags = context_tags[i-history:i]
+					history_words = context_words[i-history:i]
+					history_pos_tags = context_pos_tags[i-history:i]
+				history_vectors = ('ph', [history_tags] )
 				target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-						feature_dict, context_words, i, history, history_vectors, context_pos_tags) )
+						feature_dict, history_words, i, history, history_vectors, history_pos_tags) )
+				histories.append((history_words,history_pos_tags))
 
 			if not with_tags:
 				context_tags = None
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
-						history, weight_matrix, context_words, context_pos_tags, context_tags)
+						history, weight_matrix, context_words, context_pos_tags, histories, context_tags)
 		except Exception as ex:
 			log('flaw',sentence)
 	return E
@@ -173,7 +181,7 @@ def test():
 if __name__ == '__main__':
 	#log('test',(1,2,3))
 	#test()
-	main(2,'.small')
+	main(2,'.tiny')
 
 
 # history=2;tiny='.tiny'

@@ -61,7 +61,7 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 			word_sturct += "x"
 
 	add('i structure', word_sturct)
-	add('i-1 suffix', history_words[i-1][-3:])
+	#add('i-1 suffix', history_words[i-1][-3:])
 	return feature_array
 
 def makeFeatureDict(processed_sentences,history):
@@ -104,18 +104,20 @@ def makeFeatureDict(processed_sentences,history):
 
 	return feature_dictionary
 
-def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
-	history_words = ['-START-'] + context_words[:i]
-	history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[:i]
-	if len(history_words) > history:
-		history_words = context_words[i-history:i]
-		history_pos_tags = context_pos_tags[i-history:i]
-	#/#context_tags = ['-START2-', '-START-'] + context_tags + ['END-', 'END2']
+#def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
+def construct_feature_vector(word, tag, feature_dictionary, history_words, i, history, history_vectors, history_pos_tags):
+	# #if i < history:
+	# history_words = ['-START-'] + context_words[0:i]
+	# history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[0:i]
+	# if len(history_words) > history:
+	# 	history_words = context_words[i-history:i]
+	# 	history_pos_tags = context_pos_tags[i-history:i]
+	# #/#context_tags = ['-START2-', '-START-'] + context_tags + ['END-', 'END2']
+	
+	# if history_vectors[1] == []:
+	# 	history_vectors = (history_vectors[0], [('-TAGSTART-',)] )
+	
 	ans = []
-	if history_vectors[1] == []:
-		history_vectors = (history_vectors[0], [('-TAGSTART-',)] )
-	
-	
 	for history_tags in history_vectors[1]:
 		feature_vector = np.zeros(len(feature_dictionary))
 		
@@ -130,11 +132,15 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 				feature_vector[feature_dictionary[feature]] =  1
 		#print 'histtag', history_words, history_tags
 		#print 'fear',feature_array
-		history_tags = history_tags+(tag,)
-		if len(history_tags) > history:
-			history_tags = history_tags[1:]
-
-		ans += [ (feature_vector, history_tags) ]
+		
+		new_tags = ['']*min(history,len(history_tags)+1)
+		new_tags[-1] = tag
+		for i in range(1,len(new_tags)):
+			new_tags[-(i+1)] = history_tags[-i]
+		#new_tags = history_tags+(tag,)
+		#if len(new_tags) > history:
+		#	new_tags = new_tags[1:]
+		ans += [ (feature_vector, tuple(new_tags)) ]
 	return ans
 
 	
@@ -184,7 +190,7 @@ def multi_once(sentence_tuple):
 		pipeline.log('init_mul',sentence_tuple)
 	return ans
 
-def process_multi(filename,history,workers=8):
+def process_multi(filename,history,workers=7):
 	reload(sys)  
 	sys.setdefaultencoding('utf8') # hack for some encoding problems in the sentences 
 	processed_sentences = []
