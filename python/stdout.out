@@ -4,3 +4,8 @@
 2015-12-08 14:51:05 -- ('after 9 sentences, only Ne-tags', 233.0)
 2015-12-08 14:51:06 -- ('after 9 sentences', 233.0)
 2015-12-08 14:51:06 -- total 53.412566 sec (loading: 4.033383, 46.921842; training: 0.697340
+2015-12-08 15:24:48 -- ('SSE random weights, only Ne-tags', 137.0)
+2015-12-08 15:24:52 -- ('SSE random weights', 142.0)
+2015-12-08 15:25:28 -- ('after 9 sentences, only Ne-tags', 233.0)
+2015-12-08 15:25:32 -- ('after 9 sentences', 230.0)
+2015-12-08 15:25:32 -- total 92.549615 sec (loading: 0.000029, 52.158011; training: 31.653263

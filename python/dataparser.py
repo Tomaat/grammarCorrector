@@ -4,12 +4,20 @@ from Sentence import Sentence
 import sys
 from nltk import word_tokenize, pos_tag 
 import re
+import os 
 import numpy as np
 import structured_perceptron as sp
 #from structured_perceptron import all_tags
 from multiprocessing import Pool
 import pipeline
-#from structured_perceptron import all_tags
+from spacy.en import English, LOCAL_DATA_DIR
+
+
+nlp = None 
+
+def _init_(tbank):
+	global nlp
+	nlp = tbank.nlp
 
 '''
 	Normalization used in pre-processing.
@@ -37,11 +45,38 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 	
 	def add(name, *args):
 		feature_array.append('+'.join((name,) + tuple(args)))
-
 	nword = normalize(word)
+	distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(nword)))
+	if distance < 0.1:
+		add('word embedding 0-0.1 i + i-1')
+	elif(distance < 0.2):
+		add('word embedding 0.1-0.2 i + i-1')
+	elif(distance < 0.3):
+		add('word embedding 0.2-0.3 i + i-1')
+	elif(distance < 0.4):
+		add('word embedding 0.3-0.4 i + i-1')
+	elif(distance < 0.5):
+		add('word embedding 0.4-0.5 i + i-1')
+	elif(distance < 0.6):
+		add('word embedding 0.5-0.6 i + i-1')
+	elif(distance < 0.7):
+		add('word embedding 0.6-0.7 i + i-1')
+	elif(distance < 0.8):
+		add('word embedding 0.7-0.8 i + i-1')
+	elif(distance < 0.9):
+		add('word embedding 0.8-0.9 i + i-1')
+	else:
+		add('word embedding 0.9-1 i + i-1')
 
-	add('i suffix', nword[-3:])
+	add('i suffix-1', nword[-1:])
+	add('i suffix-2', nword[-2:])
+	add('i suffix-3', nword[-3:])
+	add('i suffix-4', nword[-4:])
+
 	add('i pref1', nword[0])
+	add('i pref2', nword[0:3])
+	add('i pref3', nword[0:2])
+
 	add('i tag',tag)
 	add('i word', nword)
 
@@ -52,7 +87,9 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 		add('i-'+str(i+1)+' pos tag', history_pos_tags[hmax-i])
 		add('i tag + i-'+str(i+1)+' tag', tag, history_tags[hmax-i])
 		add('i-'+str(i+1)+' tag+i word', history_tags[hmax-i], nword)
-	
+		add('i word i-1 word', nword, history_words[hmax-i])
+		add('i tag i-1 tag', tag, history_tags[hmax-i])
+		add('i-'+str(i+1)+' suffix', history_words[hmax-i][-3:])
 	word_sturct = ""
 	for char in word:
 		if char.isupper():
@@ -61,7 +98,6 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 			word_sturct += "x"
 
 	add('i structure', word_sturct)
-	#add('i-1 suffix', history_words[i-1][-3:])
 	return feature_array
 
 def makeFeatureDict(processed_sentences,history):
@@ -78,10 +114,15 @@ def makeFeatureDict(processed_sentences,history):
 
 
 	for sentence in processed_sentences:
+		#print sentence.raw_sentence
 		try:
 			context_words = [word_tag[0] for word_tag in sentence.words_tags]
 			context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
 			context_pos_tags = [ pos_tag_tuple[1] for pos_tag_tuple in sentence.pos_tags_sentence]
+			
+			#print context_words
+			#print context_tags
+			#print context_pos_tags
 
 			for i, tagTouple in enumerate(sentence.words_tags):
 				history_words = ['-START-']+ context_words[:i]
@@ -96,6 +137,7 @@ def makeFeatureDict(processed_sentences,history):
 				features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags)
 				
 				for feature in features:
+					#print feature
 					if feature not in feature_dictionary:
 						feature_dictionary[feature] = index	
 						index += 1
@@ -143,23 +185,6 @@ def construct_feature_vector(word, tag, feature_dictionary, history_words, i, hi
 		ans += [ (feature_vector, tuple(new_tags)) ]
 	return ans
 
-	
-		# add('i suffix', normalize(word)[-3:])
-		# add('i pref1', normalize(word)[0])
-		# add('i tag', tag)
-		# add('i-1 tag', tag1)
-		# #/#add('i-1 tag', context_tags[i-1])
-		# #/#add('i-2 tag', context_tags[i-2])
-		# #/#add('i tag+i-2 tag', context_tags[i], context_tags[i-2])
-		# add('i word', context_words[i])
-		# #/#add('i-1 tag+i word', context_tags[i-1], context_words[i])
-		# add('i-1 word', context_words[i-1])
-		# add('i-1 suffix', context_words[i-1][-3:])
-		# add('i-2 word', context_words[i-2])
-		# add('i+1 word', context_words[i+1])
-		# add('i+1 suffix', context_words[i+1][-3:])
-		# add('i+2 word', context_words[i+2])
-
 def process(filename,history):
 	reload(sys)  
 	sys.setdefaultencoding('utf8') # hack for some encoding problems in the sentences 
@@ -167,15 +192,17 @@ def process(filename,history):
 	with open (filename) as datafile: # import sgml data-file
 		data_lines = datafile.readlines()
 		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
+		#print data_raw
 		sentence_tuples = [(sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
 		
 	print "parsing sentences"
 	for sentence_tuple in sentence_tuples: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
+		#print sentence_tuple
 		if len( sentence_tuple[0]) < 1:
 			continue
-		try:
+		if True:#try:
 			processed_sentences.append(Sentence(sentence_tuple))
-		except Exception as ex:
+		else:#except Exception as ex:
 			pipeline.log('init',sentence_tuple)
 	print "make feature vectors"
 	feature_dictionary = makeFeatureDict(processed_sentences,history)

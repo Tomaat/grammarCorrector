@@ -1,8 +1,5 @@
-2015-12-08 14:46:36 -- feat -- <Sentence.Sentence instance at 0x7f1183c93dd0>
-2015-12-08 14:50:13 -- feat -- <Sentence.Sentence instance at 0x7f08a44b2998>
-2015-12-08 14:50:15 -- feat -- <Sentence.Sentence instance at 0x7f08a4765dd0>
-2015-12-08 14:51:02 -- flaw -- <Sentence.Sentence instance at 0x7f08a4765dd0>
-2015-12-08 14:51:03 -- flaw -- <Sentence.Sentence instance at 0x7f08a4765dd0>
-2015-12-08 14:51:03 -- train -- <Sentence.Sentence instance at 0x7f08a44b2998>
-2015-12-08 14:51:05 -- flaw -- <Sentence.Sentence instance at 0x7f08a4765dd0>
-2015-12-08 14:51:06 -- flaw -- <Sentence.Sentence instance at 0x7f08a4765dd0>
+2015-12-08 15:24:48 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
+2015-12-08 15:24:52 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
+2015-12-08 15:24:52 -- train -- <Sentence.Sentence instance at 0x7fbfbe65cab8>
+2015-12-08 15:25:28 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
+2015-12-08 15:25:32 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>

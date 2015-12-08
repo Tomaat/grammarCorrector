@@ -1,21 +1,82 @@
-2015-12-08 14:35:30 -- feat -- <Sentence.Sentence instance at 0x7f24c2d65d40>
-2015-12-08 14:38:45 -- feat -- <Sentence.Sentence instance at 0x7f68ba59f878>
-2015-12-08 14:38:47 -- feat -- <Sentence.Sentence instance at 0x7f68ba5ba0e0>
-2015-12-08 14:44:04 -- flaw -- <Sentence.Sentence instance at 0x7f68b9b5c5f0>
-2015-12-08 14:44:04 -- flaw -- <Sentence.Sentence instance at 0x7f68b7695b00>
-2015-12-08 14:44:04 -- flaw -- <Sentence.Sentence instance at 0x7f68b7b97ef0>
-2015-12-08 14:44:04 -- flaw -- <Sentence.Sentence instance at 0x7f68b7695368>
-2015-12-08 14:44:04 -- flaw -- <Sentence.Sentence instance at 0x7f68b7b97cf8>
-2015-12-08 14:44:04 -- flaw -- <Sentence.Sentence instance at 0x7f68b7145ef0>
-2015-12-08 14:44:04 -- flaw -- <Sentence.Sentence instance at 0x7f68ba060ea8>
-2015-12-08 14:44:11 -- flaw -- <Sentence.Sentence instance at 0x7f68b9b5c5f0>
-2015-12-08 14:44:11 -- flaw -- <Sentence.Sentence instance at 0x7f68b7695b00>
-2015-12-08 14:44:11 -- flaw -- <Sentence.Sentence instance at 0x7f68b7b97ef0>
-2015-12-08 14:44:11 -- flaw -- <Sentence.Sentence instance at 0x7f68b7695368>
-2015-12-08 14:44:11 -- flaw -- <Sentence.Sentence instance at 0x7f68b7b97cf8>
-2015-12-08 14:44:11 -- flaw -- <Sentence.Sentence instance at 0x7f68b7145ef0>
-2015-12-08 14:44:11 -- flaw -- <Sentence.Sentence instance at 0x7f68ba060ea8>
-2015-12-08 14:44:36 -- feat -- <Sentence.Sentence instance at 0x7f2aff8df908>
-2015-12-08 14:44:38 -- feat -- <Sentence.Sentence instance at 0x7f2affbd8d40>
-2015-12-08 14:46:34 -- feat -- <Sentence.Sentence instance at 0x7f11839e2998>
 2015-12-08 14:46:36 -- feat -- <Sentence.Sentence instance at 0x7f1183c93dd0>
+2015-12-08 14:50:13 -- feat -- <Sentence.Sentence instance at 0x7f08a44b2998>
+2015-12-08 14:50:15 -- feat -- <Sentence.Sentence instance at 0x7f08a4765dd0>
+2015-12-08 14:51:02 -- flaw -- <Sentence.Sentence instance at 0x7f08a4765dd0>
+2015-12-08 14:51:03 -- flaw -- <Sentence.Sentence instance at 0x7f08a4765dd0>
+2015-12-08 14:51:03 -- train -- <Sentence.Sentence instance at 0x7f08a44b2998>
+2015-12-08 14:51:05 -- flaw -- <Sentence.Sentence instance at 0x7f08a4765dd0>
+2015-12-08 14:51:06 -- flaw -- <Sentence.Sentence instance at 0x7f08a4765dd0>
+2015-12-08 15:07:53 -- feat -- <Sentence.Sentence instance at 0x7f3340ff8f38>
+2015-12-08 15:10:06 -- feat -- <Sentence.Sentence instance at 0x7f33410949e0>
+2015-12-08 15:13:42 -- feat -- <Sentence.Sentence instance at 0x7f33410eaa70>
+2015-12-08 15:19:00 -- init_mul -- ('S But once the result is out and the person has some defective genes , different issues starts to surface .', [])
+2015-12-08 15:19:00 -- init_mul -- ('S Retrieved August 26 , 2009 , from { http : //humanresources.about.com/od/technology/a/surveillance_2.htm } [ HYPERLINK : http : //humanresources.about.com/od/technology/a/surveillance_2.htm ]', [])
+2015-12-08 15:19:00 -- init_mul -- ('S Potong Pasir , Hougang now eligible for Lift Upgrading Programme .', [])
+2015-12-08 15:19:00 -- init_mul -- ('S Identification has become more and more important in our society .', [])
+2015-12-08 15:19:00 -- init_mul -- ("S In conclusion , smallpox vaccine and penicillin are tremendous discoveries that save numerous people 's lives , and they are milestones in medicine .", [('A 3 3', 'ArtOrDet', 'both the', 'REQUIRED', '-NONE-', '0'), ('A 11 12', 'Vt', 'saved', 'REQUIRED', '-NONE-', '0'), ('A 12 16', 'Smod', 'the lives of numerous people', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:00 -- init_mul -- ('S In conclusion , caring for the elderly is only right and necessary .', [])
+2015-12-08 15:19:00 -- init_mul -- ('S For instance , despite the assessment of substantial potential energy , wind energy in Vietnam is not developed and is only applied in researching phase .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S 2 ) .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Biometrics , by definition , refers to technologies of measurement and analysis of human body characteristics .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Everyone is dependent on government aid varying degrees .', [('A 6 6', 'Others', 'to', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:03 -- init_mul -- ('S Statement Re : Video Surveillance Camera Program .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S T. Jefferson ( 1806 ) .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S 4 ) The Straits Times .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Furthermore , the individual have his own right to decide on whether the result could be disclosed or not .', [('A 4 7', 'Pform', 'has the', 'REQUIRED', '-NONE-', '0'), ('A 14 15', 'Vm', 'should', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:03 -- init_mul -- ('S The wind energy project requires a great investment that is too high for provinces ; so , they are trying to attract foreign and private investors .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Hence , I strongly agree that the person should have the final say on whether to reveal the genetic testing result so as to avoid these problems .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Retrieved August 26 , 2009 , from { http : //www.co.lancaster.pa.us/lancastercity/lib/lancastercity/final_safety_ coaltion_statement_jrg.pdf } [ HYPERLINK : http : //www.co.lancaster.pa.us/lancastercity/lib/lancastercity/final_safety_ % 20coaltion_statement_jrg.pdf ]', [])
+2015-12-08 15:19:03 -- init_mul -- ('S These characteristics include fingerprints , eye retinas and irises , voice patterns , facial patterns and hand measurements .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S ( 2009 ) .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S A good balance must be struck to ensure that as little people as possible are deprived of government support due to poor distribution of state monies .', [('A 10 11', 'Wci', 'few', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:03 -- init_mul -- ('S Letter to Dr. Edward Jenner On is Discovery of the Small Pox Vaccine .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S But there are still difficulties for foreigners and organizations seeking to invest in Vietnam .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Stump , J .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Bibliography', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Besides some technologically determinists that allow the development of biometric identification , this technology is also shaped by three social factors , namely , the desire of the society for safety , convenience and economy .', [('A 2 3', 'Wform', 'technological', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:03 -- init_mul -- ('S Retrieved Sep 5 , 2009 from : { http : //lachlan.bluehaze.com.au/lit/jeff06.htm } [ HYPERLINK : http : //lachlan.bluehaze.com.au/lit/jeff06.htm ]', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Firstly , the person would face discrimination by society if the results are declared openly without his consensus .', [('A 17 19', 'Wform', 'consent', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:03 -- init_mul -- ('S Right health care at right place will help cut costs .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Royal Society of Chemistry ( 2009 ) .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S ( 2008 , February 8 ) .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Safety is one of the crucial problems that many countries and companies concern .', [('A 12 13', 'Wci', 'are concerned about', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:03 -- init_mul -- ('S Sheryl Gay Stolberg and Jeff Zeleny ( 2009 , 11 September ) Obama spells out health care view .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S One of these involves the form of pricing .', [])
+2015-12-08 15:19:03 -- init_mul -- ('S Retrieved September 13 , 2009 , from http : //www.straitstimes.com/STI/STIMEDIA/sp/nationaldayrally2009/090817 _right_health_care.html .', [])
+2015-12-08 15:19:03 -- init_mul -- ("S The person would be unable to purchase insurance since they would cost the insurance company more money than the company had bargained for ( Henry T. Greely , J.D , 2005 , September 1 ) Moreover , employers would not want to hire them as the employee 's health problem would have an undesirable effect on the company 's productivity , such as , costing the company more money on the employees ' frequent sick leaves and medical reimbursements ( Henry T. Greely , J.D , 2005 , September 1 ) .", [('A 26 30', 'Cit', '', 'REQUIRED', '-NONE-', '0'), ('A 32 34', 'Cit', '', 'REQUIRED', '-NONE-', '0'), ('A 82 90', 'Cit', '2005', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:04 -- init_mul -- ('S Do showed " State- owned monopoly power distributor Vietnam Electricity ( EVN ) only pays 4.5 cents for a kilowatt hour ( kWh ) of wind energy though the cost of generating it is not less than six cents .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S Video surveillance would help track missing children , legislation says .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S In addition , the person will be ostracized by the community due to the community lacking the knowledge of genetic diseases ( WHO , 2009 )', [])
+2015-12-08 15:19:04 -- init_mul -- ('S 5 ) Central Provident Fund .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S Discovery and Development of Penicillin .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S International Herald Tribune , pp .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S On one hand more and more virus and hack can access personal computers , so the secret data and documents may be stolen .', [('A 6 7', 'Nn', 'viruses', 'REQUIRED', '-NONE-', '0'), ('A 8 9', 'Wform', 'hackers', 'REQUIRED', '-NONE-', '0'), ('A 15 16', 'ArtOrDet', '', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:04 -- init_mul -- ('S 1 and 4 .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S Daily Mail .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S " Thus , the Vietnamese laws would better be changed to reflect the needs of investors .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S ( 2009 ) .', [])
+2015-12-08 15:19:04 -- init_mul -- ("S Secondly , critics on the other end of the table may argue that there is the Genetic Information Non-discrimination Act ( GINA ) in the US that was passed down by the former US president , Mr. Bush on 21 May 2008 which states that 'the genetic carriers would be protect against discrimination when it comes to work and health insurance ' ( Kaiser Family Foundation , 2008 ) .", [('A 3 4', 'Trans', 'at', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:04 -- init_mul -- ('S On the other hand , some important departments need strict administration to their members to avoid information leaks .', [('A 10 11', 'Wci', 'rules', 'REQUIRED', '-NONE-', '0'), ('A 11 12', 'Prep', 'for', 'REQUIRED', '-NONE-', '0'), ('A 13 14', 'Others', 'staff members over the use of confidential information', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:04 -- init_mul -- ('S Retrieved Sep 5 , 2009 from : { http : //www.rsc.org/Chemsoc/Activities/ChemicalLandmarks/International/Penicillin.asp } [ HYPERLINK : http : //www.rsc.org/Chemsoc/Activities/ChemicalLandmarks/International/Penicillin.asp ]', [])
+2015-12-08 15:19:04 -- init_mul -- ('S In addition to the investment , the force of skilled workers is also a difficult problem for Vietnam .', [])
+2015-12-08 15:19:04 -- init_mul -- ("S The New York Times ( 2009 ) Obama 's Health Care Speech to Congress Retrieved September 14 , 2009 , from http : //www.nytimes.com/2009/09/10/us/politics/10obama.text.html ? pagewanted = 5 &ref = politics", [])
+2015-12-08 15:19:04 -- init_mul -- ('S P. Scott ( 1996 ) .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S Retrieved August 26 , 2009 , from { http : //www.dailymail.com/News/ } [ HYPERLINK : http : //www.dailymail.com/News/ ] 200802080132', [])
+2015-12-08 15:19:04 -- init_mul -- ('S However , these laws generally fail to offer comprehensive protection to all people at risk for genetic discrimination .', [])
+2015-12-08 15:19:04 -- init_mul -- ('S The United States Department of Defense ( DoD ) { Common Access Card } [ HYPERLINK : http : //en.wikipedia.org/wiki/Common_Access_Card ] is a successful use of biometric identification .', [('A 24 25', 'Wci', 'example', 'REQUIRED', '-NONE-', '0')])
+2015-12-08 15:19:04 -- init_mul -- ('S Healthcare Financing Framework In Singapore .', [])
+2015-12-08 15:21:49 -- feat -- <Sentence.Sentence instance at 0x7fcec99055a8>
+2015-12-08 15:21:49 -- feat -- <Sentence.Sentence instance at 0x7fceb7414e18>
+2015-12-08 15:21:49 -- feat -- <Sentence.Sentence instance at 0x7fcec767ab90>
+2015-12-08 15:21:49 -- feat -- <Sentence.Sentence instance at 0x7fcec99171b8>
+2015-12-08 15:21:49 -- feat -- <Sentence.Sentence instance at 0x7fcec6dccea8>
+2015-12-08 15:21:49 -- feat -- <Sentence.Sentence instance at 0x7fcec5619a28>
+2015-12-08 15:21:49 -- feat -- <Sentence.Sentence instance at 0x7fcec5710c20>
+2015-12-08 15:21:49 -- feat -- <Sentence.Sentence instance at 0x7fcec6f4fd40>
+2015-12-08 15:24:40 -- feat -- <Sentence.Sentence instance at 0x7fbfbe65cab8>
+2015-12-08 15:24:43 -- feat -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
+2015-12-08 15:24:48 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
+2015-12-08 15:24:52 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
+2015-12-08 15:24:52 -- train -- <Sentence.Sentence instance at 0x7fbfbe65cab8>
+2015-12-08 15:25:28 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
+2015-12-08 15:25:32 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>

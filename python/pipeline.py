@@ -96,14 +96,15 @@ def main(history=1,tiny='.tiny'):
 	t1 = time()
 	TRAIN_FILE = '../release3.2/data/train.data'+ tiny 
 	VAL_FILE = '../release3.2/data/validate.data'+tiny
+	print 'loading tree bank'
+	t2 = time()-t1
+	tbank = dts.tbankparser()
 	print 'loading sentences'
+	dp._init_(tbank)
 	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE,history)
 	val_sentences, _val_feat = dp.process_multi(VAL_FILE,history)
-	t2 = time()-t1
-	print 'loading tree bank'
-	tbank = dts.tbankparser()
-
 	t3 = time()-t1-t2
+
 	sp._init_(len(feature_dict),dts )
 	out( ('SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)) )
 	out( ( 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history) ) )
@@ -125,7 +126,7 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 	for sentence in all_sentences:
 		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
-			print parsed_tree
+			#print parsed_tree
 			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
 			context_pos_tags = [w.tag_ for w in dt.dfirst(parsed_tree) ]
 			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
@@ -181,7 +182,7 @@ def test():
 if __name__ == '__main__':
 	#log('test',(1,2,3))
 	#test()
-	main(2,'.tiny')
+	main(2,'.pre.small')
 
 
 # history=2;tiny='.tiny'
