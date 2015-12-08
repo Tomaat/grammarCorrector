@@ -97,6 +97,8 @@ def main(history=1,tiny='.tiny'):
 	TRAIN_FILE = '../release3.2/data/train.data'+ tiny 
 	VAL_FILE = '../release3.2/data/validate.data'+tiny
 	print 'loading sentences'
+	tbank = dts.tbankparser()
+	dp._init(tbank)
 	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE,history)
 	val_sentences, _val_feat = dp.process_multi(VAL_FILE,history)
 	t2 = time()-t1

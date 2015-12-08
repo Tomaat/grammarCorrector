@@ -242,3 +242,20 @@
 2015-12-07 19:36:16 -- train -- <Sentence.Sentence instance at 0x7fb0e04539e0>
 2015-12-07 19:36:50 -- flaw -- <Sentence.Sentence instance at 0x7fb0e23eec20>
 2015-12-07 19:37:26 -- flaw -- <Sentence.Sentence instance at 0x7fb0e23eec20>
+2015-12-08 13:18:51 -- feat -- <Sentence.Sentence instance at 0x117833e60>
+2015-12-08 13:18:51 -- feat -- <Sentence.Sentence instance at 0x106ffc638>
+2015-12-08 13:20:51 -- feat -- <Sentence.Sentence instance at 0x115d134d0>
+2015-12-08 13:20:51 -- feat -- <Sentence.Sentence instance at 0x115d13bd8>
+2015-12-08 13:34:44 -- init_mul -- ('', [("[('This', 'Ne'), ('will', 'Ne'), (',', 'Ne'), ('if', 'Ne'), ('not', 'Ne'), ('already', 'Ne'), (',', 'Ne'), ('caused', 'Vform'), ('problems', 'Ne'), ('as', 'Ne'), ('there', 'Ne'), ('are', 'SVA'), ('very', 'Ne'), ('limited', 'Ne'), ('spaces', 'Nn'), ('for', 'Ne'), ('us', 'Ne'), ('.', 'Ne')]",)])
+2015-12-08 13:34:44 -- init_mul -- ('', [("['-POSTAGSTART-', 'DT', 'MD', ',', 'IN', 'RB', 'RB', ',', 'VBN', 'NNS', 'IN', 'EX', 'VBP', 'RB', 'VBN', 'NNS', 'IN', 'PRP']",)])
+2015-12-08 13:34:46 -- feat -- <Sentence.Sentence instance at 0x117884d88>
+2015-12-08 13:34:46 -- feat -- <Sentence.Sentence instance at 0x117884d40>
+2015-12-08 13:34:46 -- feat -- <Sentence.Sentence instance at 0x117884ef0>
+2015-12-08 13:34:46 -- feat -- None
+2015-12-08 13:34:46 -- feat -- None
+2015-12-08 13:37:16 -- feat -- <Sentence.Sentence instance at 0x1071f0b00>
+2015-12-08 13:37:16 -- feat -- <Sentence.Sentence instance at 0x1071ce908>
+2015-12-08 13:37:29 -- feat -- <Sentence.Sentence instance at 0x117872ea8>
+2015-12-08 13:37:29 -- feat -- <Sentence.Sentence instance at 0x117c1b200>
+2015-12-08 14:01:12 -- init -- ('S This will , if not already , caused problems as there are very limited spaces for us .', [('A 7 8', 'Vform', 'cause', 'REQUIRED', '-NONE-', '0'), ('A 11 12', 'SVA', 'is', 'REQUIRED', '-NONE-', '0'), ('A 14 15', 'Nn', 'space', 'REQUIRED', '-NONE-', '0'), ('',)])
+2015-12-08 14:02:11 -- init -- ('S This will , if not already , caused problems as there are very limited spaces for us .', [('A 7 8', 'Vform', 'cause', 'REQUIRED', '-NONE-', '0'), ('A 11 12', 'SVA', 'is', 'REQUIRED', '-NONE-', '0'), ('A 14 15', 'Nn', 'space', 'REQUIRED', '-NONE-', '0'), ('',)])
