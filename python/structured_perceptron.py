@@ -91,6 +91,12 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			# For loop around this, so that you loop through all sentences --> weights should be updated
 			#sentence.words_tags
+			"""
+			==== comment 0
+			hier staat hoe op de juiste manier door de boom gelopen kan worden (afhankelijk van global boolean
+				golinear en iterator-functie iterloop (die uit depTree komt)
+				Er is waarschijnlijk een nettere manier om dit in de andere code te plaatsen dan copy-pasten, maar dat is een optie
+			"""
 			histories = []
 			target_feature_vectors = []
 			if golinear:
@@ -114,6 +120,12 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 						distance = parsed_tree[cur_idx].similarity(parsed_tree[prev_idx])
 					target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
 							feature_dict, history_words, history, history_vectors, history_pos_tags, distance) )
+					# hist_hist = []
+					# for tag in all_tags:
+					# 	hist_hist.append(
+					# 		dp.construct_feature_vector(wrd,tag,feature_dict,history_words,history, history_vectors, history_pos_tags, distance)
+					# 	)
+					# histories.append(hist_hist)
 					histories.append((prev_idx,history_words,history_pos_tags,distance))
 			else:
 				for i,wrd in enumerate(iterloop(parsed_tree)):
@@ -158,7 +170,16 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 					cur_tag = sentence.words_tags[idx][1]
 					target_feature_vectors.append( dp.construct_feature_vector(wrd.orth_, cur_tag, feature_dict,
 									history_words, history, history_vectors, history_pos_tags, distance) )
+					# hist_hist = []
+					# for tag in all_tags:
+					# 	hist_hist.append(
+					# 		dp.construct_feature_vector(wrd.orth_,tag,feature_dict,history_words,history, history_vectors, history_pos_tags, distance)
+					# 	)
+					# histories.append(hist_hist)
 					histories.append((prev_idx,history_words,history_pos_tags,distance))
+			"""
+			/==== end comment 0
+			"""
 			#print histories
 			pre_pros.append((parsed_tree,target_feature_vectors,histories))
 			#weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
@@ -262,7 +283,9 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 			t4=time()
 			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, 
 					feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3])
+			#feature_vectors_tag = histories[i][j]
 					#feature_dict, context_words, i , history, history_vectors, context_pos_tags)
+			#print feature_vectors_tag
 			t4=time()-t4
 			#[(history_vectors, feature_vector), (history_vectors, feature_vector), ...] --> Though I guess one history vector should be enough, as then you've got a backpointer for every feature vector
 			#print 'hv',history_vectors

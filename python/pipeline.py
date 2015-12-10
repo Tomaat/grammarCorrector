@@ -126,6 +126,10 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 	for sentence in all_sentences:
 		if 1:
 		#try:
+		"""
+		==== comment 1
+		hier loopt de code nog op de oude manier door de zin, dit moet dus via de nieuwe manier (zie comment 0 in structured_perceptron)
+		"""
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			#print parsed_tree
 			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
@@ -146,7 +150,9 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 				target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
 						feature_dict, history_words, history, history_vectors, history_pos_tags) )
 				histories.append((history_words,history_pos_tags))
-
+			 """
+			/==== end comment 1
+			"""
 			if not with_tags:
 				context_tags = None
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 

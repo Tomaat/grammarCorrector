@@ -117,6 +117,10 @@ def makeFeatureDict(processed_sentences,history):
 	for sentence in processed_sentences:
 		#print sentence.raw_sentence
 		try:
+			"""
+			==== comment 2
+			hier loopt de code nog op de oude manier door de zin, dit moet dus via de nieuwe manier (zie comment 0 in structured_perceptron)
+			"""
 			context_words = [word_tag[0] for word_tag in sentence.words_tags]
 			context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
 			context_pos_tags = [ pos_tag_tuple[1] for pos_tag_tuple in sentence.pos_tags_sentence]
@@ -137,7 +141,9 @@ def makeFeatureDict(processed_sentences,history):
 
 				distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(normalize(context_words[i]))))
 				features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags, distance)
-				
+				"""
+				/==== end comment 2
+				"""
 				for feature in features:
 					#print feature
 					if feature not in feature_dictionary:
