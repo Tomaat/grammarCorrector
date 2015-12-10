@@ -94,8 +94,8 @@ def run_all(hist=1,tiny='.tiny'):
 def main(history=1,tiny='.tiny'):
 	assert history >= 1, "use at least some history"
 	t1 = time()
-	TRAIN_FILE = '../release3.2/data/train.data'+ tiny 
-	VAL_FILE = '../release3.2/data/validate.data'+tiny
+	TRAIN_FILE = '../release3.2/data/validate.data.pre'
+	VAL_FILE = '../release3.2/data/train.data.pre.tiny'
 	print 'loading tree bank'
 	t2 = time()-t1
 	tbank = dts.tbankparser()
@@ -124,7 +124,8 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		weight_matrix = sp.init_weights(len(feature_dict))
 	E = 0.0
 	for sentence in all_sentences:
-		try:
+		if 1:
+		#try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			#print parsed_tree
 			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
@@ -143,14 +144,15 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 					history_pos_tags = context_pos_tags[i-history:i]
 				history_vectors = ('ph', [history_tags] )
 				target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-						feature_dict, history_words, i, history, history_vectors, history_pos_tags) )
+						feature_dict, history_words, history, history_vectors, history_pos_tags) )
 				histories.append((history_words,history_pos_tags))
 
 			if not with_tags:
 				context_tags = None
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
-						history, weight_matrix, context_words, context_pos_tags, histories, context_tags)
-		except Exception as ex:
+						history, weight_matrix, histories, context_tags)
+		else:
+		#except Exception as ex:
 			log('flaw',sentence)
 	return E
 

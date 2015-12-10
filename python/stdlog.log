@@ -3,3 +3,121 @@
 2015-12-08 15:24:52 -- train -- <Sentence.Sentence instance at 0x7fbfbe65cab8>
 2015-12-08 15:25:28 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
 2015-12-08 15:25:32 -- flaw -- <Sentence.Sentence instance at 0x7fbfbe6f3170>
+2015-12-08 15:43:06 -- feat -- <Sentence.Sentence instance at 0x7f77053c4b48>
+2015-12-08 15:43:20 -- feat -- <Sentence.Sentence instance at 0x7f76f6937320>
+2015-12-08 15:44:06 -- flaw -- <Sentence.Sentence instance at 0x7f76f6937320>
+2015-12-08 15:44:53 -- flaw -- <Sentence.Sentence instance at 0x7f76f6937320>
+2015-12-08 15:44:58 -- train -- <Sentence.Sentence instance at 0x7f7705503680>
+2015-12-08 15:45:03 -- train -- <Sentence.Sentence instance at 0x7f77053c4b48>
+2015-12-08 17:05:42 -- flaw -- <Sentence.Sentence instance at 0x7f76f6937320>
+2015-12-08 17:05:53 -- flaw -- <Sentence.Sentence instance at 0x7f76f6937320>
+2015-12-08 23:59:50 -- init_mul -- ('S ( Bouchard,J ) Each system has its own advantages in terms of performance , cost and security ( Generation IV International Forum GIF and U.S. Nuclear Energy Research Advisory Committee NERAC )', [('A 3 3', 'Cit', ',', 'REQUIRED', '-NONE-', '0'), ('A 32 32', 'Cit', '.', 'REQUIRED', '-NONE-', '0')])
+2015-12-09 00:00:09 -- init_mul -- ('S ( Chapin et al,2004 )', [('A 5 5', 'Cit', '.', 'REQUIRED', '-NONE-', '0')])
+2015-12-09 00:00:18 -- init_mul -- ('S ( Per F. P. & HaiHua Z. , 2004 )', [('A 10 10', 'Mec', '.', 'REQUIRED', '-NONE-', '0')])
+2015-12-09 00:03:43 -- init_mul -- ('S ( EU and Energy research , 2007 )', [('A 8 8', 'Mec', '.', 'REQUIRED', '-NONE-', '0')])
+2015-12-09 00:06:54 -- init_mul -- ('S Hence there should be funding to further into the research and developing the hybrid concept in the Generation IV reactors', [('A 6 9', 'Wci', '', 'REQUIRED', '-NONE-', '0'), ('A 11 12', 'Vform', 'develop', 'REQUIRED', '-NONE-', '0'), ('A 20 20', 'Mec', '.', 'REQUIRED', '-NONE-', '0')])
+2015-12-09 00:06:59 -- init_mul -- ('S Hence there should be funding for R&D for the Generation IV reactors', [('A 12 12', 'Mec', '.', 'REQUIRED', '-NONE-', '0')])
+2015-12-09 00:08:22 -- init_mul -- ('S As nuclear energy is taking over the world , the development on SCWR will be the step stone and lead us to a " new dawn "', [('A 16 17', 'Wform', 'stepping', 'REQUIRED', '-NONE-', '0'), ('A 19 19', 'Spar', 'will', 'REQUIRED', '-NONE-', '0'), ('A 27 27', 'Mec', '.', 'REQUIRED', '-NONE-', '0')])
+2015-12-09 00:17:40 -- init_mul -- ('S ( Barett )', [('A 3 3', 'Mec', '.', 'REQUIRED', '-NONE-', '0')])
+2015-12-09 00:19:55 -- feat -- None
+2015-12-09 00:19:55 -- feat -- None
+2015-12-09 00:19:56 -- feat -- None
+2015-12-09 00:19:56 -- feat -- None
+2015-12-09 00:20:01 -- feat -- None
+2015-12-09 00:20:04 -- feat -- None
+2015-12-09 00:20:04 -- feat -- None
+2015-12-09 00:20:15 -- feat -- None
+2015-12-09 00:20:15 -- feat -- <Sentence.Sentence instance at 0x7fb8bd002d88>
+2015-12-09 00:20:18 -- init_mul -- ('', [('',)])
+2015-12-09 00:20:19 -- feat -- None
+2015-12-09 00:20:50 -- flaw -- None
+2015-12-09 00:21:20 -- flaw -- None
+2015-12-09 00:21:21 -- train -- <Sentence.Sentence instance at 0x7fb8bfd9b758>
+2015-12-09 00:21:21 -- train -- None
+2015-12-09 00:21:21 -- train -- None
+2015-12-09 00:21:21 -- train -- <Sentence.Sentence instance at 0x7fb8bfccf1b8>
+2015-12-09 00:21:21 -- train -- <Sentence.Sentence instance at 0x7fb8bfcd0998>
+2015-12-09 00:21:22 -- train -- <Sentence.Sentence instance at 0x7fb8bfbfa488>
+2015-12-09 00:21:22 -- train -- <Sentence.Sentence instance at 0x7fb8bf5417a0>
+2015-12-09 00:21:22 -- train -- <Sentence.Sentence instance at 0x7fb8bf541a70>
+2015-12-09 00:21:22 -- train -- <Sentence.Sentence instance at 0x7fb8bf541ea8>
+2015-12-09 00:21:22 -- train -- <Sentence.Sentence instance at 0x7fb8bf5451b8>
+2015-12-09 00:21:23 -- train -- <Sentence.Sentence instance at 0x7fb8bf4913b0>
+2015-12-09 00:21:24 -- train -- <Sentence.Sentence instance at 0x7fb8bf491e60>
+2015-12-09 00:21:24 -- train -- <Sentence.Sentence instance at 0x7fb8bf492e18>
+2015-12-09 00:21:24 -- train -- <Sentence.Sentence instance at 0x7fb8bf4978c0>
+2015-12-09 00:21:25 -- train -- None
+2015-12-09 00:21:25 -- train -- None
+2015-12-09 00:21:26 -- train -- <Sentence.Sentence instance at 0x7fb8bf5d5c68>
+2015-12-09 00:21:26 -- train -- <Sentence.Sentence instance at 0x7fb8bf5d7758>
+2015-12-09 00:21:34 -- train -- <Sentence.Sentence instance at 0x7fb8bfb78248>
+2015-12-09 00:21:38 -- train -- <Sentence.Sentence instance at 0x7fb8bfb78dd0>
+2015-12-09 00:21:42 -- train -- <Sentence.Sentence instance at 0x7fb8bfb02c68>
+2015-12-09 00:23:44 -- train -- <Sentence.Sentence instance at 0x7fb8bf78c7e8>
+2015-12-09 00:23:55 -- train -- <Sentence.Sentence instance at 0x7fb8bf7a8b00>
+2015-12-09 00:24:49 -- train -- <Sentence.Sentence instance at 0x7fb8c17a3248>
+2015-12-09 00:26:15 -- train -- <Sentence.Sentence instance at 0x7fb8bfa4f998>
+2015-12-09 00:26:19 -- train -- <Sentence.Sentence instance at 0x7fb8bf9f5cb0>
+2015-12-09 00:26:26 -- train -- <Sentence.Sentence instance at 0x7fb8bfa153b0>
+2015-12-09 00:27:02 -- train -- <Sentence.Sentence instance at 0x7fb8bf918200>
+2015-12-09 00:27:02 -- train -- <Sentence.Sentence instance at 0x7fb8bf919128>
+2015-12-09 00:27:02 -- train -- <Sentence.Sentence instance at 0x7fb8bf91d320>
+2015-12-09 00:27:10 -- train -- <Sentence.Sentence instance at 0x7fb8bf8e82d8>
+2015-12-09 00:27:16 -- train -- <Sentence.Sentence instance at 0x7fb8bf3ac8c0>
+2015-12-09 00:27:30 -- train -- <Sentence.Sentence instance at 0x7fb8bf2bb7a0>
+2015-12-09 00:27:31 -- train -- <Sentence.Sentence instance at 0x7fb8bf2c45a8>
+2015-12-09 00:27:45 -- train -- <Sentence.Sentence instance at 0x7fb8bf271488>
+2015-12-09 00:27:56 -- train -- <Sentence.Sentence instance at 0x7fb8bf0343f8>
+2015-12-09 00:27:56 -- train -- <Sentence.Sentence instance at 0x7fb8bf03e2d8>
+2015-12-09 00:28:07 -- train -- <Sentence.Sentence instance at 0x7fb8befcaf38>
+2015-12-09 00:28:07 -- train -- <Sentence.Sentence instance at 0x7fb8befce7a0>
+2015-12-09 00:28:07 -- train -- <Sentence.Sentence instance at 0x7fb8befd2ef0>
+2015-12-09 00:28:07 -- train -- <Sentence.Sentence instance at 0x7fb8befd56c8>
+2015-12-09 00:28:17 -- train -- <Sentence.Sentence instance at 0x7fb8bef6ae60>
+2015-12-09 00:28:46 -- train -- None
+2015-12-09 00:29:03 -- train -- <Sentence.Sentence instance at 0x7fb8bf195bd8>
+2015-12-09 00:29:03 -- train -- <Sentence.Sentence instance at 0x7fb8bf198a70>
+2015-12-09 00:29:04 -- train -- <Sentence.Sentence instance at 0x7fb8bf199bd8>
+2015-12-09 00:29:04 -- train -- <Sentence.Sentence instance at 0x7fb8bf19e998>
+2015-12-09 00:29:09 -- train -- <Sentence.Sentence instance at 0x7fb8bf15e7e8>
+2015-12-09 00:29:12 -- train -- <Sentence.Sentence instance at 0x7fb8bf12e248>
+2015-12-09 00:29:14 -- train -- <Sentence.Sentence instance at 0x7fb8bf0b4950>
+2015-12-09 00:29:22 -- train -- <Sentence.Sentence instance at 0x7fb8beb337e8>
+2015-12-09 00:29:26 -- train -- <Sentence.Sentence instance at 0x7fb8beaf55f0>
+2015-12-09 00:30:54 -- train -- <Sentence.Sentence instance at 0x7fb8bee72128>
+2015-12-09 00:31:35 -- train -- <Sentence.Sentence instance at 0x7fb8bed561b8>
+2015-12-09 00:32:01 -- train -- None
+2015-12-09 00:32:01 -- train -- None
+2015-12-09 13:41:14 -- feat -- <Sentence.Sentence instance at 0x7f9efa13ca28>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb73908>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb73ab8>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb767a0>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb787e8>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb7acb0>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbbf170>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbc66c8>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbcfc20>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbd20e0>
+2015-12-09 13:42:42 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbd5638>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb73908>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb73ab8>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb767a0>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb787e8>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbb7acb0>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbbf170>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbc66c8>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbcfc20>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbd20e0>
+2015-12-09 13:44:21 -- flaw -- <Sentence.Sentence instance at 0x7f9efbbd5638>
+2015-12-09 13:46:46 -- feat -- <Sentence.Sentence instance at 0x7f9ef8492638>
+2015-12-10 11:48:53 -- feat -- <Sentence.Sentence instance at 0x7f8431278638>
+2015-12-10 11:48:53 -- feat -- <Sentence.Sentence instance at 0x7f841cb279e0>
+2015-12-10 11:48:53 -- feat -- <Sentence.Sentence instance at 0x7f841df5cf80>
+2015-12-10 11:48:53 -- feat -- <Sentence.Sentence instance at 0x7f841cbe0f38>
+2015-12-10 11:48:53 -- feat -- <Sentence.Sentence instance at 0x7f841cce5170>
+2015-12-10 11:48:53 -- feat -- <Sentence.Sentence instance at 0x7f841cdda368>
+2015-12-10 11:48:53 -- feat -- <Sentence.Sentence instance at 0x7f841cba30e0>
+2015-12-10 12:13:02 -- train -- <Sentence.Sentence instance at 0x7f8431278638>
+2015-12-10 12:14:09 -- train -- <Sentence.Sentence instance at 0x7f8431278638>
+2015-12-10 12:15:03 -- train -- <Sentence.Sentence instance at 0x7f8431278638>
+2015-12-10 12:15:16 -- train -- <Sentence.Sentence instance at 0x7f8431278638>

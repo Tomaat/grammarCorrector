@@ -147,7 +147,7 @@ def makeFeatureDict(processed_sentences,history):
 	return feature_dictionary
 
 #def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
-def construct_feature_vector(word, tag, feature_dictionary, history_words, i, history, history_vectors, history_pos_tags):
+def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags):
 	# #if i < history:
 	# history_words = ['-START-'] + context_words[0:i]
 	# history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[0:i]
