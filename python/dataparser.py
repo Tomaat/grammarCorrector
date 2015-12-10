@@ -50,48 +50,48 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags, distance
 	nword = normalize(word)
 	#distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(nword)))
 	if distance < 0.1:
-		add('word embedding 0-0.1 i + i-1')
+		add('word embedding 0-0.1 i + i-1',tag)
 	elif(distance < 0.2):
-		add('word embedding 0.1-0.2 i + i-1')
+		add('word embedding 0.1-0.2 i + i-1',tag)
 	elif(distance < 0.3):
-		add('word embedding 0.2-0.3 i + i-1')
+		add('word embedding 0.2-0.3 i + i-1',tag)
 	elif(distance < 0.4):
-		add('word embedding 0.3-0.4 i + i-1')
+		add('word embedding 0.3-0.4 i + i-1',tag)
 	elif(distance < 0.5):
-		add('word embedding 0.4-0.5 i + i-1')
+		add('word embedding 0.4-0.5 i + i-1',tag)
 	elif(distance < 0.6):
-		add('word embedding 0.5-0.6 i + i-1')
+		add('word embedding 0.5-0.6 i + i-1',tag)
 	elif(distance < 0.7):
-		add('word embedding 0.6-0.7 i + i-1')
+		add('word embedding 0.6-0.7 i + i-1',tag)
 	elif(distance < 0.8):
-		add('word embedding 0.7-0.8 i + i-1')
+		add('word embedding 0.7-0.8 i + i-1',tag)
 	elif(distance < 0.9):
-		add('word embedding 0.8-0.9 i + i-1')
+		add('word embedding 0.8-0.9 i + i-1',tag)
 	else:
-		add('word embedding 0.9-1 i + i-1')
+		add('word embedding 0.9-1 i + i-1',tag)
 
-	add('i suffix-1', nword[-1:])
-	add('i suffix-2', nword[-2:])
-	add('i suffix-3', nword[-3:])
-	add('i suffix-4', nword[-4:])
+	add('i suffix-1', nword[-1:],tag)
+	add('i suffix-2', nword[-2:],tag)
+	add('i suffix-3', nword[-3:],tag)
+	add('i suffix-4', nword[-4:],tag)
 
-	add('i pref1', nword[0])
-	add('i pref2', nword[0:3])
-	add('i pref3', nword[0:2])
+	add('i pref1', nword[0],tag)
+	add('i pref2', nword[0:3],tag)
+	add('i pref3', nword[0:2],tag)
 
 	add('i tag',tag)
-	add('i word', nword)
+	add('i word', nword,tag)
 
 	hmax = len(history_words)-1
 	for i in range(hmax+1):
-		add('i-'+str(i+1)+' word',history_words[hmax-i])
-		add('i-'+str(i+1)+' tag',history_tags[hmax-i])
-		add('i-'+str(i+1)+' pos tag', history_pos_tags[hmax-i])
-		add('i tag + i-'+str(i+1)+' tag', tag, history_tags[hmax-i])
-		add('i-'+str(i+1)+' tag+i word', history_tags[hmax-i], nword)
-		add('i word i-1 word', nword, history_words[hmax-i])
-		add('i tag i-1 tag', tag, history_tags[hmax-i])
-		add('i-'+str(i+1)+' suffix', history_words[hmax-i][-3:])
+		add('i-'+str(i+1)+' word',history_words[hmax-i],tag)
+		add('i-'+str(i+1)+' tag',history_tags[hmax-i],tag)
+		add('i-'+str(i+1)+' pos tag', history_pos_tags[hmax-i],tag)
+		add('i tag + i-'+str(i+1)+' tag', tag, history_tags[hmax-i],tag)
+		add('i-'+str(i+1)+' tag+i word', history_tags[hmax-i], nword,tag)
+		add('i word i-1 word', nword, history_words[hmax-i],tag)
+		add('i tag i-1 tag', tag, history_tags[hmax-i],tag)
+		add('i-'+str(i+1)+' suffix', history_words[hmax-i][-3:],tag)
 	word_sturct = ""
 	for char in word:
 		if char.isupper():
@@ -99,7 +99,7 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags, distance
 		else:
 			word_sturct += "x"
 
-	add('i structure', word_sturct)
+	add('i structure', word_sturct,tag)
 	return feature_array
 
 def makeFeatureDict(processed_sentences,history):

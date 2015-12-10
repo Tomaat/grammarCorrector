@@ -184,9 +184,11 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 	t2 = time()
 	print len(pre_pros)
 	for i in range(iters):
+		cum_weights = (i)*weight_matrix
 		for parsed_tree,target_feature_vectors,histories in pre_pros:
 			weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 							history, weight_matrix, histories)
+		weight_matrix = (cum_weights + weight_matrix)/(i+1)
 	print 'train',time()-t2
 	return weight_matrix
 
@@ -367,7 +369,7 @@ def update_weights(old_weights, feature_vectors_sentence, target_feature_vectors
 
 		Method to update the weight matrix of the perceptron
 	"""
-	global it
+	#global it
 	#cum_weights = it*old_weights
 	#it += 1
 	#print it
@@ -376,10 +378,9 @@ def update_weights(old_weights, feature_vectors_sentence, target_feature_vectors
 		diff = target_feature_vectors[i][0][0] - feature_vectors_sentence[i]
 		#print "diff: ", diff 
 		updated_weights = np.add(old_weights, diff) 
-		old_weights = np.tanh(updated_weights)
+		old_weights = updated_weights
 		#print "updated weights: ", updated_weights
 
-	
 	#update_weights = (cum_weights + updated_weights)/it
 	
 	#norm = max(updated_weights.max(),-updated_weights.min())
