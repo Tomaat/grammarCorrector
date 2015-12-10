@@ -125,34 +125,98 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 	E = 0.0
 	for sentence in all_sentences:
 		if 1:
-		#try:
-		"""
-		==== comment 1
-		hier loopt de code nog op de oude manier door de zin, dit moet dus via de nieuwe manier (zie comment 0 in structured_perceptron)
-		"""
 			parsed_tree = tbank.parse(sentence.raw_sentence)
-			#print parsed_tree
-			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
-			context_pos_tags = [w.tag_ for w in dt.dfirst(parsed_tree) ]
-			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
+
+		#try:
+			# """
+			# ==== comment 1
+			# hier loopt de code nog op de oude manier door de zin, dit moet dus via de nieuwe manier (zie comment 0 in structured_perceptron)
+			# """
+
 			histories = []
 			target_feature_vectors = []
-			for i,wrd in enumerate(context_words):
-				if i < history:
-					history_tags = tuple(['-TAGSTART-']+context_tags[0:i])
-					history_words = ['-START-']+context_words[0:i]
-					history_pos_tags = ['-POSTAGSTART-']+context_pos_tags[0:i]
-				else:
-					history_tags = context_tags[i-history:i]
-					history_words = context_words[i-history:i]
-					history_pos_tags = context_pos_tags[i-history:i]
-				history_vectors = ('ph', [history_tags] )
-				target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-						feature_dict, history_words, history, history_vectors, history_pos_tags) )
-				histories.append((history_words,history_pos_tags))
-			 """
-			/==== end comment 1
-			"""
+
+			if sp.golinear:
+				#print parsed_tree
+				context_words = [w.orth_ for w in dt.linear(parsed_tree) ]
+				context_pos_tags = [w.tag_ for w in dt.linear(parsed_tree) ]
+				context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.linear(parsed_tree)]
+				target_feature_vectors = []
+				for i,wrd in enumerate(context_words):
+					if i < history:
+						history_tags = tuple(['-TAGSTART-']+context_tags[0:i])
+						history_words = ['-START-']+context_words[0:i]
+						history_pos_tags = ['-POSTAGSTART-']+context_pos_tags[0:i]
+					else:
+						history_tags = context_tags[i-history:i]
+						history_words = context_words[i-history:i]
+						history_pos_tags = context_pos_tags[i-history:i]
+					history_vectors = ('ph', [history_tags] )
+
+					cur_idx = i
+					prev_idx = cur_idx-1
+					distance = 0
+					if prev_idx >= 0:
+						distance = parsed_tree[cur_idx].similarity(parsed_tree[prev_idx])
+
+
+					target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
+							feature_dict, history_words, history, history_vectors, history_pos_tags, distance) )
+					histories.append((history_words,history_pos_tags,distance))
+			else:
+				for i,wrd in enumerate(dt.dfirst(parsed_tree)):
+					cur = wrd
+					history_words = []
+					history_tags = []
+					history_pos_tags = []
+					for j in range(history):
+						par = cur.head
+						if cur == par:
+							parw = '-START-'
+							idx = -1
+							tag = '-TAGSTART-'
+							pos = '-POSTAGSTART-'
+							history_tags.insert(0,tag)
+							history_words.insert(0,parw)
+							history_pos_tags.insert(0,pos)
+							break
+						else:
+							parw = par.orth_
+							idx = dt.sen_idx(sentence.raw_sentence,par)
+							tag = sentence.words_tags[idx][1]
+							pos = par.tag_
+							cur = par
+							history_tags.insert(0,tag)
+							history_words.insert(0,parw)
+							history_pos_tags.insert(0,pos)
+					history_vectors = ('ph',[history_tags] )
+					cur_idx = dt.sen_idx(sentence.raw_sentence,wrd)
+					
+					for prev_idx,w in enumerate(iterloop(parsed_tree)):
+						if w == wrd.head:
+							break
+					if wrd.head == wrd:
+						prev_idx = -1
+
+					distance = 0
+					if prev_idx >= 0:
+						distance = parsed_tree[cur_idx].similarity(parsed_tree[prev_idx])
+					#else:
+					#	prev_idx = dt.sen_idx(sentence.raw_sentence,wrd.head)
+					cur_tag = sentence.words_tags[idx][1]
+					target_feature_vectors.append( dp.construct_feature_vector(wrd.orth_, cur_tag, feature_dict,
+									history_words, history, history_vectors, history_pos_tags, distance) )
+					# hist_hist = []
+					# for tag in all_tags:
+					# 	hist_hist.append(
+					# 		dp.construct_feature_vector(wrd.orth_,tag,feature_dict,history_words,history, history_vectors, history_pos_tags, distance)
+					# 	)
+					# histories.append(hist_hist)
+					histories.append((prev_idx,history_words,history_pos_tags,distance))
+
+				# """
+				# /==== end comment 1
+				# """
 			if not with_tags:
 				context_tags = None
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 

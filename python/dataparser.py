@@ -15,6 +15,7 @@ from time import time
 
 
 nlp = None 
+golinear = True
 
 def _init_(tbank):
 	global nlp
@@ -117,38 +118,80 @@ def makeFeatureDict(processed_sentences,history):
 	for sentence in processed_sentences:
 		#print sentence.raw_sentence
 		try:
-			"""
-			==== comment 2
-			hier loopt de code nog op de oude manier door de zin, dit moet dus via de nieuwe manier (zie comment 0 in structured_perceptron)
-			"""
-			context_words = [word_tag[0] for word_tag in sentence.words_tags]
-			context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
-			context_pos_tags = [ pos_tag_tuple[1] for pos_tag_tuple in sentence.pos_tags_sentence]
-			
-			#print context_words
-			#print context_tags
-			#print context_pos_tags
-
-			for i, tagTouple in enumerate(sentence.words_tags):
-				history_words = ['-START-']+ context_words[:i]
-				history_tags = ['-TAGSTART-']+ context_tags[:i]
-				history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[:i]
+			if golinear:
+				# """
+				# ==== comment 2
+				# hier loopt de code nog op de oude manier door de zin, dit moet dus via de nieuwe manier (zie comment 0 in structured_perceptron)
+				# """
+				context_words = [word_tag[0] for word_tag in sentence.words_tags]
+				context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
+				context_pos_tags = [ pos_tag_tuple[1] for pos_tag_tuple in sentence.pos_tags_sentence]
 				
-				if len(history_words) > history:
-					history_words = context_words[i-history:i]
-					history_tags = context_tags[i-history:i]
-					history_pos_tags = context_pos_tags[i-history:i]
+				#print context_words
+				#print context_tags
+				#print context_pos_tags
 
-				distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(normalize(context_words[i]))))
-				features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags, distance)
-				"""
-				/==== end comment 2
-				"""
-				for feature in features:
-					#print feature
-					if feature not in feature_dictionary:
-						feature_dictionary[feature] = index	
-						index += 1
+				for i, tagTouple in enumerate(sentence.words_tags):
+					history_words = ['-START-']+ context_words[:i]
+					history_tags = ['-TAGSTART-']+ context_tags[:i]
+					history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[:i]
+					
+					if len(history_words) > history:
+						history_words = context_words[i-history:i]
+						history_tags = context_tags[i-history:i]
+						history_pos_tags = context_pos_tags[i-history:i]
+
+					distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(normalize(context_words[i]))))
+					features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags, distance)
+			
+			else:
+				parsed_tree = nlp(unicode(sentence.raw_sentence))
+				for i,wrd in enumerate(iterloop(parsed_tree)):
+					cur = wrd
+					history_words = []
+					history_tags = []
+					history_pos_tags = []
+					for j in range(history):
+						par = cur.head
+						if cur == par:
+							parw = '-START-'
+							idx = -1
+							tag = '-TAGSTART-'
+							pos = '-POSTAGSTART-'
+							history_tags.insert(0,tag)
+							history_words.insert(0,parw)
+							history_pos_tags.insert(0,pos)
+							break
+						else:
+							parw = par.orth_
+							idx = dt.sen_idx(sentence.raw_sentence,par)
+							tag = sentence.words_tags[idx][1]
+							pos = par.tag_
+							cur = par
+							history_tags.insert(0,tag)
+							history_words.insert(0,parw)
+							history_pos_tags.insert(0,pos)
+					history_vectors = ('ph',[history_tags] )
+					cur_idx = dt.sen_idx(sentence.raw_sentence,wrd)
+					
+					for prev_idx,w in enumerate(iterloop(parsed_tree)):
+						if w == wrd.head:
+							break
+					if wrd.head == wrd:
+						prev_idx = -1
+
+					distance = 0
+					if prev_idx >= 0:
+						distance = parsed_tree[cur_idx].similarity(parsed_tree[prev_idx])
+					features =  makeFeatures(wrd.orth_, cur_tag,history_words,history_tags, history_pos_tags, distance)
+				# """
+				# /==== end comment 2
+				# """
+					for feature in features:
+						#print feature
+						if feature not in feature_dictionary:
+							feature_dictionary[feature] = index	
+							index += 1
 		except:
 			pipeline.log('feat',sentence)
 

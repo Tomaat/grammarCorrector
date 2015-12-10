@@ -91,12 +91,12 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			# For loop around this, so that you loop through all sentences --> weights should be updated
 			#sentence.words_tags
-			"""
-			==== comment 0
-			hier staat hoe op de juiste manier door de boom gelopen kan worden (afhankelijk van global boolean
-				golinear en iterator-functie iterloop (die uit depTree komt)
-				Er is waarschijnlijk een nettere manier om dit in de andere code te plaatsen dan copy-pasten, maar dat is een optie
-			"""
+			# """
+			# ==== comment 0
+			# hier staat hoe op de juiste manier door de boom gelopen kan worden (afhankelijk van global boolean
+			# 	golinear en iterator-functie iterloop (die uit depTree komt)
+			# 	Er is waarschijnlijk een nettere manier om dit in de andere code te plaatsen dan copy-pasten, maar dat is een optie
+			# """
 			histories = []
 			target_feature_vectors = []
 			if golinear:
@@ -120,12 +120,6 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 						distance = parsed_tree[cur_idx].similarity(parsed_tree[prev_idx])
 					target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
 							feature_dict, history_words, history, history_vectors, history_pos_tags, distance) )
-					# hist_hist = []
-					# for tag in all_tags:
-					# 	hist_hist.append(
-					# 		dp.construct_feature_vector(wrd,tag,feature_dict,history_words,history, history_vectors, history_pos_tags, distance)
-					# 	)
-					# histories.append(hist_hist)
 					histories.append((prev_idx,history_words,history_pos_tags,distance))
 			else:
 				for i,wrd in enumerate(iterloop(parsed_tree)):
@@ -177,9 +171,9 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 					# 	)
 					# histories.append(hist_hist)
 					histories.append((prev_idx,history_words,history_pos_tags,distance))
-			"""
-			/==== end comment 0
-			"""
+			# """
+			# /==== end comment 0
+			# """
 			#print histories
 			pre_pros.append((parsed_tree,target_feature_vectors,histories))
 			#weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
