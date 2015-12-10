@@ -107,47 +107,67 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 						history_words = context_words[i-history:i]
 						history_pos_tags = context_pos_tags[i-history:i]
 					history_vectors = ('ph', [history_tags] )
+					cur_idx = i
+					prev_idx = cur_idx-1
+					distance = 0
+					if prev_idx >= 0:
+						distance = parsed_tree[cur_idx].similarity(parsed_tree[prev_idx])
 					target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-							feature_dict, history_words, history, history_vectors, history_pos_tags) )
-					histories.append((i-1,history_words,history_pos_tags))
+							feature_dict, history_words, history, history_vectors, history_pos_tags, distance) )
+					histories.append((prev_idx,history_words,history_pos_tags,distance))
 			else:
 				for i,wrd in enumerate(iterloop(parsed_tree)):
 					cur = wrd
-					history_words = ['']*history
-					history_tags = ['']*history
-					history_pos_tags = ['']*history
-					for j in range(1,history+1):
+					history_words = []
+					history_tags = []
+					history_pos_tags = []
+					for j in range(history):
 						par = cur.head
 						if cur == par:
 							parw = '-START-'
 							idx = -1
 							tag = '-TAGSTART-'
 							pos = '-POSTAGSTART-'
+							history_tags.insert(0,tag)
+							history_words.insert(0,parw)
+							history_pos_tags.insert(0,pos)
+							break
 						else:
 							parw = par.orth_
+							idx = dt.sen_idx(sentence.raw_sentence,par)
 							tag = sentence.words_tags[idx][1]
 							pos = par.tag_
 							cur = par
-						if j == 1:
-							prev_idx = idx
-						history_tags[-j] = tag
-						history_words[-j] = parw
-						history_pos_tags[-j] = pos
+							history_tags.insert(0,tag)
+							history_words.insert(0,parw)
+							history_pos_tags.insert(0,pos)
 					history_vectors = ('ph',[history_tags] )
-					cur_idx = dt.sen_idx(sentence.raw_sentence,par)
+					cur_idx = dt.sen_idx(sentence.raw_sentence,wrd)
+					
+					for prev_idx,w in enumerate(iterloop(parsed_tree)):
+						if w == wrd.head:
+							break
+					if wrd.head == wrd:
+						prev_idx = -1
+
+					distance = 0
+					if prev_idx >= 0:
+						distance = parsed_tree[cur_idx].similarity(parsed_tree[prev_idx])
+					#else:
+					#	prev_idx = dt.sen_idx(sentence.raw_sentence,wrd.head)
 					cur_tag = sentence.words_tags[idx][1]
 					target_feature_vectors.append( dp.construct_feature_vector(wrd.orth_, cur_tag, feature_dict,
-									history_words, history, history_vectors, history_pos_tags) )
-					histories.append((prev_idx,history_words,history_pos_tags))
-
+									history_words, history, history_vectors, history_pos_tags, distance) )
+					histories.append((prev_idx,history_words,history_pos_tags,distance))
+			#print histories
 			pre_pros.append((parsed_tree,target_feature_vectors,histories))
 			#weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 	 		#			history, weight_matrix, context_words, context_pos_tags)
 		else:#except Exception as ex:
 			pipeline.log('train',sentence)
 	print 'pre_pros',time()-t1
-	print pre_pros
 	t2 = time()
+	print len(pre_pros)
 	for i in range(iters):
 		for parsed_tree,target_feature_vectors,histories in pre_pros:
 			weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
@@ -217,20 +237,20 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 	no_tags = len(all_tags)
 
 	# --------------------------- Viterbi forward path --------------------------- #
-	##t1=time()
+	t1=time()
 	for i,wrd in enumerate(iterloop(parsed_tree) ): # now you know the position of the word in your sentence
 		#if i == 3:
 		#	break
 		feature_vector_array = np.zeros((no_tags, SIZE) ) # now we assume we have only two features per tag (n.b. so this is not only correct or false, it's features)
 		tag_score_array = np.zeros((no_tags))
 		history_list = []
-		##t2=time()
+		t2=time()
 		#####=====####==
 		history_vectors = sentence_dict.get(histories[i][0],(0,0,[('-TAGSTART-',)]))[1:3]
-		print wrd,histories[i]
+		#print wrd,histories[i]
 		for j,tag in enumerate(all_tags): 
 			# here you're gonna add your history. 
-			##t3=time()
+			#t3=time()
 			##t3=time()-t3
 			# for z in range(1,history+1):				
 			# 	history_tuple = sentence_dict.get(i-z)
@@ -239,14 +259,14 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 			
 			#feature_vectors_tag = construct_feature_vector(wrd.orth_, tag, history_vectors) # now it should return a vector based on the history --> please return list with numpy arrays
 			#print wrd.orth_,tag,history_vectors
-			##t4=time()
+			t4=time()
 			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, 
-					feature_dict, histories[i][1], history, history_vectors, histories[i][2])
+					feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3])
 					#feature_dict, context_words, i , history, history_vectors, context_pos_tags)
-			##t4=time()-t4
+			t4=time()-t4
 			#[(history_vectors, feature_vector), (history_vectors, feature_vector), ...] --> Though I guess one history vector should be enough, as then you've got a backpointer for every feature vector
 			#print 'hv',history_vectors
-			##t5=time()
+			t5=time()
 			best_tag_score = -1e1000 # init scores --> delete once more clever list implementation with max
 			best_feature_vector = np.zeros(SIZE) # number of features --> CHANGE
 			history_word = ('Um') # what's the position of the tag the current tag is 'coming from'
@@ -261,23 +281,23 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 					best_tag_score = tag_score
 					best_feature_vector = tple[0]
 					history_word = tple[1]
-			##t5=time()-t5
+			t5=time()-t5
 
 			tag_score_array[j] = best_tag_score
 			#print best_feature_vector
 			feature_vector_array[j,:] = best_feature_vector
 			#print feature_vector_array[j,0:29]
 			history_list.append(history_word)
-		##t2=time()-t2
+		t2=time()-t2
 		# print 'scores',tag_score_array
 		# print 'fvec',feature_vector_array
 		# print 'hislist',history_list
 		#print 'best', feature_vector_array[:,0:28]
 		sentence_dict[i] = (tag_score_array, feature_vector_array, history_list)
-	##t1=time()-t1
+	t1=time()-t1
 
 	# --------------------------- Viterbi backward path --------------------------- #
-	##t6=time()
+	t6=time()
 	final_feature_vectors = []
 
 	dict_len = len(sentence_dict)
@@ -299,8 +319,8 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 			#print 'bv2',history_best_vector
 		#print history_list[high_score]
 		final_feature_vectors.append(best_vector) ## might want to change the order of this, or not, depends a bit on how we decide to give the output for the sequence
-	##t6=time()-t6
-	#print "%3.7f  %3.7f  %3.7f  %3.7f  %3.7f  %3.7f  "%(t1,t2,t3,t4,t5,t6)
+	t6=time()-t6
+	print "%3.7f  %3.7f  %3.7f  %3.7f  %3.7f  "%(t1,t2,t4,t5,t6)
 	#print "final feature vectors: ", final_feature_vectors
 	#print [v[0:29] for v in final_feature_vectors]
 	return final_feature_vectors

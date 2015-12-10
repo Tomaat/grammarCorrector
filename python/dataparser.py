@@ -11,6 +11,7 @@ import structured_perceptron as sp
 from multiprocessing import Pool
 import pipeline
 from spacy.en import English, LOCAL_DATA_DIR
+from time import time
 
 
 nlp = None 
@@ -40,13 +41,13 @@ def normalize(word):
     else:
         return word.lower()
 
-def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
+def makeFeatures(word,tag,history_words,history_tags, history_pos_tags, distance):
 	feature_array = [] 
 	
 	def add(name, *args):
 		feature_array.append('+'.join((name,) + tuple(args)))
 	nword = normalize(word)
-	distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(nword)))
+	#distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(nword)))
 	if distance < 0.1:
 		add('word embedding 0-0.1 i + i-1')
 	elif(distance < 0.2):
@@ -134,7 +135,8 @@ def makeFeatureDict(processed_sentences,history):
 					history_tags = context_tags[i-history:i]
 					history_pos_tags = context_pos_tags[i-history:i]
 
-				features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags)
+				distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(normalize(context_words[i]))))
+				features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags, distance)
 				
 				for feature in features:
 					#print feature
@@ -147,7 +149,7 @@ def makeFeatureDict(processed_sentences,history):
 	return feature_dictionary
 
 #def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
-def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags):
+def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags, distance):
 	# #if i < history:
 	# history_words = ['-START-'] + context_words[0:i]
 	# history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[0:i]
@@ -167,22 +169,30 @@ def construct_feature_vector(word, tag, feature_dictionary, history_words, histo
 		#	print 'din',history_words, history_tags, history_vectors
 		# if history_tags == ('NaN',):
 		# 	print 'nan'
-		feature_array = makeFeatures(word,tag,history_words,history_tags, history_pos_tags)
-		
+		#t#t1 = time()
+		feature_array = makeFeatures(word,tag,history_words,history_tags, history_pos_tags,distance)
+		#t#t1 = time()-t1
+
+		#t#t2 = time()
 		for feature in feature_array:
 			if feature in feature_dictionary:
 				feature_vector[feature_dictionary[feature]] =  1
+		#t#t2 = time()-t2
 		#print 'histtag', history_words, history_tags
 		#print 'fear',feature_array
 		
+		#t#t3 = time()
 		new_tags = ['']*min(history,len(history_tags)+1)
 		new_tags[-1] = tag
 		for i in range(1,len(new_tags)):
 			new_tags[-(i+1)] = history_tags[-i]
+		#t#t3 = time()-t3
 		#new_tags = history_tags+(tag,)
 		#if len(new_tags) > history:
 		#	new_tags = new_tags[1:]
+		#t#t4=time()
 		ans += [ (feature_vector, tuple(new_tags)) ]
+		#t#t4=time()-t4
 	return ans
 
 def process(filename,history):
