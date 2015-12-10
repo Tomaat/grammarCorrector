@@ -87,8 +87,9 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 		add('i-'+str(i+1)+' pos tag', history_pos_tags[hmax-i])
 		add('i tag + i-'+str(i+1)+' tag', tag, history_tags[hmax-i])
 		add('i-'+str(i+1)+' tag+i word', history_tags[hmax-i], nword)
-		add('i word i-1 word', nword, history_words[-1:][0])
-		add('i tag i-1 tag', tag, history_tags[-1:][0])
+		add('i word i-1 word', nword, history_words[hmax-i])
+		add('i tag i-1 tag', tag, history_tags[hmax-i])
+		add('i-'+str(i+1)+' suffix', history_words[hmax-i][-3:])
 	word_sturct = ""
 	for char in word:
 		if char.isupper():
@@ -97,7 +98,6 @@ def makeFeatures(word,tag,history_words,history_tags, history_pos_tags):
 			word_sturct += "x"
 
 	add('i structure', word_sturct)
-	add('i-1 suffix', history_words[i-1][-3:])
 	return feature_array
 
 def makeFeatureDict(processed_sentences,history):
@@ -114,15 +114,15 @@ def makeFeatureDict(processed_sentences,history):
 
 
 	for sentence in processed_sentences:
-		print sentence.raw_sentence
-		if True:
+		#print sentence.raw_sentence
+		try:
 			context_words = [word_tag[0] for word_tag in sentence.words_tags]
 			context_tags  = [word_tag[1] for word_tag in sentence.words_tags]
 			context_pos_tags = [ pos_tag_tuple[1] for pos_tag_tuple in sentence.pos_tags_sentence]
 			
-			print context_words
-			print context_tags
-			print context_pos_tags
+			#print context_words
+			#print context_tags
+			#print context_pos_tags
 
 			for i, tagTouple in enumerate(sentence.words_tags):
 				history_words = ['-START-']+ context_words[:i]
@@ -137,27 +137,29 @@ def makeFeatureDict(processed_sentences,history):
 				features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags)
 				
 				for feature in features:
-					print feature
+					#print feature
 					if feature not in feature_dictionary:
 						feature_dictionary[feature] = index	
 						index += 1
-		else:
+		except:
 			pipeline.log('feat',sentence)
 
 	return feature_dictionary
 
-def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
-	history_words = ['-START-'] + context_words[:i]
-	history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[:i]
-	if len(history_words) > history:
-		history_words = context_words[i-history:i]
-		history_pos_tags = context_pos_tags[i-history:i]
-	#/#context_tags = ['-START2-', '-START-'] + context_tags + ['END-', 'END2']
+#def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
+def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags):
+	# #if i < history:
+	# history_words = ['-START-'] + context_words[0:i]
+	# history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[0:i]
+	# if len(history_words) > history:
+	# 	history_words = context_words[i-history:i]
+	# 	history_pos_tags = context_pos_tags[i-history:i]
+	# #/#context_tags = ['-START2-', '-START-'] + context_tags + ['END-', 'END2']
+	
+	# if history_vectors[1] == []:
+	# 	history_vectors = (history_vectors[0], [('-TAGSTART-',)] )
+	
 	ans = []
-	if history_vectors[1] == []:
-		history_vectors = (history_vectors[0], [('-TAGSTART-',)] )
-	
-	
 	for history_tags in history_vectors[1]:
 		feature_vector = np.zeros(len(feature_dictionary))
 		
@@ -172,11 +174,15 @@ def construct_feature_vector(word, tag, feature_dictionary, context_words, i, hi
 				feature_vector[feature_dictionary[feature]] =  1
 		#print 'histtag', history_words, history_tags
 		#print 'fear',feature_array
-		history_tags = history_tags+(tag,)
-		if len(history_tags) > history:
-			history_tags = history_tags[1:]
-
-		ans += [ (feature_vector, history_tags) ]
+		
+		new_tags = ['']*min(history,len(history_tags)+1)
+		new_tags[-1] = tag
+		for i in range(1,len(new_tags)):
+			new_tags[-(i+1)] = history_tags[-i]
+		#new_tags = history_tags+(tag,)
+		#if len(new_tags) > history:
+		#	new_tags = new_tags[1:]
+		ans += [ (feature_vector, tuple(new_tags)) ]
 	return ans
 
 def process(filename,history):
@@ -186,12 +192,12 @@ def process(filename,history):
 	with open (filename) as datafile: # import sgml data-file
 		data_lines = datafile.readlines()
 		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
-		print data_raw
+		#print data_raw
 		sentence_tuples = [(sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
 		
 	print "parsing sentences"
 	for sentence_tuple in sentence_tuples: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
-		print sentence_tuple
+		#print sentence_tuple
 		if len( sentence_tuple[0]) < 1:
 			continue
 		if True:#try:
@@ -211,8 +217,8 @@ def multi_once(sentence_tuple):
 		pipeline.log('init_mul',sentence_tuple)
 	return ans
 
-def process_multi(filename,history,workers=8):
-	reload(sys) 
+def process_multi(filename,history,workers=7):
+	reload(sys)  
 	sys.setdefaultencoding('utf8') # hack for some encoding problems in the sentences 
 	processed_sentences = []
 	with open (filename) as datafile: # import sgml data-file

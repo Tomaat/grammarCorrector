@@ -46,6 +46,25 @@ def sen_idx(sentence,word):
 	return len(sentence[:word.idx].split())
 
 
+class linear(object):
+	def __init__(self,tree):
+		self.ttype = spacy.tokens.doc.Doc
+		msg = 'wrong input of type %s for type %s!'%(str(type(tree) ), str(self.ttype))
+		assert type(tree) == self.ttype, msg
+		self.tree = tree
+		self.current = -1
+	def __iter__(self):
+		return self
+	def __next__(self):
+		return self.next()
+	def next(self):
+		self.current += 1
+		if self.current < len(self.tree):
+			return self.tree[self.current]
+		else:
+			raise StopIteration()
+
+
 class dfirst(object):
 	def __init__(self,tree):
 		self.ttype = spacy.tokens.doc.Doc
@@ -60,14 +79,6 @@ class dfirst(object):
 	def __next__(self):
 		return self.next()
 	def next(self):
-		return self.nextl()
-	def nextl(self):
-		self.current += 1
-		if self.current < len(self.tree):
-			return self.tree[self.current]
-		else:
-			raise StopIteration()
-	def nextd(self):
 		if self.current == -1:
 			self.current += 1
 			self.tree = list(self.root.children)

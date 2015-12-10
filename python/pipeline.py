@@ -94,18 +94,17 @@ def run_all(hist=1,tiny='.tiny'):
 def main(history=1,tiny='.tiny'):
 	assert history >= 1, "use at least some history"
 	t1 = time()
-	TRAIN_FILE = '../release3.2/data/train.data'+ tiny 
-	VAL_FILE = '../release3.2/data/validate.data'+tiny
-	print 'loading sentences'
+	TRAIN_FILE = '../release3.2/data/validate.data.pre'
+	VAL_FILE = '../release3.2/data/train.data.pre.tiny'
+	print 'loading tree bank'
+	t2 = time()-t1
 	tbank = dts.tbankparser()
-	dp._init(tbank)
+	print 'loading sentences'
+	dp._init_(tbank)
 	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE,history)
 	val_sentences, _val_feat = dp.process_multi(VAL_FILE,history)
-	t2 = time()-t1
-	print 'loading tree bank'
-	tbank = dts.tbankparser()
-
 	t3 = time()-t1-t2
+
 	sp._init_(len(feature_dict),dts )
 	out( ('SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)) )
 	out( ( 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history) ) )
@@ -125,25 +124,35 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		weight_matrix = sp.init_weights(len(feature_dict))
 	E = 0.0
 	for sentence in all_sentences:
-		try:
+		if 1:
+		#try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
+			#print parsed_tree
 			context_words = [w.orth_ for w in dt.dfirst(parsed_tree) ]
-			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
 			context_pos_tags = [w.tag_ for w in dt.dfirst(parsed_tree) ]
-
+			context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
+			histories = []
 			target_feature_vectors = []
 			for i,wrd in enumerate(context_words):
-				history_vectors = ('ph', [tuple(['-TAGSTART-']+context_tags[:i])] )
-				if len(history_vectors[1][0]) > history:
-					history_vectors = ('ph', [tuple(context_tags[i-history:i])] )
+				if i < history:
+					history_tags = tuple(['-TAGSTART-']+context_tags[0:i])
+					history_words = ['-START-']+context_words[0:i]
+					history_pos_tags = ['-POSTAGSTART-']+context_pos_tags[0:i]
+				else:
+					history_tags = context_tags[i-history:i]
+					history_words = context_words[i-history:i]
+					history_pos_tags = context_pos_tags[i-history:i]
+				history_vectors = ('ph', [history_tags] )
 				target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
-						feature_dict, context_words, i, history, history_vectors, context_pos_tags) )
+						feature_dict, history_words, history, history_vectors, history_pos_tags) )
+				histories.append((history_words,history_pos_tags))
 
 			if not with_tags:
 				context_tags = None
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
-						history, weight_matrix, context_words, context_pos_tags, context_tags)
-		except Exception as ex:
+						history, weight_matrix, histories, context_tags)
+		else:
+		#except Exception as ex:
 			log('flaw',sentence)
 	return E
 
@@ -175,7 +184,7 @@ def test():
 if __name__ == '__main__':
 	#log('test',(1,2,3))
 	#test()
-	main(2,'.small')
+	main(2,'.pre.small')
 
 
 # history=2;tiny='.tiny'
