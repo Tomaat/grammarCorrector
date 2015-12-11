@@ -81,7 +81,7 @@ class dfirst(object):
 			raise StopIteration()
 
 class tbankparser:
-	def __init__(self,filename='../release3.2/data/train.data'):
+	def __init__(self,filename='../release3.2/data/conll14st-preprocessed.m2'):
 		f = open(filename,'r')
 		data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
 		self._sentence_tuples = ((sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw)
@@ -213,7 +213,7 @@ class tbankparser:
 		(score,tree) = x.next()
 		#print score
 		#tree.pprint()
-		self._possify(tree)
+		#self._possify(tree)
 
 		return tree
 
