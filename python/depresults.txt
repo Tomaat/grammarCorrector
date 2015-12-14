@@ -1,0 +1,5 @@
+ntlk no noise loaded in 2.525000 sec. Scored 98.355614 on 100 targets in 907.795000 sec.
+ntlk random noise loaded in 4.531000 sec. Scored 98.355614 on 100 targets in 911.456000 sec.
+nltk flaws noise loaded in 4.905000 sec. Scored 98.355614 on 100 targets in 903.777000 sec.
+nltk only random noise loaded in 2.559000 sec. Scored 98.355614 on 100 targets in 913.443000 sec.
+ntlk only flaws noise loaded in 4.978000 sec. Scored 98.355614 on 100 targets in 989.044000 sec.
