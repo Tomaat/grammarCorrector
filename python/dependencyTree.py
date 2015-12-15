@@ -95,15 +95,19 @@ class tbankparser:
 	def sen(self,i=0):
 		return self._sents[i]
 	
+	def truncate(self,n):
+		self._parsed = self._parsed[:n]
+		self._n = self._m = n
+		
+	
 	def getParser(self,max=None,load=False,save=False,filename='parser.pkl'):
 		if load:
 			parser = pickle.load(open(filename,'r') )
 		else:
-			if max == None:
-				max = self._n
-			self._m = max
+			if max != None:
+				self.truncate(max)
 			parser = parseHack.ProbabilisticProjectiveDependencyParser()
-			parser.train(self._parsed[:max])
+			parser.train(self._parsed)
 			if save:
 				pickle.dump(parser,open(filename,'w') )
 		self._parser = parser
@@ -144,8 +148,10 @@ class tbankparser:
 		return new_word,wi
 	
 	def add_noise(self,n=1,keep=True,real=True):
-		if not hasattr(self,'_parser'):
-			self.getParser(self._n)
+		#if not hasattr(self,'_parser'):
+		#	self.getParser(self._n)
+		if not hasattr(self,'_m'):
+			self._m = self._n
 		if real:
 			change = self._change_real_word
 			if not hasattr(self,'_flaws'):
@@ -161,7 +167,7 @@ class tbankparser:
 				new_graph = copy.deepcopy(self._parsed[i])
 				new_graph.nodes[wi]['word'] = new_word
 				self._parsed.append(new_graph)
-				self._m += 1
+				self._n += 1
 			else:
 				self._parsed[i].nodes[wi]['word'] = new_word
 			#print i,wi,new_word

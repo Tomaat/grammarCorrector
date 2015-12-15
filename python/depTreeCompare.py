@@ -116,7 +116,8 @@ def out(*args):
 	
 def main2():
 	x = 5
-	X,Y,Z = 3000,3000,3100
+	X,Y,Z = 3750,15000,3900
+	#X,Y,Z = 3,5,5
 	
 	out( 'making targets')
 	tt = time()
@@ -139,23 +140,27 @@ def main2():
 	elif x == 2:
 		name = "nltk random noise"
 		tbank = dto.tbankparser()
-		tbank.getParser(X)
+		tbank.truncate(X)
 		tbank.add_noise(Y,True,False)
+		tbank.getParser()
 	elif x == 3:
 		name = "ntlk flaws noise"
 		tbank = dto.tbankparser()
-		tbank.getParser(X)
+		tbank.truncate(X)
 		tbank.add_noise(Y,True,True)
+		tbank.getParser()
 	elif x == 4:
 		name = "nltk only random noise"
 		tbank = dto.tbankparser()
-		tbank.getParser(X)
+		tbank.truncate(X)
 		tbank.add_noise(Y,False,False)
+		tbank.getParser()
 	elif x == 5:
 		name = "ntlk only flaws noise"
 		tbank = dto.tbankparser()
-		tbank.getParser(X)
-		tbank.add_noise(Y,True,True)
+		tbank.truncate(X)
+		tbank.add_noise(Y,False,True)
+		tbank.getParser()
 	tl = time()-tl
 	
 	out( "scoring...")
