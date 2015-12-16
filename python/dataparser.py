@@ -286,8 +286,23 @@ def process_multi(filename,history,workers=7):
 		sentence_tuples = [(sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
 		
 	print "parsing sentences"
-	pool = Pool(workers)
-	processed_sentences = pool.map(multi_once,sentence_tuples)
+
+	for sentence_tuple in sentence_tuples: # er gaat nog iets mis met de eerste zin kijken of dat vaker gebeurt?
+		#print sentence_tuple
+		#print sentence_tuple
+		if len( sentence_tuple[0]) < 1:
+			print "true"
+			continue
+		#try:
+		print Sentence(sentence_tuple)
+		print "test"
+		processed_sentences.append(Sentence(sentence_tuple))
+		#except Exception as ex:
+		#	print ex
+			
+
+	#pool = Pool(workers)
+	#processed_sentences = pool.map(multi_once,sentence_tuples)
 
 	print "make feature vectors"
 	feature_dictionary = makeFeatureDict(processed_sentences,history)

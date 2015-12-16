@@ -94,8 +94,8 @@ def run_all(hist=1,tiny='.tiny'):
 def main(history=1,tiny='.tiny'):
 	assert history >= 1, "use at least some history"
 	t1 = time()
-	TRAIN_FILE = '../release3.2/data/train.data.pre.tiny'
-	VAL_FILE = '../release3.2/data/validate.data.pre.tiny'
+	TRAIN_FILE = '../release3.2/data/train.data.pre.small'
+	VAL_FILE = '../release3.2/data/validate.data.pre.small'
 	print 'loading tree bank'
 	t2 = time()-t1
 	tbank = dts.tbankparser()
@@ -104,8 +104,9 @@ def main(history=1,tiny='.tiny'):
 	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE,history)
 	val_sentences, _val_feat = dp.process_multi(VAL_FILE,history)
 	t3 = time()-t1-t2
-
-	sp._init_(len(feature_dict),dts )
+	print "features has been made"
+	
+	sp._init_(len(feature_dict),dts, False )
 	out( ('SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)) )
 	out( ( 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history) ) )
 	t4 = time()
@@ -118,13 +119,15 @@ def main(history=1,tiny='.tiny'):
 	out( ( 'total %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4) ) )
 
 
-
+#flaws pipe line 
+#training struct 
+#featre dict 
 def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_tags=True):
 	if weight_matrix is None:
 		weight_matrix = sp.init_weights(len(feature_dict))
 	E = 0.0
 	for sentence in all_sentences:
-		if 1:
+		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 
 		#try:
@@ -221,8 +224,8 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 				context_tags = None
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
 						history, weight_matrix, histories, context_tags)
-		else:
-		#except Exception as ex:
+		
+		except Exception as ex:
 			log('flaw',sentence)
 	return E
 

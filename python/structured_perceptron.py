@@ -87,7 +87,8 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 	pre_pros = []
 	t1 = time()
 	for sentence in all_sentences:
-		if 1:#try:
+		#if 1:#
+		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			# For loop around this, so that you loop through all sentences --> weights should be updated
 			#sentence.words_tags
@@ -178,8 +179,10 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 			pre_pros.append((parsed_tree,target_feature_vectors,histories))
 			#weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 	 		#			history, weight_matrix, context_words, context_pos_tags)
-		else:#except Exception as ex:
+		#else:
+		except Exception as ex:
 			pipeline.log('train',sentence)
+	
 	print 'pre_pros',time()-t1
 	t2 = time()
 	print len(pre_pros)

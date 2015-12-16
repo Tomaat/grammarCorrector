@@ -22,3 +22,10 @@
 2015-12-09 13:49:20 -- ('after 306 sentences, only Ne-tags', 0.0)
 2015-12-09 13:45:15 -- ('after 306 sentences', 33.0)
 == things ==
+2015-12-10 21:40:40 -- ('SSE random weights, only Ne-tags', 0.0)
+2015-12-10 21:40:40 -- ('SSE random weights', 0.0)
+2015-12-10 21:44:08 -- ('SSE random weights, only Ne-tags', 0.0)
+2015-12-10 21:44:08 -- ('SSE random weights', 0.0)
+2015-12-10 21:44:08 -- ('after 1 sentences, only Ne-tags', 0.0)
+2015-12-10 21:44:08 -- ('after 1 sentences', 0.0)
+2015-12-10 21:44:08 -- total 73.864911 sec (loading: 0.000015, 73.858899; training: 0.004657
