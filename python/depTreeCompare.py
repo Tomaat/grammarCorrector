@@ -103,7 +103,7 @@ def main():
 	"""load a given treebank, score it's accuracy and time runtime
 	"""
 	# x is the type of treebank
-	x = 5
+	x = 0
 	# X is the amount of train-trees for nltk-based tbank
 	# Y is the amount of added flaws to the nltk-based tbank
 	# slice X:Z are the sentences tested on
