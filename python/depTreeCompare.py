@@ -12,13 +12,19 @@ from time import time
 from multiprocessing import Pool
 
 def dictify(tree):
+	"""Given a tree, return a dictionary with the arcs.
+		calls dictifies according to tree-type
+		dictionary should consist of u'head->child':1 pairs
+	"""
 	if type(tree) == nltk.tree.Tree:
-		return dictify_nltk(tree)
+		return _dictify_nltk(tree)
 	elif type(tree) == spacy.tokens.doc.Doc:
-		return dictify_spacy(tree)
+		return _dictify_spacy(tree)
 	return {}
 
-def dictify_spacy(tree):
+def _dictify_spacy(tree):
+	"""Given a spacy parsed sentence object, return a dictionary of the arcs
+	"""
 	assert type(tree) == spacy.tokens.doc.Doc
 	ans = {}
 	for i in range(len(tree)):
@@ -28,7 +34,9 @@ def dictify_spacy(tree):
 			ans[prev+u'->'+curr] = 1
 	return ans
 
-def dictify_nltk(tree,ansi=None):
+def _dictify_nltk(tree,ansi=None):
+	"""Given a nltk Tree, return a dictionary of arcs
+	"""
 	assert type(tree) == nltk.tree.Tree
 	head = tree.label()
 	if ansi == None:
@@ -47,6 +55,15 @@ def dictify_nltk(tree,ansi=None):
 	return ans
 
 def compare(tree1,tree2):
+	"""given two trees, dictify them and calculate likeness.
+		likeness is calculated by inverting normalised F1 score.
+		precision is calculated by checking how many of the arcs of the first
+		tree are also in the second.
+		recall is calculated by checking how many arcs of the second tree
+		are also in the first.
+		F1 = 2*p*r/(p+r)
+		score = 1-F1/tree_size
+	"""
 	d1 = dictify(tree1)
 	d2 = dictify(tree2)
 	precision = 0
@@ -63,61 +80,34 @@ def compare(tree1,tree2):
 		score = 2.*precision*recall/(precision+recall)
 	return 1-score/max(len(d1),len(d2),1)
 
-def score(tbank,inputs,outputs):
+def score(tbank,inputs,targets):
+	"""given a treebank, calculate total score from inputs and targets
+	"""
 	score = 0.
 	for i,input in enumerate(inputs):
 		#print input
 		t1 = tbank.parse(input)
-		t2 = outputs[i]
+		t2 = targets[i]
 		score += compare(t1,t2)
 	return score
 
-import dill
-
-def run_dill_encoded(what):
-    fun, args = dill.loads(what)
-    return fun(*args)
-
-def apply_async(pool, fun, args):
-    return pool.apply_async(run_dill_encoded, (dill.dumps((fun, args)),))
-
-	
-#glo_tbank = None
-def compare_multi(arg):
-	parse,input,t2 = arg
-	t1 = parse(input)
-	s = compare(t1,t2)
-	return s
-	
-def score_multi(tbank,inputs,outputs):
-	#global glo_tbank
-	#glo_tbank = tbank
-	io = zip(inputs,outputs)
-	io = [(tbank.parse,i,o) for i,o in io]
-	workers = Pool(3)
-	jobs = []
-	for i in io:
-		print i
-		job = apply_async(workers,compare_multi,i)
-		jobs.append(job)
-	
-	print jobs
-	ans = []
-	for job in jobs:
-		ans.append( job.get() )
-	#ans = workers.map(compare_multi,io)
-	return sum(ans)
-	
 def out(*args):
+	"""custom print function
+	"""
 	ans = ''
 	for ar in args:
 		ans += str(ar)+' '
 	print ans
 	
-def main2():
+def main():
+	"""load a given treebank, score it's accuracy and time runtime
+	"""
+	# x is the type of treebank
 	x = 5
+	# X is the amount of train-trees for nltk-based tbank
+	# Y is the amount of added flaws to the nltk-based tbank
+	# slice X:Z are the sentences tested on
 	X,Y,Z = 3750,15000,3900
-	#X,Y,Z = 3,5,5
 	
 	out( 'making targets')
 	tt = time()
@@ -170,53 +160,6 @@ def main2():
 	
 	out("%s loaded in %f sec. Scored %f on %d targets in %f sec."%(name,tl,s,len(testing_targets),ts))
 	
-	
-def main():
-	print 'loading tbanks'
-	#tbanks = dts.tbankparser()
-
-
-	#tbanko._parsed = tbanko._parsed[:3000]
-	#tbankr._parsed = tbankr._parsed[:3000]
-	#tbankn._parsed = tbankn._parsed[:3000]
-	X = 3000
-	#print 'loading parser'
-	#print 'adding noise'
-	to = time()
-	tbanko = dto.tbankparser()
-	tbanko.getParser(X)
-	to = time()-to
-	tr = time()
-	tbankr = dto.tbankparser()
-	tbankr.getParser(X)
-	tbankr.add_noise(3000,True,False)
-	tr = time()-tr
-	tn = time()
-	tbankn = dto.tbankparser()
-	tbankn.getParser(X)
-	tbankn.add_noise(3000,True,True)
-	tn = time()-tn
-	ts = [to,tr,tn]
-	
-	print 'making targets'
-	data = nltk.corpus.dependency_treebank
-	testing_targets = [t.tree() for t in data.parsed_sents()[3000:]]
-	testing_inputs = data.sents()[3000:]
-	
-	ars = [ #(tbanks,testing_inputs,testing_targets),
-			(tbanko,testing_inputs,testing_targets),
-			(tbankr,testing_inputs,testing_targets),
-			(tbankn,testing_inputs,testing_targets)]
-	scores = []
-	for ar in ars:
-		print 'scoring...'
-		t = time()
-		s = score(*ar)
-		t = time()-t
-		scores.append((s,t))
-	
-	print 'results\n','\n'.join([str((len(testing_targets),)+s+(ts[i],)) for i,s in enumerate(scores)])
-
 if __name__ == '__main__':
-	main2()
+	main()
 	
