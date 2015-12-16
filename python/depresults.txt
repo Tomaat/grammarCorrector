@@ -1,0 +1,9 @@
+ntlk no noise loaded in 2.525000 sec. Scored 98.355614 on 100 targets in 907.795000 sec.
+ntlk random noise loaded in 4.531000 sec. Scored 98.355614 on 100 targets in 911.456000 sec.
+nltk flaws noise loaded in 4.905000 sec. Scored 98.355614 on 100 targets in 903.777000 sec.
+nltk only random noise loaded in 2.559000 sec. Scored 98.355614 on 100 targets in 913.443000 sec.
+ntlk only flaws noise loaded in 4.978000 sec. Scored 98.355614 on 100 targets in 989.044000 sec.
+
+ntlk no noise loaded in 5.026000 sec. Scored 146.455784 on 150 targets in 2642.740000 sec.
+nltk only random noise loaded in 3.033000 sec. Scored 147.492148 on 150 targets in 1571.136000 sec.
+ntlk only flaws noise loaded in 3.594000 sec. Scored 146.764875 on 150 targets in 6653.983000 sec.

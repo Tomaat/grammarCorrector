@@ -30,6 +30,8 @@ import random
 import copy
 
 class wordHack(object):
+	"""Class necessary to have the same interface as Spacy
+	"""
 	def __init__(self,word,tag):
 		self.orth_ = word
 		self.tags_ = tag
@@ -46,6 +48,16 @@ def sen_idx(sentence,word):
 	return len(sentence[sentence.find(word.orth_)].split())
 
 class dfirst(object):
+	"""Generatior object that goes depth-first, left-to-right through a nltk Tree
+		e.g.
+		1
+		| \
+		2  3
+		|  / \
+		4  5  6
+		      |
+			  7
+	"""
 	def __init__(self,tree):
 		self.ctype = nltk.tree.Tree
 		if not isinstance(tree,self.ctype):
@@ -81,7 +93,9 @@ class dfirst(object):
 			raise StopIteration()
 
 class tbankparser:
-	def __init__(self,filename='../release3.2/data/train.data'):
+	"""Object that initialises a dependency-treebank (using nltk)
+	"""
+	def __init__(self,filename='../release3.2/data/conll14st-preprocessed.m2'):
 		f = open(filename,'r')
 		data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
 		self._sentence_tuples = ((sentence[0],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw)
@@ -93,22 +107,36 @@ class tbankparser:
 
 	
 	def sen(self,i=0):
+		"""Easy acces to the sentences of the treebank
+		"""
 		return self._sents[i]
 	
+	def truncate(self,n):
+		"""Decreasing the amount of train-trees to decrease runtime (and accuracy)
+		"""
+		self._parsed = self._parsed[:n]
+		self._n = self._m = n
+		
+	
 	def getParser(self,max=None,load=False,save=False,filename='parser.pkl'):
+		"""load the parser
+			when max is specified, the database is truncated
+			load and save use pickle to load or safe the parser to filename
+		"""
 		if load:
 			parser = pickle.load(open(filename,'r') )
 		else:
-			if max == None:
-				max = self._n
-			self._m = max
+			if max != None:
+				self.truncate(max)
 			parser = parseHack.ProbabilisticProjectiveDependencyParser()
-			parser.train(self._parsed[:max])
+			parser.train(self._parsed)
 			if save:
 				pickle.dump(parser,open(filename,'w') )
 		self._parser = parser
 	
 	def _change_real_word(self,i):
+		"""On index i of the database, change a word of the tree to a known flaw
+		"""
 		cursen = self._parsed[i]
 		keys = cursen.nodes.keys()[1:-1]
 		poss = []
@@ -129,6 +157,8 @@ class tbankparser:
 		return new_word, wi
 	
 	def _change_word(self,i):
+		"""on index i of the database, change randomly a character of a random chosen word of the tree
+		"""
 		keys = self._parsed[i].nodes.keys()[1:-1]
 		wi = random.choice(keys)
 		node = self._parsed[i].nodes[wi]
@@ -144,8 +174,12 @@ class tbankparser:
 		return new_word,wi
 	
 	def add_noise(self,n=1,keep=True,real=True):
-		if not hasattr(self,'_parser'):
-			self.getParser(self._n)
+		"""Add n noisy data to the database.
+			if keep, add the flaws as new trees, else replace the old tree
+			if real use known flaws, else change random charakters
+		"""
+		if not hasattr(self,'_m'):
+			self._m = self._n
 		if real:
 			change = self._change_real_word
 			if not hasattr(self,'_flaws'):
@@ -161,13 +195,15 @@ class tbankparser:
 				new_graph = copy.deepcopy(self._parsed[i])
 				new_graph.nodes[wi]['word'] = new_word
 				self._parsed.append(new_graph)
-				self._m += 1
+				self._n += 1
 			else:
 				self._parsed[i].nodes[wi]['word'] = new_word
 			#print i,wi,new_word
 
 
 	def _get_flaws(self):
+		"""parse the flaw-database to extract the knwon flaws
+		"""
 		flaws = {}
 		for s,f in self._sentence_tuples:
 			sp = s.split()[1:]
@@ -193,6 +229,8 @@ class tbankparser:
 		return ans
 
 	def pprint(self,sen=0,max=None, ptype=1,):
+		"""easy acces to pretty-print from nltk
+		"""
 		if not hasattr(self,'_parser'):
 			self.getParser(max)
 		ps = self._parser.parse(self.sen(sen))
@@ -203,7 +241,11 @@ class tbankparser:
 			elif ptype==2:
 				t.pretty_print()
 	
-	def parse(self,sentence):
+	def parse(self,sentence,possen=False):
+		"""Parse a given sentence and return the tree.
+			if possen, replace the strings in the tree with WordHack object
+			to achieve a spacy-like interface
+		"""
 		if isinstance(sentence,str):
 			sentence = sentence.split()
 		if not hasattr(self,'_parser'):
@@ -213,11 +255,15 @@ class tbankparser:
 		(score,tree) = x.next()
 		#print score
 		#tree.pprint()
-		self._possify(tree)
+		
+		if posen:
+			self._possify(tree)
 
 		return tree
 
 	def _possify(self,tree):
+		"""Replaces strings in the tree with WordHack objects
+		"""
 		assert type(tree) == nltk.tree.Tree
 		word = tree.label()
 		tag = self._parser._grammar._tags.get(word,{'Null'})

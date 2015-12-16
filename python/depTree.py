@@ -27,6 +27,8 @@ import spacy
 from spacy.en import LOCAL_DATA_DIR, English
 
 def pprint(tree, indent=0):
+	"""pretty print the dependency tree
+	"""
 	if type(tree) == spacy.tokens.doc.Doc:
 		tree = tree[:].root
 	elif type(tree) == spacy.tokens.span.Span:
@@ -47,6 +49,8 @@ def sen_idx(sentence,word):
 
 
 class linear(object):
+	"""Generator object that goes through a sentence from left-to-right
+	"""
 	def __init__(self,tree):
 		self.ttype = spacy.tokens.doc.Doc
 		msg = 'wrong input of type %s for type %s!'%(str(type(tree) ), str(self.ttype))
@@ -66,6 +70,16 @@ class linear(object):
 
 
 class dfirst(object):
+	"""Generatior object that goes depth-first, left-to-right through a nltk Tree
+		e.g.
+		1
+		| \
+		2  3
+		|  / \
+		4  5  6
+		      |
+			  7
+	"""
 	def __init__(self,tree):
 		self.ttype = spacy.tokens.doc.Doc
 		msg = 'wrong input of type %s for type %s!'%(str(type(tree) ), str(self.ttype))
@@ -98,6 +112,8 @@ class dfirst(object):
 			raise StopIteration()
 
 class all_sents(object):
+	"""Generator object that returns a sentence and it's labels
+	"""
 	def __init__(self,filename='../release3.2/data/conll14st-preprocessed.m2'):
 		self.filename = filename
 		f = open(filename,'r')
@@ -121,6 +137,8 @@ class all_sents(object):
 		return sp,fe
 
 class tbankparser:
+	"""Object that initialises a dependency-treebank (using spacy)
+	"""
 	def __init__(self):
 		DIR = os.environ.get('SPACY_DATA', LOCAL_DATA_DIR)
 		self.nlp = English(data_dir=DIR)
