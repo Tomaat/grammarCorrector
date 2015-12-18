@@ -7,90 +7,6 @@ from multiprocessing import Pool
 import datetime
 import numpy as np
 
-DUMMY = """
-ans = 'hello {0} {1}'
-"""
-
-MAIN_CODE = """
-import structured_perceptron as spr
-t2 = time()-t1
-print 'loading tree bank {0}'
-tbank = {0}.tbankparser()
-{1}
-t3 = time()-t1-t2
-it = 10	
-spr._init_(len(feature_dict),{0} )
-ans = 'SSE random weights, only Ne-tags: %d'%(flaws({0},val_sentences,feature_dict,tbank,history,with_tags=False) )
-ans = 'SSE random weights: %d'%(flaws({0},val_sentences,feature_dict,tbank,history) )
-t4 = time()
-weights = spr.train_perceptron(all_sentences, feature_dict, tbank, history)
-t4 = time()-t4
-t1=time()-t1
-ans += '\\nafter %d sentences: %d'%(len(all_sentences), flaws({0},val_sentences,feature_dict,tbank,history,weights) )
-ans += '\\ntotal %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4)
-"""
-
-#OPTS = [('dto',''), ('dto','tbank.add_noise(1000,True,False)'), ('dto','tbank.add_noise(1000,True,True)'), ('dts','')]
-#OPTS = [('dts',''),('dts','print "hello"'),('dts','t1=5'),('dts','print "wehee"')]
-
-#all_sentences,val_sentences,feature_dict,history = None,None,None,None
-
-def run_once(inp):
-	all_sentences, val_sentences, feature_dict, history,i = inp
-	t1 = time()
-	#comm = MAIN_CODE.format(OPTS[i][0],OPTS[i][1])
-	#exec comm
-	if i == 0:
-		dt = dto
-	elif i == 1:
-		dt = dto
-	elif i == 2:
-		dt = dto
-	elif i == 3:
-		dt = dts
-	else:
-		return "placeholder"
-
-
-	import structured_perceptron as spr
-	t2 = time()-t1
-	print 'loading tree bank dts'
-	tbank = dt.tbankparser()
-	if i == 1:
-		tbank.add_noise(1000,True,False)
-	elif i == 2:
-		tbank.add_noise(1000,True,True)
-	
-	t3 = time()-t1-t2
-
-	spr._init_(len(feature_dict),dt )
-	ans = 'SSE random weights, only Ne-tags: %d'%(flaws(dt,val_sentences,feature_dict,tbank,history,with_tags=False) )
-	ans += '\nSSE random weights: %d'%(flaws(dt,val_sentences,feature_dict,tbank,history) )
-	t4 = time()
-	weights = spr.train_perceptron(all_sentences, feature_dict, tbank, history)
-	t4 = time()-t4
-	t1=time()-t1
-	ans += '\nafter %d sentences: %d'%(len(all_sentences), flaws(dt,val_sentences,feature_dict,tbank,history,weights) )
-	ans += '\nafter %d sentences (Ne-only): %d'%(len(all_sentences), flaws(dt,val_sentences,feature_dict,tbank,history,weights,with_tags=False) )
-	ans += '\ntotal %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4)
-
-	return ans
-
-def run_all(hist=1,tiny='.tiny'):
-	#global all_sentences, val_sentences, feature_dict,history
-	history = hist
-	t1 = time()
-	TRAIN_FILE = '../release3.2/data/train.data'+tiny
-	VAL_FILE = '../release3.2/data/validate.data'+tiny
-	print 'loading sentences'
-	all_sentences, feature_dict = dp.process(TRAIN_FILE)
-	val_sentences, _val_feat = dp.process(VAL_FILE)
-	#pool = Pool(4)
-	commands = [(all_sentences, val_sentences, feature_dict, history,i) for i in range(0,8)]
-	#anses = pool.map(run_once,commands)
-	anses = [run_once(com) for com in commands]
-	print '\n\n'.join(anses)
-
 def main(history=1,tiny='.tiny',tbank=None):
 	assert history >= 1, "use at least some history"
 	t1 = time()
@@ -102,23 +18,25 @@ def main(history=1,tiny='.tiny',tbank=None):
 		tbank = dts.tbankparser()
 	print 'loading sentences'
 	dp._init_(tbank)
-	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE,history)
-	val_sentences, _val_feat = dp.process_multi(VAL_FILE,history)
+	all_sentences, feature_dict = dp.process(TRAIN_FILE,history)
+	val_sentences, _val_feat = dp.process(VAL_FILE,history)
 	t3 = time()-t1-t2
 	print "features has been made"
 	
-	sp._init_(len(feature_dict),dts, False )
+	sp._init_(len(feature_dict),dts, True )
 	out( ('SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)) )
 	out( ( 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history) ) )
 	t4 = time()
 	weights = sp.train_perceptron(all_sentences, feature_dict, tbank, history)
 	np.save('weights'+str(history)+tiny+'.npy',weights)
 	t4 = time()-t4
+	#weights = np.load('weights2.npy')
+	print weights.shape
 	t1=time()-t1
 	out( ( 'after %d sentences, only Ne-tags'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights,False) ) )
 	out( ( 'after %d sentences'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights) ) )
 	out( ( 'total %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4) ) )
-
+	return feature_dict,weights
 
 #flaws pipe line 
 #training struct 
@@ -128,7 +46,7 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		weight_matrix = sp.init_weights(len(feature_dict))
 	E = 0.0
 	for sentence in all_sentences:
-		try:
+		if 1:#try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 
 		#try:
@@ -166,8 +84,9 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 
 					target_feature_vectors.append( dp.construct_feature_vector(wrd, context_tags[i], 
 							feature_dict, history_words, history, history_vectors, history_pos_tags, distance) )
-					histories.append((history_words,history_pos_tags,distance))
+					histories.append((prev_idx,history_words,history_pos_tags,distance))
 			else:
+				context_tags = [sentence.words_tags[dt.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dt.dfirst(parsed_tree)]
 				for i,wrd in enumerate(dt.dfirst(parsed_tree)):
 					cur = wrd
 					history_words = []
@@ -196,7 +115,7 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 					history_vectors = ('ph',[history_tags] )
 					cur_idx = dt.sen_idx(sentence.raw_sentence,wrd)
 					
-					for prev_idx,w in enumerate(iterloop(parsed_tree)):
+					for prev_idx,w in enumerate(dt.dfirst(parsed_tree)):
 						if w == wrd.head:
 							break
 					if wrd.head == wrd:
@@ -223,10 +142,12 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 				# """
 			if not with_tags:
 				context_tags = None
+			#print histories
+
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
 						history, weight_matrix, histories, context_tags)
 		
-		except Exception as ex:
+		else:#except Exception as ex:
 			log('flaw',sentence)
 	return E
 

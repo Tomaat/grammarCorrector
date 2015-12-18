@@ -19,15 +19,23 @@ if __name__ == '__main__':
 			histories = []
 			for i,wrd in enumerate(iterloop(parsed_sentence)):
 				cur = wrd
-				history_words = ['']*len(parsed_sentence) 
+				history_words = []#['']*len(parsed_sentence) 
 				for j in range(1,len(parsed_sentence)+1):
 					par = cur.head
 					if cur == par:
 						parw = '-START-'
+						history_words.insert(0,parw) # TEST DIT EVEN 
+						break 
 					else:
 						parw = par.orth_
-					history_words[-j] = parw
+					cur = par
+					history_words.insert(0,parw)
 			print history_words
+
+			# PRINT ALS ZIN IN EEN FILE SPATIE JOIN LIJST
+			# TRY CATCH TERUG ZETTEN , RUN DATAPARSE PIPELINE SP
+
+			# ADD NOG START VOOR ELKE NIEUWE ZIN 
 		#except Exception as ex:
 			#print "fout"
 
