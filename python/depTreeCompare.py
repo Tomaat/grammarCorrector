@@ -6,6 +6,8 @@ except:
 
 import dependencyTree as dto
 import nltk
+import numpy as np
+import matplotlib.pyplot as plt
 
 from time import time
 #import pathos.multiprocessing as mp
@@ -83,12 +85,13 @@ def compare(tree1,tree2):
 def score(tbank,inputs,targets):
 	"""given a treebank, calculate total score from inputs and targets
 	"""
-	score = 0.
+	assert len(inputs) == len(outputs)
+	score = np.zeros((len(inputs))
 	for i,input in enumerate(inputs):
 		#print input
 		t1 = tbank.parse(input)
 		t2 = targets[i]
-		score += compare(t1,t2)
+		score[i] = compare(t1,t2)
 	return score
 
 def out(*args):
@@ -158,7 +161,9 @@ def main():
 	s = score(tbank,testing_inputs,testing_targets)
 	ts = time()-ts
 	
-	out("%s loaded in %f sec. Scored %f on %d targets in %f sec."%(name,tl,s,len(testing_targets),ts))
+	out("%s loaded in %f sec. Scored %f on %d targets in %f sec."%(name,tl,s.sum(),len(testing_targets),ts))
+	plt.plot(s)
+	plt.show()
 	
 if __name__ == '__main__':
 	main()
