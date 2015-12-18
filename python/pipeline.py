@@ -91,14 +91,15 @@ def run_all(hist=1,tiny='.tiny'):
 	anses = [run_once(com) for com in commands]
 	print '\n\n'.join(anses)
 
-def main(history=1,tiny='.tiny'):
+def main(history=1,tiny='.tiny',tbank=None):
 	assert history >= 1, "use at least some history"
 	t1 = time()
 	TRAIN_FILE = '../release3.2/data/train.data.pre.small'
 	VAL_FILE = '../release3.2/data/validate.data.pre.small'
 	print 'loading tree bank'
 	t2 = time()-t1
-	tbank = dts.tbankparser()
+	if tbank is None:
+		tbank = dts.tbankparser()
 	print 'loading sentences'
 	dp._init_(tbank)
 	all_sentences, feature_dict = dp.process_multi(TRAIN_FILE,history)
