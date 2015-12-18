@@ -31,7 +31,7 @@ def _dictify_spacy(tree):
 		curr = tree[i]
 		prev = curr.head
 		if prev != curr:
-			ans[unicode(prev)+u'->'+unicode(curr)] = 1
+			ans[prev.orth_+u'->'+curr.orth_] = 1
 	return ans
 
 def _dictify_nltk(tree,ansi=None):

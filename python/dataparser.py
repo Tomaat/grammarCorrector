@@ -42,7 +42,7 @@ def normalize(word):
     else:
         return word.lower()
 
-def makeFeatures(word,tag,history_words,history_tags, history_pos_tags, distance):
+def makeFeatures(word,history_words,history_tags, history_pos_tags, distance, tag=''):
 	feature_array = [] 
 	
 	def add(name, *args):
@@ -142,7 +142,7 @@ def makeFeatureDict(processed_sentences,history):
 						history_pos_tags = context_pos_tags[i-history:i]
 
 					distance = nlp(unicode(normalize(history_words[-1:][0]))).similarity(nlp(unicode(normalize(context_words[i]))))
-					features =  makeFeatures(context_words[i], context_tags[i],history_words,history_tags, history_pos_tags, distance)
+					features =  makeFeatures(context_words[i],history_words,history_tags, history_pos_tags, distance, context_tags[i])
 			
 			else:
 				parsed_tree = nlp(unicode(sentence.raw_sentence))
@@ -183,7 +183,7 @@ def makeFeatureDict(processed_sentences,history):
 					distance = 0
 					if prev_idx >= 0:
 						distance = parsed_tree[cur_idx].similarity(parsed_tree[prev_idx])
-					features =  makeFeatures(wrd.orth_, cur_tag,history_words,history_tags, history_pos_tags, distance)
+					features =  makeFeatures(wrd.orth_,history_words,history_tags, history_pos_tags, distance, cur_tag)
 				# """
 				# /==== end comment 2
 				# """
@@ -198,7 +198,7 @@ def makeFeatureDict(processed_sentences,history):
 	return feature_dictionary
 
 #def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
-def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags, distance):
+def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags, distance, calc_features=None):
 	# #if i < history:
 	# history_words = ['-START-'] + context_words[0:i]
 	# history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[0:i]
@@ -211,7 +211,13 @@ def construct_feature_vector(word, tag, feature_dictionary, history_words, histo
 	# 	history_vectors = (history_vectors[0], [('-TAGSTART-',)] )
 	
 	ans = []
-	for history_tags in history_vectors[1]:
+	if calc_features is None:
+		calc_features = [['']]*len(history_vectors[1])
+		do_calc = True
+	else:
+		do_calc = False
+	
+	for i,history_tags in enumerate(history_vectors[1]):
 		feature_vector = np.zeros(len(feature_dictionary))
 		
 		# if history_tags == -1:
@@ -219,11 +225,14 @@ def construct_feature_vector(word, tag, feature_dictionary, history_words, histo
 		# if history_tags == ('NaN',):
 		# 	print 'nan'
 		#t#t1 = time()
-		feature_array = makeFeatures(word,tag,history_words,history_tags, history_pos_tags,distance)
+		if do_calc:
+			calc_features[i] = makeFeatures(word,history_words,history_tags, history_pos_tags,distance)
+		
 		#t#t1 = time()-t1
 
 		#t#t2 = time()
-		for feature in feature_array:
+		for feature in calc_features[i]:
+			feature = feature+tag
 			if feature in feature_dictionary:
 				feature_vector[feature_dictionary[feature]] =  1
 		#t#t2 = time()-t2
@@ -242,7 +251,7 @@ def construct_feature_vector(word, tag, feature_dictionary, history_words, histo
 		#t#t4=time()
 		ans += [ (feature_vector, tuple(new_tags)) ]
 		#t#t4=time()-t4
-	return ans
+	return ans, calc_features
 
 def process(filename,history):
 	reload(sys)  

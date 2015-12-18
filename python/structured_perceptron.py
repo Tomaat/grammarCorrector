@@ -268,6 +268,7 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 		#####=====####==
 		history_vectors = sentence_dict.get(histories[i][0],(0,0,[('-TAGSTART-',)]))[1:3]
 		#print wrd,histories[i]
+		calc_feat = None
 		for j,tag in enumerate(all_tags): 
 			# here you're gonna add your history. 
 			#t3=time()
@@ -281,7 +282,7 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 			#print wrd.orth_,tag,history_vectors
 			t4=time()
 			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, 
-					feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3])
+					feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3], calc_feat)
 			#feature_vectors_tag = histories[i][j]
 					#feature_dict, context_words, i , history, history_vectors, context_pos_tags)
 			#print feature_vectors_tag
