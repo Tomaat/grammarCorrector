@@ -7,3 +7,6 @@ ntlk only flaws noise loaded in 4.978000 sec. Scored 98.355614 on 100 targets in
 ntlk no noise loaded in 5.026000 sec. Scored 146.455784 on 150 targets in 2642.740000 sec.
 nltk only random noise loaded in 3.033000 sec. Scored 147.492148 on 150 targets in 1571.136000 sec.
 ntlk only flaws noise loaded in 3.594000 sec. Scored 146.764875 on 150 targets in 6653.983000 sec.
+
+
+spacy loaded in 60.525899 sec. Scored 48.439781 on 150 targets in 0.540116 sec. 
