@@ -198,7 +198,7 @@ def makeFeatureDict(processed_sentences,history):
 	return feature_dictionary
 
 #def construct_feature_vector(word, tag, feature_dictionary, context_words, i, history, history_vectors, context_pos_tags):
-def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags, distance, calc_features=None):
+def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags, distance, calc_features=[None]):
 	# #if i < history:
 	# history_words = ['-START-'] + context_words[0:i]
 	# history_pos_tags = ['-POSTAGSTART-'] + context_pos_tags[0:i]
@@ -211,8 +211,8 @@ def construct_feature_vector(word, tag, feature_dictionary, history_words, histo
 	# 	history_vectors = (history_vectors[0], [('-TAGSTART-',)] )
 	
 	ans = []
-	if calc_features is None:
-		calc_features = [['']]*len(history_vectors[1])
+	if calc_features[0] is None:
+		calc_features[0] = [['']]*len(history_vectors[1])
 		do_calc = True
 	else:
 		do_calc = False
@@ -226,13 +226,13 @@ def construct_feature_vector(word, tag, feature_dictionary, history_words, histo
 		# 	print 'nan'
 		#t#t1 = time()
 		if do_calc:
-			calc_features[i] = makeFeatures(word,history_words,history_tags, history_pos_tags,distance)
+			calc_features[0][i] = makeFeatures(word,history_words,history_tags, history_pos_tags,distance)
 		
 		#t#t1 = time()-t1
 
 		#t#t2 = time()
-		for feature in calc_features[i]:
-			feature = feature+tag
+		for feature in calc_features[0][i]:
+			feature = feature+'+'+tag
 			if feature in feature_dictionary:
 				feature_vector[feature_dictionary[feature]] =  1
 		#t#t2 = time()-t2
@@ -251,7 +251,7 @@ def construct_feature_vector(word, tag, feature_dictionary, history_words, histo
 		#t#t4=time()
 		ans += [ (feature_vector, tuple(new_tags)) ]
 		#t#t4=time()-t4
-	return ans, calc_features
+	return ans
 
 def process(filename,history):
 	reload(sys)  
