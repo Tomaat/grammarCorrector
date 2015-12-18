@@ -85,8 +85,8 @@ def compare(tree1,tree2):
 def score(tbank,inputs,targets):
 	"""given a treebank, calculate total score from inputs and targets
 	"""
-	assert len(inputs) == len(outputs)
-	score = np.zeros((len(inputs))
+	assert len(inputs) == len(targets)
+	score = np.zeros((len(inputs)))
 	for i,input in enumerate(inputs):
 		#print input
 		t1 = tbank.parse(input)
@@ -102,11 +102,15 @@ def out(*args):
 		ans += str(ar)+' '
 	print ans
 	
-def main():
+def main(xin=0, tbank=None):
 	"""load a given treebank, score it's accuracy and time runtime
 	"""
 	# x is the type of treebank
-	x = 0
+	if tbank is None:
+		x = xin
+	else:
+		x = -1
+		name = "user"
 	# X is the amount of train-trees for nltk-based tbank
 	# Y is the amount of added flaws to the nltk-based tbank
 	# slice X:Z are the sentences tested on
@@ -123,6 +127,7 @@ def main():
 	out( "loading tbank")
 	
 	tl = time()
+
 	if x == 0:
 		name = "spacy"
 		tbank = dts.tbankparser()
@@ -162,8 +167,8 @@ def main():
 	ts = time()-ts
 	
 	out("%s loaded in %f sec. Scored %f on %d targets in %f sec."%(name,tl,s.sum(),len(testing_targets),ts))
-	plt.plot(s)
-	plt.show()
+	np.save(name+'data.npy',s)
+	return s 
 	
 if __name__ == '__main__':
 	main()
