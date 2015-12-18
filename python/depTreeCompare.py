@@ -169,7 +169,12 @@ def main(xin=0, tbank=None):
 	out("%s loaded in %f sec. Scored %f on %d targets in %f sec."%(name,tl,s.sum(),len(testing_targets),ts))
 	np.save(name+'data.npy',s)
 	return s 
+
+def main2():
 	
+
 if __name__ == '__main__':
-	main()
+	main(1)
+	main(4)
+	main(5)
 	
