@@ -256,7 +256,7 @@ class tbankparser:
 		#print score
 		#tree.pprint()
 		
-		if posen:
+		if possen:
 			self._possify(tree)
 
 		return tree

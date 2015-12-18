@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from time import time
 #import pathos.multiprocessing as mp
 from multiprocessing import Pool
+import random
 
 def dictify(tree):
 	"""Given a tree, return a dictionary with the arcs.
@@ -102,7 +103,7 @@ def out(*args):
 		ans += str(ar)+' '
 	print ans
 	
-def main(xin=0, tbank=None):
+def main(xin=0, tbank=None, train_test=None):
 	"""load a given treebank, score it's accuracy and time runtime
 	"""
 	# x is the type of treebank
@@ -118,9 +119,13 @@ def main(xin=0, tbank=None):
 	
 	out( 'making targets')
 	tt = time()
-	data = nltk.corpus.dependency_treebank
-	testing_targets = [t.tree() for t in data.parsed_sents()[X:Z]]
-	testing_inputs = data.sents()[X:Z]
+	if train_test is None:
+		data = nltk.corpus.dependency_treebank
+		testing_targets = [t.tree() for t in data.parsed_sents()[X:Z]]
+		testing_inputs = data.sents()[X:Z]
+	else:
+		testing_targets = train_test[1]
+		testing_inputs = train_test[0]
 	tt = time()-tt
 	out( 'in',tt,'sec')
 	
@@ -167,10 +172,25 @@ def main(xin=0, tbank=None):
 	ts = time()-ts
 	
 	out("%s loaded in %f sec. Scored %f on %d targets in %f sec."%(name,tl,s.sum(),len(testing_targets),ts))
-	np.save(name+'data.npy',s)
+	np.save(name+str(time())+'data.npy',s)
 	return s 
 
 def main2():
+	filename='../release3.2/data/conll14st-preprocessed.m2'
+	f = open(filename,'r')
+	data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
+	sentence_tuples = [(sentence[0][2:],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
+	f.close()
+	random.shuffle(sentence_tuples)
+	sents = sentence_tuples[:150]
+	tbank_s = dts.tbankparser()
+	targets = [tbank_s.parse(t[0]) for t in sents]
+	inputs = [t[0] for t in sents]
+	
+	main(1,None,(inputs,targets))
+	main(4,None,(inputs,targets))
+	main(5,None,(inputs,targets))
+	
 	
 
 if __name__ == '__main__':
