@@ -46,14 +46,8 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		weight_matrix = sp.init_weights(len(feature_dict))
 	E = 0.0
 	for sentence in all_sentences:
-		if 1:#try:
+		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
-
-		#try:
-			# """
-			# ==== comment 1
-			# hier loopt de code nog op de oude manier door de zin, dit moet dus via de nieuwe manier (zie comment 0 in structured_perceptron)
-			# """
 
 			histories = []
 			target_feature_vectors = []
@@ -147,7 +141,7 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 			E = sp.test_perceptron_once(E, parsed_tree, feature_dict, 
 						history, weight_matrix, histories, context_tags)
 		
-		else:#except Exception as ex:
+		except Exception as ex:
 			log('flaw',sentence)
 	return E
 

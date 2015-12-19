@@ -26,9 +26,6 @@ import dataparser as dp
 import pipeline
 from time import time
 
-
-
-
 ###########################################################################################################
 
 all_tags = ["Ne",#:"No Error",
@@ -87,7 +84,6 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 	pre_pros = []
 	t1 = time()
 	for sentence in all_sentences:
-		#if 1:#
 		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			# For loop around this, so that you loop through all sentences --> weights should be updated

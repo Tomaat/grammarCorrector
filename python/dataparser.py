@@ -117,7 +117,7 @@ def makeFeatureDict(processed_sentences,history):
 
 	for sentence in processed_sentences:
 		#print sentence.raw_sentence
-		if 1:#try:
+		try:
 			if golinear:
 				# """
 				# ==== comment 2
@@ -198,7 +198,7 @@ def makeFeatureDict(processed_sentences,history):
 						if feature not in feature_dictionary:
 							feature_dictionary[feature] = index	
 							index += 1
-		else:#except:
+		except:
 			pipeline.log('feat',sentence)
 
 	return feature_dictionary
@@ -302,9 +302,9 @@ def process(filename,history):
 		#print sentence_tuple
 		if len( sentence_tuple[0]) < 1:
 			continue
-		if True:#try:
+		try:
 			processed_sentences.append(Sentence(sentence_tuple))
-		else:#except Exception as ex:
+		except Exception as ex:
 			pipeline.log('init',sentence_tuple)
 	print "make feature vectors"
 	feature_dictionary = makeFeatureDict(processed_sentences,history)
