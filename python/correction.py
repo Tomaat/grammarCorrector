@@ -343,6 +343,7 @@ if __name__ == '__main__':
 	#print ngram_dict"""
 
 	c = Correction()
+	# comment these three lines out if you don't want spacy
 	print "Starting with the spacy stuff.."
 	from spacy.en import LOCAL_DATA_DIR, English
 	tbank = dt.tbankparser()
