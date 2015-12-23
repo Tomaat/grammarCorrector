@@ -1,0 +1,32 @@
+4-gram: This will , caused
+Correction: cause
+
+4-gram: caused as there spaces
+Correction: space
+
+4-gram: problems space the in
+Correction: of
+
+4-gram: that as such desserts
+Correction: deserts
+
+4-gram: Since , technology had
+Correction: has
+
+4-gram: , technology had through
+Correction: exploited for
+
+4-gram: technology had through ,
+Correction: and
+
+4-gram: self - ' exploring
+Correction: exploration
+
+4-gram: like the increasing of
+Correction: for
+
+4-gram: the taller so it
+Correction: the same area of land
+
+4-gram: can number with more
+Correction: a greater
