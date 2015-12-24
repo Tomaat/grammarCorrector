@@ -7,28 +7,6 @@ import depTree as dts
 """
 	write sentences to a new file, not in lineair order but in parse tree order.
 """
-"""
-if parsed_sentence[i].child
-			cur = wrd
-			print wrd
-			history_words = []
-			for j in range(1,len(parsed_sentence)+1):
-				par = cur.head
-				if cur == par:
-					parw = '-START-'
-					cur = par
-					history_words.insert(0,parw) # TEST DIT EVEN  
-					break  
-				else:
-					parw = par.orth_
-					cur = par
-					history_words.insert(0,parw)
-				#print history_words
-		#print sentence
-		print parsed_sentence 
-		print len(parsed_sentence)
-		print "----------------------------"
-"""
 
 def test(brown_sentenecs, tbank, iterloop):
 	for sentence in brown_sentenecs[:1]:
