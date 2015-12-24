@@ -9,6 +9,9 @@ class Sentence:
 		self.pos_tags_sentence = self.posTagSentece(self.raw_sentence) 
 		self.words_tags = self.makeTagTouples() 
 
+
+	
+
 	def makeTagTouples(self):
 		splited_sentences = self.raw_sentence.split(' ') #Do we need a better way to split a sentence? Little bit tricky to split in spaces
 		if not self.error_list:
