@@ -266,8 +266,8 @@ def correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict,filename='.
 			error_ngram = tuple(tokens[end-N-1:end]) # find error ngrams that are fed to the correction (always four tokens)
 			#print "error ngram: ", error_ngram
 			c = Correction()
-			c.no_best_ngrams = 50
-			c.no_best_ngrams = 10
+			#c.no_best_ngrams = 50
+			#c.no_best_ngrams = 10
 
 			# find the correction predicted by the corrector
 			correct = c.find_correction(quatrogram_dict,trigram_dict,bigram_dict,unigram_dict,error_ngram,er_type,nlp2=nlp)
@@ -283,6 +283,38 @@ def correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict,filename='.
 				print "no correction found" # sometimes the list is empty
 
 	print it,cor1,cor5
+
+
+def correct_dep(quatr, trigram_dict, bigram_dict, unigram_dict, filename, nlp=None):
+
+	with open (filename) as datafile: # import sgml data-file
+		data_lines = datafile.readlines()
+		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
+
+		# make tuples: (quadrigram, correction)
+		err_cor_tuples = [(ngram[0][0:][8:], ngram[1][0:][12:]) for ngram in data_raw] #8: as 'n-gram: ' needs to be deleted --> 8 characters, same idea for 12 ('Correction: ')
+		print err_cor_tuples
+
+	cor1 = 0
+	cor5 = 0
+	it = 0
+	for ngram,correction in err_cor_tuples:
+		it += 1
+		c = Correction()
+		correct = c.find_correction(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, ngram, 'true', nlp2=nlp)
+
+		if correct:		
+			if correct[-1][0] == er_correct:
+				cor1 += 1
+			if er_correct in [k for k,s in correct]:
+				cor5 += 1
+			print error_ngram, er_type, er_correct, correct[-3:]
+		else:
+			print "no correction found" # sometimes the list is empty
+
+	print "number of iterations: ", it
+	print "number correct on pos 1: ", cor1,
+	print "number in top x: ", cor5
 
 def prepare(parse_type, filename):
 	""" Preperation for the correction: find ngrams and compute likelihood
@@ -321,10 +353,11 @@ def prepare(parse_type, filename):
 
 if __name__ == '__main__':
 
+	use_spacy = True
 	#parse_type = "linear"
 	parse_type = "dep"
-	#filename_prep = "preprocessed-BrownCorpus.txt"
-	filename_prep = "test.txt"
+	filename_prep = "preprocessed-BrownCorpus.txt"
+	#filename_prep = "test.txt"
 	quatrogram_dict,trigram_dict,bigram_dict,unigram_dict = prepare(parse_type, filename_prep)
 
 	"""ng = NGrams()
@@ -342,21 +375,26 @@ if __name__ == '__main__':
 	unigram_dict = ng.ngram_log_likelihood(unigrams, unigram_count)
 	#print ngram_dict"""
 
-	c = Correction()
-	# comment these three lines out if you don't want spacy
-	print "Starting with the spacy stuff.."
-	from spacy.en import LOCAL_DATA_DIR, English
-	tbank = dt.tbankparser()
+	#c = Correction()
+	# comment these three lines out if you don't want spacy, uncomment if you do
+	if use_spacy:
+		print "Starting with the spacy stuff.."
+		from spacy.en import LOCAL_DATA_DIR, English
+		tbank = dt.tbankparser()
 	
 	print "Finding corrections..."
-
-	filename='../release3.2/data/train.data.tiny'
-	# with spacy
-	correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename, tbank.nlp)
-	
-	# without spacy
-	#correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename)
-	
+	if parse_type == "dep":
+		filename = "test_correction.txt" # "preprocessed-4gram-sentences.txt"
+		if use_spacy:
+			correct_dep(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename, tbank.nlp)
+		else:
+			correct_dep(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename)
+	else:
+		filename='../release3.2/data/train.data.tiny'
+		if use_spacy:
+			correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename, tbank.nlp)
+		else:
+			correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename)
 
 	#c.find_correction(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, ("I", "see", "you", "smike"), 'true')
 	#c.find_correction({}, trigram_dict, {}, {}, ("will", "behave", "jist"), 'true', tbank.nlp)
