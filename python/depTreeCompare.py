@@ -175,14 +175,14 @@ def main(xin=0, tbank=None, train_test=None):
 	np.save(name+str(time())+'data.npy',s)
 	return s 
 
-def main2():
+def main2(): # run this
 	filename='../release3.2/data/conll14st-preprocessed.m2'
 	f = open(filename,'r')
 	data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
 	sentence_tuples = [(sentence[0][2:],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
 	f.close()
 	random.shuffle(sentence_tuples)
-	sents = sentence_tuples[:150]
+	sents = sentence_tuples[:150] # this is the only thing what I have to do
 	tbank_s = dts.tbankparser()
 	targets = [tbank_s.parse(t[0]) for t in sents]
 	inputs = [t[0] for t in sents]

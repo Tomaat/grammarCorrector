@@ -26,9 +26,6 @@ import dataparser as dp
 import pipeline
 from time import time
 
-
-
-
 ###########################################################################################################
 
 all_tags = ["Ne",#:"No Error",
@@ -87,7 +84,6 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 	pre_pros = []
 	t1 = time()
 	for sentence in all_sentences:
-		#if 1:#
 		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			# For loop around this, so that you loop through all sentences --> weights should be updated
@@ -234,7 +230,7 @@ def get_tag_from_vector(feature_vector,feature_dict):
 				tags.append(all_tags[i])
 	return tags
 
-def test_perceptron_once(E, parsed_tree, feature_dict, history, weight_matrix, context_words, context_pos_tags, histories, context_tags=None):
+def test_perceptron_once(E, parsed_tree, feature_dict, history, weight_matrix, histories, context_tags=None):
 	if context_tags is None:
 		context_tags = ['Ne']*len(parsed_tree)
 	feature_vectors_sentence = viterbi(parsed_tree, feature_dict, history, weight_matrix, histories)
@@ -263,8 +259,8 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 	# --------------------------- Viterbi forward path --------------------------- #
 	t1=time()
 	for i,wrd in enumerate(iterloop(parsed_tree) ): # now you know the position of the word in your sentence
-		#if i == 3:
-		#	break
+		# if i == 3:
+		# 	break
 		feature_vector_array = np.zeros((no_tags, SIZE) ) # now we assume we have only two features per tag (n.b. so this is not only correct or false, it's features)
 		tag_score_array = np.zeros((no_tags))
 		history_list = []
@@ -285,8 +281,17 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 			#feature_vectors_tag = construct_feature_vector(wrd.orth_, tag, history_vectors) # now it should return a vector based on the history --> please return list with numpy arrays
 			#print wrd.orth_,tag,history_vectors
 			t4=time()
-			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, 
-					feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3], calc_feat)
+			#print calc_feat
+			#feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3])
+			feature_vectors_tag = dp.construct_feature_vector2(wrd.orth_, tag, feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3], calc_feat)
+			
+			#xpl = zip(feature_vectors_tag,feature_vectors_tag2)
+			#print '===HERE===',wrd,tag
+			#print calc_feat
+			# for xpls in xpl:
+			# 	print '==ONE==',xpls[0][0]
+			# 	print '==TWO==',xpls[1][0]
+			# 	print (xpls[0][0] != xpls[1][0]).nonzero()
 			#feature_vectors_tag = histories[i][j]
 					#feature_dict, context_words, i , history, history_vectors, context_pos_tags)
 			#print feature_vectors_tag
@@ -347,7 +352,7 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 		#print history_list[high_score]
 		final_feature_vectors.append(best_vector) ## might want to change the order of this, or not, depends a bit on how we decide to give the output for the sequence
 	t6=time()-t6
-	print "%3.7f  %3.7f  %3.7f  %3.7f  %3.7f  "%(t1,t2,t4,t5,t6)
+	#print "%3.7f  %3.7f  %3.7f  %3.7f  %3.7f  "%(t1,t2,t4,t5,t6)
 	#print "final feature vectors: ", final_feature_vectors
 	#print [v[0:29] for v in final_feature_vectors]
 	return final_feature_vectors

@@ -1,7 +1,7 @@
 import nltk
 #from nltk.corpus import words
 from nltk.corpus import brown
-
+from random import shuffle 
 word_dict = {}
 english_words = []
 english_words_raw = brown.words() #words.words('en')
@@ -19,7 +19,7 @@ for punct in punctuation:
 	word_dict[punct] = 1
 
 #conll14st-preprocessed.m2
-with open ('../release3.2/data/validate.data') as datafile: # import sgml data-file
+with open ('../release3.2/data/full-dataset.txt') as datafile: # import sgml data-file
 	data_lines = datafile.readlines()
 	data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
 
@@ -35,10 +35,26 @@ for block in data_raw:
 	if add:
 		new_data.append(block)
 			
+shuffle(new_data)
 
-filename = "../release3.2/data/validate.data.pre"
-f = open(filename,'w')
-for block in new_data:
+train_data = new_data[:int(len(new_data)*0.9)-1]
+validate_data = new_data[int(len(new_data)*0.9):]
+
+
+train_path = "train-data.data.pre"
+validate_path = "validate-data.data.pre"
+
+train_file = open(train_path,'w')
+for block in train_data:
 	for ding in block:
-		f.write(ding+'\n')
-	f.write('\n')
+		train_file.write(ding+'\n')
+	train_file.write('\n')
+train_file.close()
+
+
+validate_file = open(validate_path,'w')
+for block in validate_data:
+	for ding in block:
+		validate_file.write(ding+'\n')
+	validate_file.write('\n')
+validate_file.close()

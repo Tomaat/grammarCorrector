@@ -5,6 +5,7 @@ from nltk import ngrams
 from math import log10
 import spacy
 import depTree as dt
+import pprint
 
 from random import choice
 
@@ -45,6 +46,33 @@ class NGrams:
 				old += 1
 				ngram_freq_dict[i] = old
 				#print i,old
+
+		return ngram_freq_dict, total_ngram_count
+
+	def find_ngrams_dep(self, filename, n):
+		""" Finds ngrams based on a dependency parsed corpus
+
+			Input:	dependency parsed corpus
+					the 'n' of n-grams
+
+			Output:	frequency dictionary for the ngrams
+					total ngram count
+		"""
+
+		total_ngram_count = 0
+		ngram_freq_dict = {}
+
+		f = open(filename)
+		for line in f.readlines():
+			if line != '\n':
+				split = line.split()
+				ngrams_dep = ngrams(split, n)
+				
+				for i in ngrams_dep:
+					total_ngram_count += 1
+					old = ngram_freq_dict.get(i,0)
+					old += 1
+					ngram_freq_dict[i] = old
 
 		return ngram_freq_dict, total_ngram_count
 
@@ -128,12 +156,13 @@ class Correction(NGrams):
 		#print "Getting all the English spacy stuff..."
 		
 		#print "Done with that!"
+		#nlp = 1
 		if not nlp is None:
 			spacy_error = nlp(unicode(error_sequence[-1], encoding="utf-8"))
 
 			#print "Finding similarity measures"
 			for correction in self.ngram_corrections:
-				spacy_correction = nlp(correction[0]) # assuming that this is already written in unicode
+				spacy_correction = nlp(unicode(correction[0], encoding="utf-8")) # assuming that this is already written in unicode
 				similarity_score = spacy_correction.similarity(spacy_error)
 				word_score = correction[1]*(2**similarity_score)
 				self.final_corrections.append((correction[0], word_score))
@@ -158,83 +187,180 @@ class Correction(NGrams):
 
 				# You want to give a higher score to words that have many letters in common --> might want to take word length into account
 				if letters:
-					score = 0
-					no_letters = 0
 					error = error_sequence[len_sequence]
-					for char in key[len_sequence]:
-						no_letters += 1
-						if char in error:
-							score += 1
-
-					score = float(score)/no_letters
-
+					score = calc_common_letters(error, key[len_sequence])
+					
 				if not nlp is None:
 					spacy_error = nlp(unicode(error_sequence[len_sequence], encoding="utf-8"))
 					#print "Finding similarity measures"
-					spacy_correction = nlp(key[len_sequence])
+					spacy_correction = nlp(unicode(key[len_sequence], encoding="utf-8"))
 					similarity_score = spacy_correction.similarity(spacy_error)
-					
+					print "similarity_score: ", similarity_score
+				
+				if nlp is None:
+					similarity_score = 0
+
+				print "value: ", value
+				print "score: ", score
 				final_score = 4**(-1*value)*(2**similarity_score)*(3**score)
 				#print 'Value: ', value
 				#print 'Score: ', score
-				#print 'Final score: ', final_score
+				print 'Final score: ', final_score
 
 				potential_corrections.append((key[len_sequence], final_score))
 
 		return potential_corrections
 
-def maartje(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict,filename='../release3.2/data/train.data.tiny',nlp=None):
+def calc_common_letters(error, pred):
+
+	sim_dict = {}
+	for char in error:
+		if char in pred:
+			sim_dict[char]=sim_dict.get(char,0)+1
+	
+	score = len(sim_dict.keys()) / len(pred)
+	return score
+
+def correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict,filename='../release3.2/data/train.data.tiny',nlp=None):
+	""" Finds corrections and compares with target corrections
+
+		Input: 	all ngram dictionaries
+				error file
+				nlp
+	"""
+
 	with open (filename) as datafile: # import sgml data-file
 		data_lines = datafile.readlines()
+		print data_lines
 		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
 		sentence_tuples = [(sentence[0][1:],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
-	
+		
 	N = 4-1
+	#N = 3-1
 	cor1 = 0
 	cor5 = 0
 	it = 0
 	for sentence,errors in sentence_tuples:
 		tokens = sentence.split()
+		#print "tokens: ", tokens
 		tokens = ['-START-']*N+tokens
+		#print "new tokens: ", tokens
+		
+		# Find the errors so that you can compare with the predicted correction
 		for error in errors:
+			#print "error: ", error
 			begin = int(error[0].split()[1])+N
+			#print "begin: ", begin
 			end = int(error[0].split()[2])+N
+			#print "end: ", end
 			er_type = error[1]
+			#print "error type: ", er_type
 			er_correct = error[2]
+			#print "error correction: ", er_correct
 
 			if ( begin+1 != end ) or (len(er_correct.split()) != 1):
+				#print 'Continue'
 				continue
+
 			it += 1
-			error_ngram = tuple(tokens[end-N-1:end])
+			error_ngram = tuple(tokens[end-N-1:end]) # find error ngrams that are fed to the correction (always four tokens)
+			#print "error ngram: ", error_ngram
 			c = Correction()
-			c.no_best_ngrams = 50
-			c.no_best_ngrams = 10
+			#c.no_best_ngrams = 50
+			#c.no_best_ngrams = 10
+
+			# find the correction predicted by the corrector
 			correct = c.find_correction(quatrogram_dict,trigram_dict,bigram_dict,unigram_dict,error_ngram,er_type,nlp2=nlp)
+			print "correct: ", correct 
+
+			if correct:		
+				if correct[-1][0] == er_correct:
+					cor1 += 1
+				if er_correct in [k for k,s in correct]:
+					cor5 += 1
+				print error_ngram, er_type, er_correct, correct[-3:]
+			else:
+				print "no correction found" # sometimes the list is empty
+
+	print it,cor1,cor5
+
+
+def correct_dep(quatr, trigram_dict, bigram_dict, unigram_dict, filename, nlp=None):
+
+	with open (filename) as datafile: # import sgml data-file
+		data_lines = datafile.readlines()
+		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
+
+		# make tuples: (quadrigram, correction)
+		err_cor_tuples = [(ngram[0][0:][8:], ngram[1][0:][12:]) for ngram in data_raw] #8: as 'n-gram: ' needs to be deleted --> 8 characters, same idea for 12 ('Correction: ')
+		print err_cor_tuples
+
+	cor1 = 0
+	cor5 = 0
+	it = 0
+	for ngram,correction in err_cor_tuples:
+		it += 1
+		c = Correction()
+		correct = c.find_correction(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, ngram, 'true', nlp2=nlp)
+
+		if correct:		
 			if correct[-1][0] == er_correct:
 				cor1 += 1
 			if er_correct in [k for k,s in correct]:
 				cor5 += 1
 			print error_ngram, er_type, er_correct, correct[-3:]
-	print it,cor1,cor5
+		else:
+			print "no correction found" # sometimes the list is empty
 
-def prepare():
+	print "number of iterations: ", it
+	print "number correct on pos 1: ", cor1,
+	print "number in top x: ", cor5
+
+def prepare(parse_type, filename):
+	""" Preperation for the correction: find ngrams and compute likelihood
+
+		Input:	linear or dependency wise
+				filename, in case you want to parse dep wise
+
+		Output:	all ngram likelihood dictionaries
+
+	"""
+
 	ng = NGrams()
 	
-	print "Finding ngrams..."
-	quatrograms, quatrogram_count = ng.find_ngrams(4)
-	trigrams, trigram_count = ng.find_ngrams(3)
-	bigrams, bigram_count = ng.find_ngrams(2)
-	unigrams, unigram_count = ng.find_ngrams(1)
+	if parse_type == "linear":		
+		print "Finding ngrams linear..."
+		quatrograms, quatrogram_count = ng.find_ngrams(4)
+		trigrams, trigram_count = ng.find_ngrams(3)
+		bigrams, bigram_count = ng.find_ngrams(2)
+		unigrams, unigram_count = ng.find_ngrams(1)
+
+	elif parse_type == "dep":
+		print "Finding ngrams dependency..."
+		quatrograms, quatrogram_count = ng.find_ngrams_dep(filename, 4)
+		trigrams, trigram_count = ng.find_ngrams_dep(filename, 3)
+		bigrams, bigram_count = ng.find_ngrams_dep(filename, 2)
+		unigrams, unigram_count = ng.find_ngrams_dep(filename, 1)
 
 	print "Compute log likelihood..."
 	quatrogram_dict = ng.ngram_log_likelihood(quatrograms, quatrogram_count)
 	trigram_dict = ng.ngram_log_likelihood(trigrams, trigram_count)
 	bigram_dict = ng.ngram_log_likelihood(bigrams, bigram_count)
 	unigram_dict = ng.ngram_log_likelihood(unigrams, unigram_count)
+	
 	return quatrogram_dict,trigram_dict,bigram_dict,unigram_dict
 
+
 if __name__ == '__main__':
-	ng = NGrams()
+
+	use_spacy = True
+	#parse_type = "linear"
+	parse_type = "dep"
+	filename_prep = "preprocessed-BrownCorpus.txt"
+	#filename_prep = "test.txt"
+	quatrogram_dict,trigram_dict,bigram_dict,unigram_dict = prepare(parse_type, filename_prep)
+
+	"""ng = NGrams()
 	
 	print "Finding ngrams..."
 	quatrograms, quatrogram_count = ng.find_ngrams(4)
@@ -247,14 +373,29 @@ if __name__ == '__main__':
 	trigram_dict = ng.ngram_log_likelihood(trigrams, trigram_count)
 	bigram_dict = ng.ngram_log_likelihood(bigrams, bigram_count)
 	unigram_dict = ng.ngram_log_likelihood(unigrams, unigram_count)
-	#print ngram_dict
+	#print ngram_dict"""
 
-	c = Correction()
-	#print "Starting with the spacy stuff.."
-	#from spacy.en import LOCAL_DATA_DIR, English
-	#tbank = dt.tbankparser()
+	#c = Correction()
+	# comment these three lines out if you don't want spacy, uncomment if you do
+	if use_spacy:
+		print "Starting with the spacy stuff.."
+		from spacy.en import LOCAL_DATA_DIR, English
+		tbank = dt.tbankparser()
+	
 	print "Finding corrections..."
-	maartje(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict,filename)
+	if parse_type == "dep":
+		filename = "test_correction.txt" # "preprocessed-4gram-sentences.txt"
+		if use_spacy:
+			correct_dep(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename, tbank.nlp)
+		else:
+			correct_dep(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename)
+	else:
+		filename='../release3.2/data/train.data.tiny'
+		if use_spacy:
+			correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename, tbank.nlp)
+		else:
+			correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename)
+
 	#c.find_correction(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, ("I", "see", "you", "smike"), 'true')
 	#c.find_correction({}, trigram_dict, {}, {}, ("will", "behave", "jist"), 'true', tbank.nlp)
 	#c.find_correction({}, trigram_dict, {}, {}, ("will", "behave", "jist"), 'true')
