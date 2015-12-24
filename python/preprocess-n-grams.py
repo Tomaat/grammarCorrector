@@ -20,14 +20,13 @@ if __name__ == '__main__':
 		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			context_tags = [sentence.words_tags[dts.sen_idx(sentence.raw_sentence, wrd)][1] for wrd in dts.dfirst(parsed_tree)]
-			sentence_array = ['-START-']
+			sentence_array = ['-START-','-START-','-START-']
 			seen_mistakes = []
 			for i,wrd in enumerate(dts.dfirst(parsed_tree)):
 				i += 1
 				sentence_array.append(wrd.orth_)
 				if context_tags[i-1] != "Ne":
-					sentence_len =  len(sentence_array)
-					if sentence_len >= 4:
+						sentence_len =  len(sentence_array)
 						n_gram_words = sentence_array[i-3:i+1]
 						for error in sentence.error_list:
 							if error.error_type == context_tags[i-1] and error.error_start_index + 1 == error.error_end_index:
