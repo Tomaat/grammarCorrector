@@ -79,6 +79,20 @@ def _init_(size,tb,gotype):
 	else:
 		iterloop = dt.dfirst
 
+def v2d(vec):
+	dic = {}
+	for i,v in enumerate(vec):
+		if v != 0.:
+			dic[i] = v
+	return (vec.shape,dic)
+	
+def d2v(dic):
+	shape,data = dic
+	vec = np.zeros(shape)
+	for i,v in data.iteritems():
+		vec[i] = v
+	return vec
+		
 def train_perceptron(all_sentences, feature_dict, tbank, history):
 	weight_matrix = init_weights(len(feature_dict))
 	pre_pros = []
@@ -172,7 +186,7 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 			# /==== end comment 0
 			# """
 			#print histories
-			dict_target_feature_vectors = v2d(target_feature_vector)
+			dict_target_feature_vectors = [v2d(target_feature_vector) for target_feature_vector in target_feature_vectors]
 			pre_pros.append((parsed_tree,dict_target_feature_vectors,histories))
 			#weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 	 		#			history, weight_matrix, context_words, context_pos_tags)
@@ -187,7 +201,7 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 		print "at iter",i
 		cum_weights = (i)*weight_matrix
 		for parsed_tree,dict_target_feature_vectors,histories in pre_pros:
-			target_feature_vectors
+			target_feature_vectors = [d2v(dict_target_feature_vector) for dict_target_feature_vector in dict_target_feature_vectors]
 			weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 							history, weight_matrix, histories)
 		weight_matrix = (cum_weights + weight_matrix)/(i+1)
