@@ -124,39 +124,39 @@ class Correction(NGrams):
 
 		# 1) Find suitable n-grams
 		self.pot_corrections = self.find_suitable_ngrams(quatrogram_dict, error_sequence,True,nlp2)
+		#print "after 4-grams: ", self.pot_corrections
 		#self.pot_corrections = self.find_suitable_ngrams(trigram_dict, error_sequence)
 		#print "Corrections quatro: ", self.pot_corrections
 
 		# If you can't find suitable n-grams --> backoff
 		if self.pot_corrections == []:
 			self.pot_corrections = self.find_suitable_ngrams(trigram_dict, error_sequence[1:],True,nlp2)
-			#print "Corrections tri: ", self.pot_corrections
+			#print "after 3-grams: ", self.pot_corrections
+
 
 			if self.pot_corrections == []:
 				self.pot_corrections = self.find_suitable_ngrams(bigram_dict, error_sequence[2:],True,nlp2)
-				#print "Corrections bi: ", self.pot_corrections
+				#print "after 2-grams: ", self.pot_corrections
 
-				#if self.pot_corrections == []:
-				#	self.pot_corrections == self.find_suitable_ngrams(unigram_dict, error_sequence[3:])
-				#	print "Corrections uni: ", self.pot_corrections
+
 
 		# For testing
 		#self.pot_corrections.append((u'jus', 2))
 		#sself.pot_corrections.append((u'test', 8))
 
 		sortedlist = sorted(self.pot_corrections, key=lambda x:x[1])
-		#print 'lensl',len(sortedlist)
-		# 1b) Find the best n-grams. 
-		
-		self.ngram_corrections = sortedlist[-self.no_ngrams:] # note this is from small to big
-		#print 'ngram',len(self.ngram_corrections)
-		#print self.ngram_corrections
 
-		# 2) Select n-grams based on word distance (spacy) --> you might not want to do this --> lot of effort
-		#print "Getting all the English spacy stuff..."
-		
-		#print "Done with that!"
-		#nlp = 1
+		# 1b) Find the best n-grams. 
+		for i in range(self.no_ngrams,0,-1):
+			self.ngram_corrections = sortedlist[-i:] # note this is from small to big
+			if self.ngram_corrections == []:
+				#print i
+				i = i-1
+			else:
+				continue
+		#print 'ngram',len(self.ngram_corrections)
+		#print "Corrections found: ", self.ngram_corrections
+
 		if not nlp is None:
 			spacy_error = nlp(unicode(error_sequence[-1], encoding="utf-8"))
 
@@ -181,13 +181,20 @@ class Correction(NGrams):
 
 		len_sequence = len(error_sequence)-1
 		potential_corrections = []
+		#print "error sequence: ", error_sequence
+		#print "looking for this: ", error_sequence[0:len_sequence]
 
 		for key,value in ngram_dict.iteritems():
-			if key[0:len_sequence] == error_sequence[0:len_sequence]:
-
+			#print "ngram in dict: ", [key[0:len_sequence][0]]
+			#if [key[0:len_sequence]] == [been]:
+			#	print 'yay'
+			#if [key[0:len_sequence][0]] == error_sequence[0:len_sequence]: # added list brackets, might change that when going linear?
+			if key[0:len_sequence] == error_sequence[0:len_sequence]: # added list brackets, might change that when going linear?
 				# You want to give a higher score to words that have many letters in common --> might want to take word length into account
 				if letters:
 					error = error_sequence[len_sequence]
+					#print key[len_sequence]
+					#print "error: ", error
 					score = calc_common_letters(error, key[len_sequence])
 					
 				if not nlp is None:
@@ -195,17 +202,17 @@ class Correction(NGrams):
 					#print "Finding similarity measures"
 					spacy_correction = nlp(unicode(key[len_sequence], encoding="utf-8"))
 					similarity_score = spacy_correction.similarity(spacy_error)
-					print "similarity_score: ", similarity_score
+					#print "similarity_score: ", similarity_score
 				
 				if nlp is None:
 					similarity_score = 0
 
-				print "value: ", value
-				print "score: ", score
+				#print "value: ", value
+				#print "score: ", score
 				final_score = 4**(-1*value)*(2**similarity_score)*(3**score)
 				#print 'Value: ', value
 				#print 'Score: ', score
-				print 'Final score: ', final_score
+				#print 'Final score: ', final_score
 
 				potential_corrections.append((key[len_sequence], final_score))
 
@@ -271,14 +278,14 @@ def correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict,filename='.
 
 			# find the correction predicted by the corrector
 			correct = c.find_correction(quatrogram_dict,trigram_dict,bigram_dict,unigram_dict,error_ngram,er_type,nlp2=nlp)
-			print "correct: ", correct 
+			#print "correct: ", correct 
 
 			if correct:		
 				if correct[-1][0] == er_correct:
 					cor1 += 1
 				if er_correct in [k for k,s in correct]:
 					cor5 += 1
-				print error_ngram, er_type, er_correct, correct[-3:]
+				#print error_ngram, er_type, er_correct, correct[-3:]
 			else:
 				print "no correction found" # sometimes the list is empty
 
@@ -292,25 +299,33 @@ def correct_dep(quatr, trigram_dict, bigram_dict, unigram_dict, filename, nlp=No
 		data_raw = [p.split('\n') for p in ''.join(data_lines).split('\n\n')]
 
 		# make tuples: (quadrigram, correction)
-		err_cor_tuples = [(ngram[0][0:][8:], ngram[1][0:][12:]) for ngram in data_raw] #8: as 'n-gram: ' needs to be deleted --> 8 characters, same idea for 12 ('Correction: ')
-		print err_cor_tuples
+		try:
+			err_cor_tuples = [(nltk.word_tokenize(ngram[0][0:][8:]), ngram[1][0:][12:]) for ngram in data_raw] #8: as 'n-gram: ' needs to be deleted --> 8 characters, same idea for 12 ('Correction: ')
+		except Exception as ex:
+			print "fout"
 
 	cor1 = 0
 	cor5 = 0
 	it = 0
 	for ngram,correction in err_cor_tuples:
-		it += 1
-		c = Correction()
-		correct = c.find_correction(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, ngram, 'true', nlp2=nlp)
 
-		if correct:		
-			if correct[-1][0] == er_correct:
-				cor1 += 1
-			if er_correct in [k for k,s in correct]:
-				cor5 += 1
-			print error_ngram, er_type, er_correct, correct[-3:]
-		else:
-			print "no correction found" # sometimes the list is empty
+		if not ' ' in correction:
+			it += 1
+			if it % 20 == 0:
+				print it
+			c = Correction()
+			correct = c.find_correction(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, ngram, 'true', nlp2=nlp)
+
+			if correct:		
+				if correct[-1][0] == correction:
+					cor1 += 1
+				if correction in [k for k,s in correct]:
+					cor5 += 1
+				#print "correction fou was:", ngram
+				#print "real correction was: ", correction
+				correct[-3:]
+			else:
+				print "no correction found" # sometimes the list is empty
 
 	print "number of iterations: ", it
 	print "number correct on pos 1: ", cor1,
@@ -353,29 +368,13 @@ def prepare(parse_type, filename):
 
 if __name__ == '__main__':
 
-	use_spacy = True
-	#parse_type = "linear"
-	parse_type = "dep"
-	filename_prep = "preprocessed-BrownCorpus.txt"
-	#filename_prep = "test.txt"
+	use_spacy = False
+	parse_type = "linear"
+	#parse_type = "dep"
+	#filename_prep = "preprocessed-BrownCorpus.txt"
+	filename_prep = "test.txt"
 	quatrogram_dict,trigram_dict,bigram_dict,unigram_dict = prepare(parse_type, filename_prep)
 
-	"""ng = NGrams()
-	
-	print "Finding ngrams..."
-	quatrograms, quatrogram_count = ng.find_ngrams(4)
-	trigrams, trigram_count = ng.find_ngrams(3)
-	bigrams, bigram_count = ng.find_ngrams(2)
-	unigrams, unigram_count = ng.find_ngrams(1)
-
-	print "Compute log likelihood..."
-	quatrogram_dict = ng.ngram_log_likelihood(quatrograms, quatrogram_count)
-	trigram_dict = ng.ngram_log_likelihood(trigrams, trigram_count)
-	bigram_dict = ng.ngram_log_likelihood(bigrams, bigram_count)
-	unigram_dict = ng.ngram_log_likelihood(unigrams, unigram_count)
-	#print ngram_dict"""
-
-	#c = Correction()
 	# comment these three lines out if you don't want spacy, uncomment if you do
 	if use_spacy:
 		print "Starting with the spacy stuff.."
@@ -384,13 +383,14 @@ if __name__ == '__main__':
 	
 	print "Finding corrections..."
 	if parse_type == "dep":
-		filename = "test_correction.txt" # "preprocessed-4gram-sentences.txt"
+		filename = "test_correction.txt" 
+		#filename = "preprocessed-4gram-sentences.txt"
 		if use_spacy:
 			correct_dep(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename, tbank.nlp)
 		else:
 			correct_dep(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename)
 	else:
-		filename='../release3.2/data/train.data.tiny'
+		filename='test_linear.txt'
 		if use_spacy:
 			correct(quatrogram_dict, trigram_dict, bigram_dict, unigram_dict, filename, tbank.nlp)
 		else:

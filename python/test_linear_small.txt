@@ -1,0 +1,22 @@
+S This will , if not already , caused problems as there are very limited spaces for us .
+A 7 8|||Vform|||cause|||REQUIRED|||-NONE-|||0
+A 11 12|||SVA|||is|||REQUIRED|||-NONE-|||0
+A 14 15|||Nn|||space|||REQUIRED|||-NONE-|||0
+
+S The solution can be obtain by using technology to achieve a better usage of space that we have and resolve the problems in lands that inhospitable such as desserts and swamps .
+A 4 5|||Vform|||obtained|||REQUIRED|||-NONE-|||0
+A 22 23|||Prep|||of|||REQUIRED|||-NONE-|||0
+A 28 29|||Mec|||deserts|||REQUIRED|||-NONE-|||0
+
+S Since then , nuclear technology had been through wars , arms races and had found many applications in the medical , industrial and energy fields .
+A 5 6|||Vt|||has|||REQUIRED|||-NONE-|||0
+A 7 8|||Wci|||exploited for|||REQUIRED|||-NONE-|||0
+A 9 10|||Mec|||and|||REQUIRED|||-NONE-|||0
+
+S Creativity is developed by students ' exploring through their self-learning .
+A 6 7|||Wform|||exploration|||REQUIRED|||-NONE-|||0
+
+S The only way to satisfy the increasing demands of space is by achieving a better usage of the land like designing taller building so it can accommodate more number of people with the same spaces .
+A 8 9|||Prep|||for|||REQUIRED|||-NONE-|||0
+A 24 25|||Pref|||the same area of land|||REQUIRED|||-NONE-|||0
+A 27 28|||Wci|||a greater|||REQUIRED|||-NONE-|||0
