@@ -76,8 +76,8 @@ def makeFeatures(word,history_words,history_tags, history_pos_tags, distance, ta
 	add('i suffix-4', nword[-4:],tag)
 
 	add('i pref1', nword[0],tag)
-	add('i pref2', nword[0:3],tag)
-	add('i pref3', nword[0:2],tag)
+	add('i pref2', nword[0:2],tag)
+	add('i pref3', nword[0:3],tag)
 
 	add('i tag',tag)
 	add('i word', nword,tag)

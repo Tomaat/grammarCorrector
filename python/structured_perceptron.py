@@ -80,11 +80,11 @@ def _init_(size,tb,gotype):
 		iterloop = dt.dfirst
 
 def v2d(vec):
-	dic = {}
-	for i,v in enumerate(vec):
+	dic = {} 
+	for i,v in enumerate(vec[0][0]):
 		if v != 0.:
 			dic[i] = v
-	return (vec.shape,dic)
+	return (vec[0][0].shape , dic)
 	
 def d2v(dic):
 	shape,data = dic
@@ -97,8 +97,11 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 	weight_matrix = init_weights(len(feature_dict))
 	pre_pros = []
 	t1 = time()
+	current_sen = 1
 	for sentence in all_sentences:
-		try:
+		print "train sentence: "+str(current_sen)
+		current_sen += 1
+		if True:#try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			# For loop around this, so that you loop through all sentences --> weights should be updated
 			#sentence.words_tags
@@ -190,13 +193,15 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 			pre_pros.append((parsed_tree,dict_target_feature_vectors,histories))
 			#weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 	 		#			history, weight_matrix, context_words, context_pos_tags)
-		#else:
-		except Exception as ex:
+		else:
+		#except Exception as ex:
+			print "error"
 			pipeline.log('train',sentence)
 	
 	print 'pre_pros',time()-t1
 	t2 = time()
 	print len(pre_pros)
+
 	for i in range(iters):
 		print "at iter",i
 		cum_weights = (i)*weight_matrix
@@ -372,22 +377,6 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 	return final_feature_vectors
 
 
-# def construct_feature_vector(word, tag, history_vectors):
-# 	""" Input:	word
-# 				Tag
-# 		Output:	Feature vector --> Now this is a random vector. Maurits writes this method based on the data.
-
-# 		Method to construct the feature vector of a word, also based on the word before --> Dummy method for now
-
-# 	"""
-
-# 	# for now this is just a dummy method, assuming history=1
-# 	feature_vector = np.random.randint(2, size=2)
-# 	history = [0,1] # just assuming the first vector is coming from the first mistake and the second vector is coming from the second mistake
-# 	return_list = [(history, feature_vector)]
-# 	return return_list
-
-
 def update_weights(old_weights, feature_vectors_sentence, target_feature_vectors):
 	""" Input:	Old weight matrix
 				Feature vectors as predicted by viterbi
@@ -402,7 +391,7 @@ def update_weights(old_weights, feature_vectors_sentence, target_feature_vectors
 	#print it
 	for i in range(len(feature_vectors_sentence)):
 		#print i,target_feature_vectors[i][0][0],feature_vectors_sentence[i]
-		diff = target_feature_vectors[i][0][0] - feature_vectors_sentence[i]
+		diff = target_feature_vectors[i] - feature_vectors_sentence[i]
 		#print "diff: ", diff 
 		updated_weights = np.add(old_weights, diff) 
 		old_weights = updated_weights
@@ -421,77 +410,4 @@ if __name__ == '__main__':
 	weights = np.random.random((1, 2))
 	target_feature_vectors = [np.array((1, 0)), np.array((1,1))]
 	train_perceptron_once(['hello','world'], target_feature_vectors, ['g','f'],0, weights)
-
-	#print 'weights: ', weights, weights.shape[0], weights.shape[1]
-	#viterbi(['hello','world'],['g','f'],0, weights)
-
-
-###################################################################################################################3
-
-
-# def give_sequence(sentence_dict):
-# 	""" Input:	Dictionary of the sentence you are correcting. Based on dependency tree.
-# 		Output:	Sequence of error tags
-
-# 		Method that runs the viterbi algorithm to get final error sequence of the sentence.
-# 		Only called once the perceptron has been trained. (???)
-
-# 	"""
-
-# 	return error_sequence
-
-
-# def viterbi_ideal_score(feature_vectors, weight_matrix):
-# 	""" Input:	All feature vectors of the words in the sentence
-# 		Output:	Total score of the word
-
-# 		Method to compute the ideal score
-
-# 	"""		
-
-# 	# Viterbi algorithm here --> Depending on how we decide to feed our input vectors
-
-# 	return ideal_score
-
-
-
-
-# def calc_score_word(feature_vector, weight_matrix):
-# 	""" Input: 	Feature vector of the word you're looking at
-# 				current weight matrix
-# 		Output:	Viterbi score of the current word
-
-# 		Method to calculate the Viterbi score of the current word: feature vector * weight matrix
-# 	"""
-
-# 	score = np.dot(feature_vector, weight_matrix)
-# 	return score
-
-
-
-
-
-# def update_feature_vect():
-# 	""" Input:
-# 		Output:
-
-# 		Method to update a feature vector with the previous tag
-
-# 	"""
-
-# def update_weights():
-# 	""" Input:	Old weight matrix
-# 				Ideal total score
-# 				Actual total score
-# 		Output:	Updated weight matrix
-
-# 		Method to update the weight matrix of the perceptron
-# 	"""
-
-# 	return updated_weights
-
-
-
-
-
 

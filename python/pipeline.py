@@ -10,8 +10,8 @@ import numpy as np
 def main(history=1,tiny='.tiny',tbank=None):
 	assert history >= 1, "use at least some history"
 	t1 = time()
-	TRAIN_FILE = '../release3.2/data/train.data.pre.small'
-	VAL_FILE = '../release3.2/data/validate.data.pre.small'
+	TRAIN_FILE = '../release3.2/final_data/train.test'
+	VAL_FILE =   '../release3.2/final_data/validate.test'
 	print 'loading tree bank'
 	t2 = time()-t1
 	if tbank is None:
@@ -22,17 +22,18 @@ def main(history=1,tiny='.tiny',tbank=None):
 	val_sentences, _val_feat = dp.process(VAL_FILE,history)
 	t3 = time()-t1-t2
 	print "features has been made"
-	
+	print "init perceptron"
 	sp._init_(len(feature_dict),dts, True )
 	out( ('SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)) )
 	out( ( 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history) ) )
 	t4 = time()
+	print "learning"
 	weights = sp.train_perceptron(all_sentences, feature_dict, tbank, history)
 	np.save('weights'+str(history)+tiny+'.npy',weights)
 	t4 = time()-t4
-	#weights = np.load('weights2.npy')
 	print weights.shape
 	t1=time()-t1
+	print "validating"
 	out( ( 'after %d sentences, only Ne-tags'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights,False) ) )
 	out( ( 'after %d sentences'%(len(all_sentences)), flaws(dts, val_sentences,feature_dict,tbank,history,weights) ) )
 	out( ( 'total %f sec (loading: %f, %f; training: %f'%(t1,t2,t3,t4) ) )
@@ -151,6 +152,7 @@ def log(f,m):
 	logfile.write(ts+f+' -- '+str(m))
 	logfile.write('\n')
 	logfile.close()
+	
 def out(m):
 	logfile = open('stdout.out','a')
 	ts = datetime.datetime.fromtimestamp(time()).strftime('%Y-%m-%d %H:%M:%S -- ')

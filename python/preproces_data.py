@@ -45,7 +45,7 @@ train_path = "train-data.data.pre"
 validate_path = "validate-data.data.pre"
 
 train_file = open(train_path,'w')
-for block in train_data:
+for block in train_data[0:500]:
 	for ding in block:
 		train_file.write(ding+'\n')
 	train_file.write('\n')
@@ -53,7 +53,7 @@ train_file.close()
 
 
 validate_file = open(validate_path,'w')
-for block in validate_data:
+for block in validate_data[:50]:
 	for ding in block:
 		validate_file.write(ding+'\n')
 	validate_file.write('\n')
