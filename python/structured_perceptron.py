@@ -81,10 +81,10 @@ def _init_(size,tb,gotype):
 
 def v2d(vec):
 	dic = {} 
-	for i,v in enumerate(vec[0][0]):
+	for i,v in enumerate(vec):
 		if v != 0.:
 			dic[i] = v
-	return (vec[0][0].shape , dic)
+	return (vec.shape , dic)
 	
 def d2v(dic):
 	shape,data = dic
@@ -189,7 +189,7 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 			# /==== end comment 0
 			# """
 			#print histories
-			dict_target_feature_vectors = [v2d(target_feature_vector) for target_feature_vector in target_feature_vectors]
+			dict_target_feature_vectors = [v2d(target_feature_vector[0][0]) for target_feature_vector in target_feature_vectors]
 			pre_pros.append((parsed_tree,dict_target_feature_vectors,histories))
 			#weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 	 		#			history, weight_matrix, context_words, context_pos_tags)
