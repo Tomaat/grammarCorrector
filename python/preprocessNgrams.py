@@ -50,10 +50,11 @@ def recursive_tree_climb(current_word,sentence):
 
 if __name__ == '__main__':
 	
-	TRAIN_FILE = '../release3.2/data/test.txt'
+	print 'start'
+	TRAIN_FILE = 'test_linear.txt' #'../release3.2/data/test.txt'
 	all_sentences, feature_dict = dp.process(TRAIN_FILE,1)
 	tbank = dts.tbankparser()
-	text_file = open("preprocessed-4gram-sentences.txt", "w")
+	text_file = open("preprocessed-4gram-sentences2.txt", "w")
 	print "start looping through sentece"
 	
 	for sentence in all_sentences:
