@@ -13,6 +13,7 @@ from time import time
 #import pathos.multiprocessing as mp
 from multiprocessing import Pool
 import random
+import sys
 
 def dictify(tree):
 	"""Given a tree, return a dictionary with the arcs.
@@ -89,7 +90,6 @@ def score(tbank,inputs,targets):
 	assert len(inputs) == len(targets)
 	score = np.zeros((len(inputs)))
 	for i,input in enumerate(inputs):
-		#print input
 		t1 = tbank.parse(input)
 		t2 = targets[i]
 		score[i] = compare(t1,t2)
@@ -176,19 +176,26 @@ def main(xin=0, tbank=None, train_test=None):
 	return s 
 
 def main2(): # run this
-	filename='../release3.2/data/conll14st-preprocessed.m2'
+	filename= '../release3.2/data/conll14st-preprocessed.m2'
+	print "Load data from", filename
 	f = open(filename,'r')
 	data_raw = [p.split('\n') for p in ''.join(f.readlines() ).split('\n\n')]
-	sentence_tuples = [(sentence[0][2:],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw]
+	sentence_tuples = [(sentence[0][2:],[tuple(errors.split('|||')) for errors in sentence[1:]]) for sentence in data_raw[:len(data_raw)-1]]
 	f.close()
 	random.shuffle(sentence_tuples)
 	sents = sentence_tuples[:150] # this is the only thing what I have to do
 	tbank_s = dts.tbankparser()
 	targets = [tbank_s.parse(t[0]) for t in sents]
 	inputs = [t[0] for t in sents]
-	
+	print "main 0"
+	main(0,None,(inputs,targets))
+	print "main 1"
 	main(1,None,(inputs,targets))
+	print "main 4"
 	main(4,None,(inputs,targets))
+	reload(sys)  
+	sys.setdefaultencoding('utf8')
+	print "main 5"
 	main(5,None,(inputs,targets))
 	
 	

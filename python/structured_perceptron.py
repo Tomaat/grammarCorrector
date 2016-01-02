@@ -64,7 +64,7 @@ tag_idxes["-TAGSTART-"] = -1
 SIZE = 1873
 dt = None
 iterloop = None
-golinear=True
+golinear = True
 
 iters = 10
 it = 0
@@ -101,7 +101,7 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 	for sentence in all_sentences:
 		print "train sentence: "+str(current_sen)
 		current_sen += 1
-		if True:#try:
+		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 			# For loop around this, so that you loop through all sentences --> weights should be updated
 			#sentence.words_tags
@@ -193,8 +193,7 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 			pre_pros.append((parsed_tree,dict_target_feature_vectors,histories))
 			#weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 	 		#			history, weight_matrix, context_words, context_pos_tags)
-		else:
-		#except Exception as ex:
+		except Exception as ex:
 			print "error"
 			pipeline.log('train',sentence)
 	
@@ -203,6 +202,7 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 	print len(pre_pros)
 
 	for i in range(iters):
+		iter_time = time()
 		print "at iter",i
 		cum_weights = (i)*weight_matrix
 		for parsed_tree,dict_target_feature_vectors,histories in pre_pros:
@@ -210,6 +210,7 @@ def train_perceptron(all_sentences, feature_dict, tbank, history):
 			weight_matrix = train_perceptron_once(parsed_tree, target_feature_vectors, feature_dict, 
 							history, weight_matrix, histories)
 		weight_matrix = (cum_weights + weight_matrix)/(i+1)
+		print "one iter: ", time() - iter_time
 	print 'train',time()-t2
 	return weight_matrix
 

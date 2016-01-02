@@ -7,11 +7,11 @@ from multiprocessing import Pool
 import datetime
 import numpy as np
 
-def main(history=1,tiny='.tiny',tbank=None):
+def main(history=1,tiny='.tiny',tbank = None):
 	assert history >= 1, "use at least some history"
 	t1 = time()
-	TRAIN_FILE = '../release3.2/final_data/train.test'
-	VAL_FILE =   '../release3.2/final_data/validate.test'
+	TRAIN_FILE = '../release3.2/final_data/train-data.pre'
+	VAL_FILE =   '../release3.2/final_data/validate-data.pre'
 	print 'loading tree bank'
 	t2 = time()-t1
 	if tbank is None:
@@ -23,9 +23,12 @@ def main(history=1,tiny='.tiny',tbank=None):
 	t3 = time()-t1-t2
 	print "features has been made"
 	print "init perceptron"
-	sp._init_(len(feature_dict),dts, True )
+	sp._init_(len(feature_dict),dts, False)
+	print "end init"
 	out( ('SSE random weights, only Ne-tags',flaws(dts,val_sentences,feature_dict,tbank,history,with_tags=False)) )
+	print "SSE random weights, only Ne-tags"
 	out( ( 'SSE random weights',flaws(dts,val_sentences,feature_dict,tbank,history) ) )
+	print "SSE random weight"
 	t4 = time()
 	print "learning"
 	weights = sp.train_perceptron(all_sentences, feature_dict, tbank, history)
@@ -46,7 +49,11 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 	if weight_matrix is None:
 		weight_matrix = sp.init_weights(len(feature_dict))
 	E = 0.0
+	counter_flaw = 1
 	for sentence in all_sentences:
+		current_time = time()
+		print "at flaws, sentence ",counter_flaw
+		counter_flaw += 1
 		try:
 			parsed_tree = tbank.parse(sentence.raw_sentence)
 
@@ -144,6 +151,8 @@ def flaws(dt,all_sentences,feature_dict,tbank,history,weight_matrix=None,with_ta
 		
 		except Exception as ex:
 			log('flaw',sentence)
+
+		print time() - current_time
 	return E
 
 def log(f,m):
