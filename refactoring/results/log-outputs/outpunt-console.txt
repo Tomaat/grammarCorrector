@@ -1,0 +1,725 @@
+Last login: Wed Dec 30 16:49:01 on ttys000
+MacBook-Pro-van-Maurits:~ Maurits$ cd Documents/GitHub/School\ Projects/NLP2/grammarCorrector/python/
+MacBook-Pro-van-Maurits:python Maurits$ python pipeline.py
+loading tree bank
+loading sentences
+parsing sentences
+make feature vectors
+parsing sentences
+make feature vectors
+features has been made
+init perceptron
+end init
+at flaws, sentence  1
+139.630194902
+at flaws, sentence  2
+45.0237529278
+at flaws, sentence  3
+56.1075139046
+at flaws, sentence  4
+145.645787001
+at flaws, sentence  5
+47.8804638386
+at flaws, sentence  6
+48.5432229042
+at flaws, sentence  7
+142.731240988
+at flaws, sentence  8
+69.4503979683
+at flaws, sentence  9
+45.5414180756
+at flaws, sentence  10
+71.769536972
+at flaws, sentence  11
+29.5531799793
+at flaws, sentence  12
+9.97961592674
+at flaws, sentence  13
+26.2315590382
+at flaws, sentence  14
+29.4352588654
+at flaws, sentence  15
+94.6347498894
+at flaws, sentence  16
+19.6724669933
+at flaws, sentence  17
+29.4164941311
+at flaws, sentence  18
+58.9597139359
+at flaws, sentence  19
+94.560781002
+at flaws, sentence  20
+42.5975527763
+at flaws, sentence  21
+0.0218749046326
+at flaws, sentence  22
+22.915968895
+at flaws, sentence  23
+91.8074889183
+at flaws, sentence  24
+45.8595180511
+at flaws, sentence  25
+55.8550400734
+at flaws, sentence  26
+19.5316898823
+at flaws, sentence  27
+75.1523160934
+at flaws, sentence  28
+52.3927240372
+at flaws, sentence  29
+39.5296928883
+at flaws, sentence  30
+22.9522440434
+at flaws, sentence  31
+52.3309159279
+at flaws, sentence  32
+101.183235884
+at flaws, sentence  33
+65.3484208584
+at flaws, sentence  34
+110.913722992
+at flaws, sentence  35
+130.692709923
+at flaws, sentence  36
+10.0256588459
+at flaws, sentence  37
+71.8514831066
+at flaws, sentence  38
+107.952573061
+at flaws, sentence  39
+22.943363905
+at flaws, sentence  40
+59.1186330318
+at flaws, sentence  41
+55.4472739697
+at flaws, sentence  42
+23.0043070316
+at flaws, sentence  43
+81.4997460842
+at flaws, sentence  44
+87.9633719921
+at flaws, sentence  45
+104.627208948
+at flaws, sentence  46
+58.9014799595
+at flaws, sentence  47
+78.7099280357
+at flaws, sentence  48
+16.4583668709
+at flaws, sentence  49
+163.561561823
+at flaws, sentence  50
+22.908164978
+SSE random weights, only Ne-tags
+at flaws, sentence  1
+133.756626129
+at flaws, sentence  2
+42.5103020668
+at flaws, sentence  3
+52.2075710297
+at flaws, sentence  4
+137.515958071
+at flaws, sentence  5
+45.7448101044
+at flaws, sentence  6
+45.7608020306
+at flaws, sentence  7
+140.468564034
+at flaws, sentence  8
+68.3902540207
+at flaws, sentence  9
+42.586274147
+at flaws, sentence  10
+73.4583389759
+at flaws, sentence  11
+29.4429199696
+at flaws, sentence  12
+9.93070197105
+at flaws, sentence  13
+26.3176128864
+at flaws, sentence  14
+29.5225930214
+at flaws, sentence  15
+94.1495068073
+at flaws, sentence  16
+19.5413920879
+at flaws, sentence  17
+29.2852940559
+at flaws, sentence  18
+58.3996720314
+at flaws, sentence  19
+94.1204230785
+at flaws, sentence  20
+42.5981509686
+at flaws, sentence  21
+0.0182650089264
+at flaws, sentence  22
+22.8496479988
+at flaws, sentence  23
+93.4355678558
+at flaws, sentence  24
+45.6736419201
+at flaws, sentence  25
+55.8533959389
+at flaws, sentence  26
+19.6361010075
+at flaws, sentence  27
+75.0420188904
+at flaws, sentence  28
+52.0948469639
+at flaws, sentence  29
+39.131248951
+at flaws, sentence  30
+22.8231739998
+at flaws, sentence  31
+52.3305568695
+at flaws, sentence  32
+100.760348082
+at flaws, sentence  33
+65.3283698559
+at flaws, sentence  34
+110.877458096
+at flaws, sentence  35
+130.24536109
+at flaws, sentence  36
+10.0321409702
+at flaws, sentence  37
+71.961730957
+at flaws, sentence  38
+107.723122835
+at flaws, sentence  39
+22.92344594
+at flaws, sentence  40
+58.8282308578
+at flaws, sentence  41
+55.4317429066
+at flaws, sentence  42
+22.9016969204
+at flaws, sentence  43
+81.407982111
+at flaws, sentence  44
+87.8876469135
+at flaws, sentence  45
+104.235680819
+at flaws, sentence  46
+58.7439720631
+at flaws, sentence  47
+78.2180528641
+at flaws, sentence  48
+16.388614893
+at flaws, sentence  49
+162.748564005
+at flaws, sentence  50
+23.0337369442
+SSE random weight
+learning
+train sentence: 1
+train sentence: 2
+train sentence: 3
+train sentence: 4
+train sentence: 5
+train sentence: 6
+train sentence: 7
+train sentence: 8
+train sentence: 9
+train sentence: 10
+train sentence: 11
+train sentence: 12
+train sentence: 13
+train sentence: 14
+train sentence: 15
+train sentence: 16
+train sentence: 17
+train sentence: 18
+train sentence: 19
+train sentence: 20
+train sentence: 21
+train sentence: 22
+train sentence: 23
+train sentence: 24
+train sentence: 25
+train sentence: 26
+train sentence: 27
+train sentence: 28
+train sentence: 29
+train sentence: 30
+train sentence: 31
+train sentence: 32
+train sentence: 33
+train sentence: 34
+train sentence: 35
+train sentence: 36
+train sentence: 37
+train sentence: 38
+train sentence: 39
+train sentence: 40
+train sentence: 41
+train sentence: 42
+train sentence: 43
+train sentence: 44
+train sentence: 45
+train sentence: 46
+train sentence: 47
+train sentence: 48
+train sentence: 49
+train sentence: 50
+train sentence: 51
+train sentence: 52
+train sentence: 53
+train sentence: 54
+train sentence: 55
+train sentence: 56
+train sentence: 57
+train sentence: 58
+train sentence: 59
+train sentence: 60
+train sentence: 61
+train sentence: 62
+train sentence: 63
+train sentence: 64
+train sentence: 65
+train sentence: 66
+train sentence: 67
+train sentence: 68
+train sentence: 69
+train sentence: 70
+train sentence: 71
+train sentence: 72
+train sentence: 73
+train sentence: 74
+train sentence: 75
+train sentence: 76
+train sentence: 77
+train sentence: 78
+train sentence: 79
+train sentence: 80
+train sentence: 81
+train sentence: 82
+train sentence: 83
+train sentence: 84
+train sentence: 85
+train sentence: 86
+train sentence: 87
+train sentence: 88
+train sentence: 89
+train sentence: 90
+train sentence: 91
+train sentence: 92
+train sentence: 93
+train sentence: 94
+train sentence: 95
+train sentence: 96
+train sentence: 97
+train sentence: 98
+train sentence: 99
+train sentence: 100
+train sentence: 101
+train sentence: 102
+train sentence: 103
+train sentence: 104
+train sentence: 105
+train sentence: 106
+train sentence: 107
+train sentence: 108
+train sentence: 109
+train sentence: 110
+train sentence: 111
+train sentence: 112
+train sentence: 113
+train sentence: 114
+train sentence: 115
+train sentence: 116
+train sentence: 117
+train sentence: 118
+train sentence: 119
+train sentence: 120
+train sentence: 121
+train sentence: 122
+train sentence: 123
+train sentence: 124
+train sentence: 125
+train sentence: 126
+train sentence: 127
+train sentence: 128
+train sentence: 129
+train sentence: 130
+train sentence: 131
+train sentence: 132
+train sentence: 133
+train sentence: 134
+train sentence: 135
+train sentence: 136
+train sentence: 137
+train sentence: 138
+train sentence: 139
+train sentence: 140
+train sentence: 141
+train sentence: 142
+train sentence: 143
+train sentence: 144
+train sentence: 145
+train sentence: 146
+train sentence: 147
+train sentence: 148
+train sentence: 149
+train sentence: 150
+train sentence: 151
+train sentence: 152
+train sentence: 153
+train sentence: 154
+train sentence: 155
+train sentence: 156
+train sentence: 157
+train sentence: 158
+train sentence: 159
+train sentence: 160
+train sentence: 161
+train sentence: 162
+train sentence: 163
+train sentence: 164
+train sentence: 165
+train sentence: 166
+train sentence: 167
+train sentence: 168
+train sentence: 169
+train sentence: 170
+train sentence: 171
+train sentence: 172
+train sentence: 173
+train sentence: 174
+train sentence: 175
+train sentence: 176
+train sentence: 177
+train sentence: 178
+train sentence: 179
+train sentence: 180
+train sentence: 181
+train sentence: 182
+train sentence: 183
+train sentence: 184
+train sentence: 185
+train sentence: 186
+train sentence: 187
+train sentence: 188
+train sentence: 189
+train sentence: 190
+train sentence: 191
+train sentence: 192
+train sentence: 193
+train sentence: 194
+train sentence: 195
+train sentence: 196
+train sentence: 197
+train sentence: 198
+train sentence: 199
+train sentence: 200
+train sentence: 201
+train sentence: 202
+train sentence: 203
+train sentence: 204
+train sentence: 205
+train sentence: 206
+train sentence: 207
+train sentence: 208
+train sentence: 209
+train sentence: 210
+train sentence: 211
+train sentence: 212
+train sentence: 213
+train sentence: 214
+train sentence: 215
+train sentence: 216
+train sentence: 217
+train sentence: 218
+train sentence: 219
+train sentence: 220
+train sentence: 221
+train sentence: 222
+train sentence: 223
+train sentence: 224
+train sentence: 225
+train sentence: 226
+train sentence: 227
+train sentence: 228
+train sentence: 229
+train sentence: 230
+train sentence: 231
+train sentence: 232
+train sentence: 233
+train sentence: 234
+train sentence: 235
+train sentence: 236
+train sentence: 237
+train sentence: 238
+train sentence: 239
+train sentence: 240
+train sentence: 241
+train sentence: 242
+train sentence: 243
+train sentence: 244
+train sentence: 245
+train sentence: 246
+train sentence: 247
+train sentence: 248
+train sentence: 249
+train sentence: 250
+train sentence: 251
+train sentence: 252
+train sentence: 253
+train sentence: 254
+train sentence: 255
+train sentence: 256
+train sentence: 257
+train sentence: 258
+train sentence: 259
+train sentence: 260
+train sentence: 261
+train sentence: 262
+train sentence: 263
+train sentence: 264
+train sentence: 265
+train sentence: 266
+train sentence: 267
+train sentence: 268
+train sentence: 269
+train sentence: 270
+train sentence: 271
+train sentence: 272
+train sentence: 273
+train sentence: 274
+train sentence: 275
+train sentence: 276
+train sentence: 277
+train sentence: 278
+train sentence: 279
+train sentence: 280
+train sentence: 281
+train sentence: 282
+train sentence: 283
+train sentence: 284
+train sentence: 285
+train sentence: 286
+train sentence: 287
+train sentence: 288
+train sentence: 289
+train sentence: 290
+train sentence: 291
+train sentence: 292
+train sentence: 293
+train sentence: 294
+train sentence: 295
+train sentence: 296
+train sentence: 297
+train sentence: 298
+train sentence: 299
+train sentence: 300
+train sentence: 301
+train sentence: 302
+train sentence: 303
+train sentence: 304
+train sentence: 305
+train sentence: 306
+train sentence: 307
+train sentence: 308
+train sentence: 309
+train sentence: 310
+train sentence: 311
+train sentence: 312
+train sentence: 313
+train sentence: 314
+train sentence: 315
+train sentence: 316
+train sentence: 317
+train sentence: 318
+train sentence: 319
+train sentence: 320
+train sentence: 321
+train sentence: 322
+train sentence: 323
+train sentence: 324
+train sentence: 325
+train sentence: 326
+train sentence: 327
+train sentence: 328
+train sentence: 329
+train sentence: 330
+train sentence: 331
+train sentence: 332
+train sentence: 333
+train sentence: 334
+train sentence: 335
+train sentence: 336
+train sentence: 337
+train sentence: 338
+train sentence: 339
+train sentence: 340
+error
+train sentence: 341
+train sentence: 342
+train sentence: 343
+train sentence: 344
+train sentence: 345
+train sentence: 346
+train sentence: 347
+train sentence: 348
+train sentence: 349
+train sentence: 350
+train sentence: 351
+train sentence: 352
+train sentence: 353
+train sentence: 354
+train sentence: 355
+train sentence: 356
+train sentence: 357
+train sentence: 358
+train sentence: 359
+train sentence: 360
+train sentence: 361
+train sentence: 362
+train sentence: 363
+train sentence: 364
+train sentence: 365
+train sentence: 366
+train sentence: 367
+train sentence: 368
+train sentence: 369
+train sentence: 370
+train sentence: 371
+train sentence: 372
+train sentence: 373
+train sentence: 374
+train sentence: 375
+train sentence: 376
+train sentence: 377
+train sentence: 378
+train sentence: 379
+train sentence: 380
+train sentence: 381
+train sentence: 382
+train sentence: 383
+train sentence: 384
+train sentence: 385
+train sentence: 386
+train sentence: 387
+train sentence: 388
+train sentence: 389
+train sentence: 390
+train sentence: 391
+train sentence: 392
+train sentence: 393
+train sentence: 394
+train sentence: 395
+train sentence: 396
+train sentence: 397
+train sentence: 398
+train sentence: 399
+train sentence: 400
+train sentence: 401
+train sentence: 402
+error
+train sentence: 403
+train sentence: 404
+train sentence: 405
+train sentence: 406
+train sentence: 407
+train sentence: 408
+train sentence: 409
+train sentence: 410
+train sentence: 411
+train sentence: 412
+train sentence: 413
+train sentence: 414
+train sentence: 415
+train sentence: 416
+train sentence: 417
+train sentence: 418
+train sentence: 419
+train sentence: 420
+train sentence: 421
+error
+train sentence: 422
+train sentence: 423
+train sentence: 424
+train sentence: 425
+train sentence: 426
+train sentence: 427
+train sentence: 428
+train sentence: 429
+train sentence: 430
+train sentence: 431
+train sentence: 432
+train sentence: 433
+train sentence: 434
+train sentence: 435
+train sentence: 436
+train sentence: 437
+train sentence: 438
+train sentence: 439
+train sentence: 440
+train sentence: 441
+train sentence: 442
+train sentence: 443
+train sentence: 444
+train sentence: 445
+train sentence: 446
+train sentence: 447
+train sentence: 448
+train sentence: 449
+train sentence: 450
+train sentence: 451
+train sentence: 452
+train sentence: 453
+train sentence: 454
+train sentence: 455
+train sentence: 456
+train sentence: 457
+train sentence: 458
+train sentence: 459
+train sentence: 460
+train sentence: 461
+train sentence: 462
+train sentence: 463
+train sentence: 464
+train sentence: 465
+train sentence: 466
+train sentence: 467
+train sentence: 468
+train sentence: 469
+train sentence: 470
+error
+train sentence: 471
+train sentence: 472
+train sentence: 473
+error
+train sentence: 474
+train sentence: 475
+train sentence: 476
+train sentence: 477
+train sentence: 478
+train sentence: 479
+train sentence: 480
+train sentence: 481
+train sentence: 482
+train sentence: 483
+train sentence: 484
+train sentence: 485
+train sentence: 486
+train sentence: 487
+train sentence: 488
+train sentence: 489
+train sentence: 490
+train sentence: 491
+train sentence: 492
+train sentence: 493
+train sentence: 494
+train sentence: 495
+train sentence: 496
+train sentence: 497
+train sentence: 498
+train sentence: 499
+train sentence: 500
+pre_pros 1245.81267095
+495
+at iter 0
+one iter:  34569.8557949
+at iter 1

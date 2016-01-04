@@ -1,0 +1,2777 @@
+4-gram: -START- -START- are caused
+Correction: cause
+
+4-gram: -START- -START- -START- are
+Correction: is
+
+4-gram: -START- -START- are spaces
+Correction: space
+
+4-gram: -START- -START- -START- obtain
+Correction: obtained
+
+4-gram: achieve resolve problems in
+Correction: of
+
+4-gram: lands inhospitable as desserts
+Correction: deserts
+
+4-gram: -START- -START- been had
+Correction: has
+
+4-gram: -START- -START- been through
+Correction: exploited for
+
+4-gram: -START- -START- been ,
+Correction: and
+
+4-gram: by learning students exploring
+Correction: exploration
+
+4-gram: way satisfy demands of
+Correction: for
+
+4-gram: like designing accommodate it
+Correction: the same area of land
+
+4-gram: designing accommodate number more
+Correction: a greater
+
+4-gram: -START- -START- is create
+Correction: use
+
+4-gram: material support despite disaster
+Correction: disasters
+
+4-gram: Besides usage of lands
+Correction: land
+
+4-gram: needed need maintain heath
+Correction: health
+
+4-gram: with lot of deserts
+Correction: desert
+
+4-gram: -START- -START- -START- terraform
+Correction: transform
+
+4-gram: -START- -START- terraform using
+Correction: use
+
+4-gram: example got use and
+Correction: But
+
+4-gram: example got use they
+Correction: it
+
+4-gram: be example got use
+Correction: uses
+
+4-gram: -START- is need of
+Correction: for
+
+4-gram: -START- -START- is essential
+Correction: increasing
+
+4-gram: -START- help designs Engineering
+Correction: engineering
+
+4-gram: -START- help provide accommodation
+Correction: environment
+
+4-gram: -START- -START- access virus
+Correction: viruses
+
+4-gram: -START- access virus hack
+Correction: hackers
+
+4-gram: -START- -START- need administration
+Correction: rules
+
+4-gram: -START- -START- need to
+Correction: for
+
+4-gram: -START- need to members
+Correction: staff members over the use of confidential information
+
+4-gram: -START- designed see involved
+Correction: employed
+
+4-gram: -START- designed identify human
+Correction: people
+
+4-gram: -START- is for identifications
+Correction: identification purposes
+
+4-gram: time effort remember password
+Correction: passwords
+
+4-gram: want carry show identification
+Correction: identity
+
+4-gram: -START- looking for equipments
+Correction: equipment
+
+4-gram: for equipments progress saving
+Correction: for
+
+4-gram: -START- -START- designed progress
+Correction: process
+
+4-gram: -START- designed set equipments
+Correction: equipment
+
+4-gram: -START- -START- tend equipments
+Correction: equipment
+
+4-gram: -START- -START- -START- tend
+Correction: tends
+
+4-gram: tend be expensive in
+Correction: inexpensive
+
+4-gram: -START- used brings benefit
+Correction: benefits
+
+4-gram: achieves as seek human
+Correction: humans
+
+4-gram: benefits to those shaped
+Correction: shape
+
+4-gram: sparked realization induce can
+Correction: could
+
+4-gram: -START- -START- been had
+Correction: has
+
+4-gram: -START- -START- been through
+Correction: exploited for
+
+4-gram: -START- -START- been ,
+Correction: and
+
+4-gram: -START- -START- prompted demonstrations
+Correction: sprang
+
+4-gram: cleaned was dealt damaged
+Correction: damage
+
+4-gram: -START- -START- -START- are
+Correction: is
+
+4-gram: by analyzing find improved
+Correction: overcome
+
+4-gram: find improved retaining strength
+Correction: strengths
+
+4-gram: -START- -START- shown had
+Correction: has
+
+4-gram: -START- -START- -START- emit
+Correction: emits
+
+4-gram: are cause worldwide to
+Correction: of
+
+4-gram: cause worldwide warming give
+Correction: gives
+
+4-gram: -START- -START- started had
+Correction: have
+
+4-gram: -START- use guide them
+Correction: themselves
+
+4-gram: -START- -START- -START- use
+Correction: have used
+
+4-gram: -START- -START- be one
+Correction: energy source
+
+4-gram: -START- -START- be It
+Correction: Harnessing the wind and water energy
+
+4-gram: -START- -START- shown had
+Correction: has
+
+4-gram: ensure generating ideas target
+Correction: address
+
+4-gram: by learning students exploring
+Correction: exploration
+
+4-gram: -START- show continuing numbers
+Correction: number
+
+4-gram: -START- show continuing are
+Correction: is
+
+4-gram: -START- -START- figures he
+Correction: introduce
+
+4-gram: have innovators work under
+Correction: with
+
+4-gram: -START- have require are
+Correction: and are required
+
+4-gram: -START- -START- have require
+Correction: required
+
+4-gram: -START- -START- -START- required
+Correction: require
+
+4-gram: -START- -START- required obtain
+Correction: meet
+
+4-gram: -START- -START- are there
+Correction: need
+
+4-gram: -START- are get ,
+Correction: ; then
+
+4-gram: -START- have stop works
+Correction: work
+
+4-gram: -START- slowing in productions
+Correction: existing products
+
+4-gram: challenge need be concern
+Correction: concerned
+
+4-gram: are cases wish that
+Correction: where
+
+4-gram: are cases wish department
+Correction: departments
+
+4-gram: thinks are products innovated
+Correction: new
+
+4-gram: -START- are products innovated
+Correction: new
+
+4-gram: price of product innovated
+Correction: new
+
+4-gram: is factor have face
+Correction: consider
+
+4-gram: want develop products the
+Correction: new
+
+4-gram: -START- -START- become challenges
+Correction: challenge
+
+4-gram: brings into representations satisfies
+Correction: satisfy
+
+4-gram: -START- stopped carried when
+Correction: after
+
+4-gram: showed was reason of
+Correction: for
+
+4-gram: is carried due inconsistent
+Correction: inconsistency
+
+4-gram: -START- are are ,
+Correction: ;
+
+4-gram: affects analyzing step test
+Correction: testing
+
+4-gram: -START- -START- employed always
+Correction: usually
+
+4-gram: -START- defined process Engineering
+Correction: The engineering
+
+4-gram: part of growth economical
+Correction: economic
+
+4-gram: become compared costlier way
+Correction: significantly
+
+4-gram: -START- become compared costlier
+Correction: more costly
+
+4-gram: is amount allocated of
+Correction: to
+
+4-gram: -START- is is It
+Correction: Since it
+
+4-gram: reluctance in contributing by
+Correction: on the part of
+
+4-gram: is in times economical
+Correction: economic
+
+4-gram: -START- feel is splurge
+Correction: spend
+
+4-gram: -START- -START- driven in
+Correction: to
+
+4-gram: -START- -START- is amount
+Correction: number
+
+4-gram: -START- -START- is scarce
+Correction: small
+
+4-gram: -START- is amount their
+Correction: the
+
+4-gram: -START- -START- is amount
+Correction: numbers
+
+4-gram: -START- is amount to
+Correction: in
+
+4-gram: -START- -START- is lesser
+Correction: less
+
+4-gram: bought are replicas from
+Correction: of
+
+4-gram: -START- resulted impact on
+Correction: of
+
+4-gram: -START- -START- resulted amount
+Correction: number
+
+4-gram: has technology based Serendipity
+Correction: used in a
+
+4-gram: -START- has similarities and
+Correction: and
+
+4-gram: -START- -START- organized For
+Correction: In
+
+4-gram: -START- -START- organized group
+Correction: groups
+
+4-gram: -START- -START- made generate
+Correction: be generated
+
+4-gram: -START- made mistakes some
+Correction: from
+
+4-gram: -START- -START- -START- generated
+Correction: a
+
+4-gram: generated from product the
+Correction: attempt
+
+4-gram: -START- -START- generated Also
+Correction: In addition
+
+4-gram: -START- -START- is Yet
+Correction: However
+
+4-gram: easier than technology based
+Correction: in
+
+4-gram: -START- -START- requires and
+Correction: still needs to
+
+4-gram: -START- requires acquire knowledge
+Correction: one
+
+4-gram: know used solve to
+Correction: existing
+
+4-gram: -START- -START- are Compared
+Correction: funding
+
+4-gram: -START- are obstacles for
+Correction: to
+
+4-gram: are stand finance education
+Correction: the educational background of the Chinese
+
+4-gram: -START- is problem biggest
+Correction: bigger
+
+4-gram: -START- -START- is lacking
+Correction: lacks
+
+4-gram: -START- -START- -START- is
+Correction: funding
+
+4-gram: -START- -START- -START- distributed
+Correction: allocated
+
+4-gram: -START- -START- needs users
+Correction: to be marketed successfully
+
+4-gram: short of ideas innovating
+Correction: innovative
+
+4-gram: short of ideas market
+Correction: they lack the market for their innovations
+
+4-gram: -START- -START- electrical The
+Correction: For example , the
+
+4-gram: -START- -START- electrical applied
+Correction: on the market
+
+4-gram: accepted to cost than
+Correction: compared to
+
+4-gram: is Apart from finance
+Correction: the issue of funding
+
+4-gram: -START- -START- affected are
+Correction: have been
+
+4-gram: is encouraged by idea
+Correction: philosophy
+
+4-gram: -START- -START- moving build
+Correction: encourage
+
+4-gram: -START- -START- -START- illuminated
+Correction: emphasised
+
+4-gram: -START- -START- begin Henceforth
+Correction: Hence
+
+4-gram: -START- -START- -START- begin
+Correction: have begun
+
+4-gram: appreciate efforts hardships had
+Correction: have
+
+4-gram: -START- -START- selected During
+Correction: For instance , during
+
+4-gram: -START- -START- -START- Being
+Correction: For example , being
+
+4-gram: project funded company a
+Correction: an
+
+4-gram: fight in War two
+Correction: II
+
+4-gram: -START- -START- -START- are
+Correction: is
+
+4-gram: towards productivity of researches
+Correction: research projects
+
+4-gram: -START- -START- abused researches
+Correction: researchers
+
+4-gram: to people working under
+Correction: within
+
+4-gram: -START- was creation The
+Correction: For example , the
+
+4-gram: -START- -START- supposed under
+Correction: within
+
+4-gram: -START- -START- work under
+Correction: in
+
+4-gram: -START- -START- receive under
+Correction: in
+
+4-gram: is meet come out
+Correction: up
+
+4-gram: -START- -START- shaped were
+Correction: have been
+
+4-gram: -START- -START- were aspects
+Correction: factor
+
+4-gram: -START- -START- -START- were
+Correction: was
+
+4-gram: Planes versus those in
+Correction: of
+
+4-gram: -START- -START- were fairy
+Correction: fairly
+
+4-gram: -START- -START- were ,
+Correction: ;
+
+4-gram: -START- showed War Two
+Correction: II
+
+4-gram: improvements in design ability
+Correction: capability
+
+4-gram: see were needs these
+Correction: the
+
+4-gram: -START- were style translates
+Correction: has translated
+
+4-gram: delivery of goods letters
+Correction: documents
+
+4-gram: of issues shaped airplanes
+Correction: airplane
+
+4-gram: developed to age their
+Correction: its
+
+4-gram: developed to age new
+Correction: models
+
+4-gram: -START- -START- -START- were
+Correction: would
+
+4-gram: -START- -START- is create
+Correction: created
+
+4-gram: -START- -START- applies for
+Correction: in the case of
+
+4-gram: applies for car an
+Correction: the
+
+4-gram: -START- are political economical
+Correction: economic
+
+4-gram: -START- -START- -START- implies
+Correction: implied
+
+4-gram: manufacture market vehicles these
+Correction: those
+
+4-gram: -START- stressed factors Economic
+Correction: Today , economic
+
+4-gram: -START- -START- -START- stressed
+Correction: also stress
+
+4-gram: -START- finance be have
+Correction: has
+
+4-gram: compared to cars powered
+Correction: ,
+
+4-gram: -START- are costs The
+Correction: One reason for this is that the
+
+4-gram: taken is car friendly
+Correction: may be
+
+4-gram: -START- -START- taken is
+Correction: the
+
+4-gram: -START- taken for battery
+Correction: while
+
+4-gram: -START- -START- require is
+Correction: are
+
+4-gram: coming improve cars their
+Correction: so that
+
+4-gram: -START- coming function cars
+Correction: likely
+
+4-gram: is One of purposes
+Correction: factors
+
+4-gram: One of purposes of
+Correction: for
+
+4-gram: is due to factors
+Correction: factor
+
+4-gram: -START- -START- getting Since
+Correction: In
+
+4-gram: -START- -START- getting are
+Correction: have been
+
+4-gram: getting conscious of damages
+Correction: damage
+
+4-gram: of damages inflicting to
+Correction: on
+
+4-gram: damages inflicting to Earth
+Correction: earth
+
+4-gram: emissions temperatures of Earth
+Correction: earth
+
+4-gram: -START- traps heat Sun
+Correction: sun
+
+4-gram: -START- -START- traps creating
+Correction: causing
+
+4-gram: -START- urged green to
+Correction: should
+
+4-gram: one of kind a
+Correction: ,
+
+4-gram: shaped believe is stay
+Correction: that it is
+
+4-gram: -START- -START- increasing In
+Correction: Amidst
+
+4-gram: increasing In development this
+Correction: the
+
+4-gram: -START- provide energy our
+Correction: us
+
+4-gram: -START- -START- used source
+Correction: sources
+
+4-gram: -START- -START- made realise
+Correction: realised
+
+4-gram: of protection efficiency economical
+Correction: economic
+
+4-gram: -START- -START- made ;
+Correction: ,
+
+4-gram: of widespread more more
+Correction: it has become
+
+4-gram: widespread in life ordinary
+Correction: everyday
+
+4-gram: -START- known friendly a
+Correction: to be
+
+4-gram: known friendly is which
+Correction: as it
+
+4-gram: -START- received means that
+Correction: there is
+
+4-gram: -START- -START- is not
+Correction: available
+
+4-gram: is issue provide to
+Correction: in
+
+4-gram: is is issue provide
+Correction: providing
+
+4-gram: -START- -START- is but
+Correction: except that
+
+4-gram: require for outputs varies
+Correction: various
+
+4-gram: -START- is rate The
+Correction: However , the
+
+4-gram: is rate by human
+Correction: humans
+
+4-gram: -START- -START- witnessed price
+Correction: prices
+
+4-gram: -START- -START- -START- design
+Correction: are designing
+
+4-gram: -START- seems be solution
+Correction: providing
+
+4-gram: provide supply of energy
+Correction: various
+
+4-gram: used movements wind wave
+Correction: the waves
+
+4-gram: converts light from Sun
+Correction: sun
+
+4-gram: -START- reports provided are
+Correction: were
+
+4-gram: -START- -START- shows It
+Correction: This
+
+4-gram: seems found are constrains
+Correction: constraints
+
+4-gram: -START- generated For instant
+Correction: instance
+
+4-gram: -START- -START- generated gasses
+Correction: gases
+
+4-gram: dependence on resource outer
+Correction: external
+
+4-gram: encounter dependence on resource
+Correction: resources
+
+4-gram: -START- encouraged technology Zero
+Correction: In addition , zero
+
+4-gram: -START- -START- encouraged is
+Correction: should be
+
+4-gram: in response to concern
+Correction: concerns
+
+4-gram: -START- -START- applied process
+Correction: processes
+
+4-gram: of introducing energies environmental
+Correction: environmentally
+
+4-gram: capable of introducing with
+Correction: at
+
+4-gram: -START- -START- developed always
+Correction: usually
+
+4-gram: to technology developed under
+Correction: within
+
+4-gram: technology developed under background
+Correction: context
+
+4-gram: -START- developed address needs
+Correction: the need
+
+4-gram: developed address needs of
+Correction: for
+
+4-gram: -START- boomed excitements Such
+Correction: The
+
+4-gram: -START- -START- boomed excitements
+Correction: excitement
+
+4-gram: -START- -START- -START- boomed
+Correction: increased
+
+4-gram: -START- -START- was surprised
+Correction: surprising
+
+4-gram: accepted by process the
+Correction: navigation
+
+4-gram: -START- become engaged number
+Correction: numbers
+
+4-gram: -START- become changed As
+Correction: However , as
+
+4-gram: -START- -START- become changed
+Correction: changes
+
+4-gram: -START- -START- shaped made
+Correction: making
+
+4-gram: -START- shaped designed were
+Correction: have been designed
+
+4-gram: -START- influenced by economics
+Correction: economies
+
+4-gram: influenced since century early
+Correction: the start of the
+
+4-gram: -START- -START- made had
+Correction: have
+
+4-gram: -START- -START- looking were
+Correction: have been
+
+4-gram: -START- -START- developed has
+Correction: have
+
+4-gram: -START- -START- -START- was
+Correction: is
+
+4-gram: -START- was commerce E
+Correction: e-commerce websites
+
+4-gram: commerce created interface a
+Correction: interfaces
+
+4-gram: be conferencing allows attend
+Correction: meetings
+
+4-gram: allows attend conferences live
+Correction: even while away on
+
+4-gram: be conferencing allows made
+Correction: processes
+
+4-gram: -START- -START- provided way
+Correction: attend
+
+4-gram: -START- used in schools
+Correction: all over the world
+
+4-gram: designed meet needs the
+Correction: these
+
+4-gram: -START- shaped development The
+Correction: Thus , the
+
+4-gram: -START- -START- shaped is
+Correction: has been
+
+4-gram: -START- -START- -START- generate
+Correction: arise
+
+4-gram: turn be unwelcomed among
+Correction: by
+
+4-gram: -START- -START- become as
+Correction: like
+
+4-gram: mean made designs whatever
+Correction: every
+
+4-gram: -START- mean made designs
+Correction: design
+
+4-gram: -START- -START- mean made
+Correction: turned into a product
+
+4-gram: -START- -START- has Individual
+Correction: An individual
+
+4-gram: has compared with teamwork
+Correction: a team
+
+4-gram: is inadvisable make deigns
+Correction: designs
+
+4-gram: is amount of them
+Correction: such designs
+
+4-gram: -START- -START- -START- is
+Correction: would be
+
+4-gram: -START- -START- is meaningful
+Correction: useful
+
+4-gram: is problem hamper to
+Correction: that
+
+4-gram: -START- is problem hamper
+Correction: hampers
+
+4-gram: is problem hamper process
+Correction: processes
+
+4-gram: -START- -START- are Patent
+Correction: Patents
+
+4-gram: -START- -START- is patent
+Correction: patents
+
+4-gram: -START- -START- -START- is
+Correction: are
+
+4-gram: -START- -START- need application
+Correction: applications
+
+4-gram: -START- -START- need does
+Correction: do
+
+4-gram: -START- causes application rapid
+Correction: enormous number of
+
+4-gram: -START- -START- causes application
+Correction: applications
+
+4-gram: -START- -START- -START- causes
+Correction: have caused
+
+4-gram: -START- been disputes the
+Correction: become
+
+4-gram: -START- been trouble for
+Correction: in
+
+4-gram: -START- -START- censored and
+Correction: so
+
+4-gram: -START- become with procedure
+Correction: procedures
+
+4-gram: -START- pays put on
+Correction: in
+
+4-gram: in order make product
+Correction: products
+
+4-gram: encounter in development their
+Correction: its
+
+4-gram: -START- facing problems on
+Correction: in
+
+4-gram: effect on design from
+Correction: in
+
+4-gram: on design from aspect
+Correction: aspects
+
+4-gram: -START- accepted are student
+Correction: students
+
+4-gram: -START- have foundation on
+Correction: for
+
+4-gram: -START- have solve ,
+Correction: and
+
+4-gram: -START- become is that
+Correction: because
+
+4-gram: -START- -START- is Under
+Correction: Having undergone
+
+4-gram: -START- pointed become lacking
+Correction: lack
+
+4-gram: -START- -START- are Besides
+Correction: In addition
+
+4-gram: are inadequacies in policy
+Correction: policies
+
+4-gram: inadequacies in policy of
+Correction: regarding
+
+4-gram: -START- -START- is policy
+Correction: policies
+
+4-gram: -START- -START- is wide
+Correction: flexible
+
+4-gram: -START- -START- is is
+Correction: are
+
+4-gram: -START- are investment concerns
+Correction: attention
+
+4-gram: are investment concerns put
+Correction: puts
+
+4-gram: -START- is inventions devices
+Correction: needs
+
+4-gram: inventions devices need which
+Correction: much
+
+4-gram: -START- meet needs the
+Correction: these
+
+4-gram: -START- -START- put on
+Correction: in
+
+4-gram: -START- bring problems The
+Correction: These
+
+4-gram: effects on design for
+Correction: in
+
+4-gram: -START- -START- are under
+Correction: because of
+
+4-gram: -START- are engineers scientist
+Correction: scientists
+
+4-gram: -START- -START- are at
+Correction: in
+
+4-gram: -START- -START- affects on
+Correction: of
+
+4-gram: -START- -START- affects on
+Correction: in
+
+4-gram: solution for problems the
+Correction: different
+
+4-gram: -START- -START- affects due
+Correction: . Due
+
+4-gram: structure of education policy
+Correction: China 's policies
+
+4-gram: -START- -START- -START- is
+Correction: would be
+
+4-gram: is study make improvement
+Correction: improvements
+
+4-gram: impact on stage certain
+Correction: a particular
+
+4-gram: is consuming intensive but
+Correction: very
+
+4-gram: -START- is devotes into
+Correction: to
+
+4-gram: -START- -START- -START- have
+Correction: has
+
+4-gram: belongs to company that
+Correction: the
+
+4-gram: gains from production consumption
+Correction: Chinese
+
+4-gram: -START- devoted design repeat
+Correction: reproduce
+
+4-gram: -START- hampers situation the
+Correction: state
+
+4-gram: -START- -START- protected right
+Correction: rights
+
+4-gram: -START- -START- protected is
+Correction: are
+
+4-gram: -START- find version pirate
+Correction: pirated
+
+4-gram: -START- -START- find version
+Correction: versions
+
+4-gram: -START- -START- discouraged by
+Correction: because of
+
+4-gram: -START- are structure and
+Correction: state
+
+4-gram: makes pattern end Low
+Correction: the low-end
+
+4-gram: -START- are tries When
+Correction: If
+
+4-gram: promote process for innovations
+Correction: innovation
+
+4-gram: are problems tackle China
+Correction: it
+
+4-gram: -START- -START- detected monopole
+Correction: monopoles
+
+4-gram: -START- -START- detected was
+Correction: were
+
+4-gram: of discovery of monopole
+Correction: monopoles
+
+4-gram: was discovery of monopole
+Correction: monopoles
+
+4-gram: was likely promoted be
+Correction: have been
+
+4-gram: -START- was likely promoted
+Correction: brought about
+
+4-gram: -START- is boosted determinist
+Correction: determinism
+
+4-gram: -START- is boosted is
+Correction: being
+
+4-gram: -START- -START- categorized specify
+Correction: explain further
+
+4-gram: -START- -START- categorized determinist
+Correction: determinism
+
+4-gram: from workers in company
+Correction: companies
+
+4-gram: -START- -START- was During
+Correction: In
+
+4-gram: -START- -START- invented made
+Correction: became
+
+4-gram: -START- -START- is Till
+Correction: Until
+
+4-gram: -START- conclude after viewing
+Correction: discussing
+
+4-gram: -START- -START- trying come
+Correction: friendly
+
+4-gram: come with innovations technical
+Correction: technological
+
+4-gram: -START- -START- invented Naturally
+Correction: Thus ,
+
+4-gram: cars used caused more
+Correction: longer
+
+4-gram: -START- -START- travel distance
+Correction: distances
+
+4-gram: was due restriction the
+Correction: its
+
+4-gram: -START- -START- regarded is
+Correction: are
+
+4-gram: motivated by determinist socially
+Correction: social
+
+4-gram: using skills technology advance
+Correction: advanced
+
+4-gram: emerged as pollution environment
+Correction: environmental
+
+4-gram: -START- be ones cope
+Correction: deal
+
+4-gram: is reduce take advantages
+Correction: advantage
+
+4-gram: -START- stated is parf
+Correction: part
+
+4-gram: -START- -START- -START- deteriorate
+Correction: destroy
+
+4-gram: -START- -START- take advantages
+Correction: advantage
+
+4-gram: -START- -START- -START- cost
+Correction: costs
+
+4-gram: -START- is cost the
+Correction: their
+
+4-gram: -START- -START- is development
+Correction: capacity
+
+4-gram: use of cars solar
+Correction: these
+
+4-gram: -START- think feel could
+Correction: can
+
+4-gram: cut on emission pollutants
+Correction: pollutant
+
+4-gram: solutions regulations devices ,
+Correction: and
+
+4-gram: -START- -START- -START- improve
+Correction: designing
+
+4-gram: -START- improve be can
+Correction: are
+
+4-gram: -START- -START- -START- got
+Correction: need
+
+4-gram: -START- -START- is Improve
+Correction: Improving
+
+4-gram: is one solve to
+Correction: that can
+
+4-gram: -START- -START- are higher
+Correction: more
+
+4-gram: -START- are lifespan for
+Correction: of
+
+4-gram: -START- chose be will
+Correction: may
+
+4-gram: -START- -START- -START- chose
+Correction: choice
+
+4-gram: -START- be solution for
+Correction: to
+
+4-gram: be solution for purposes
+Correction: needs
+
+4-gram: of emission made -
+Correction: emissions
+
+4-gram: -START- -START- is it
+Correction: their
+
+4-gram: -START- -START- reduce Therefore
+Correction: However
+
+4-gram: scrubbers devices are cost
+Correction: costly
+
+4-gram: suffering are solutions for
+Correction: to
+
+4-gram: quality leads to issues
+Correction: problems
+
+4-gram: process for innovation including
+Correction: includes
+
+4-gram: focus Based on idea
+Correction: observation
+
+4-gram: -START- exploit directors manager
+Correction: managers
+
+4-gram: -START- -START- pursuing motivations
+Correction: motivation
+
+4-gram: working in enterprises owned
+Correction: is
+
+4-gram: motivations working in enterprises
+Correction: to pursue
+
+4-gram: -START- -START- -START- pursuing
+Correction: high
+
+4-gram: lazy interested in discovering
+Correction: discovery
+
+4-gram: -START- -START- want encounter
+Correction: discover
+
+4-gram: want encounter ideas precious
+Correction: good
+
+4-gram: affect stage stage development
+Correction: especially
+
+4-gram: play enterprises owned stated
+Correction: State-owned
+
+4-gram: play in controlling leading
+Correction: types
+
+4-gram: in system of enterprises
+Correction: financial
+
+4-gram: -START- hampers shortage economic
+Correction: among
+
+4-gram: hampers shortage of companies
+Correction: hamper
+
+4-gram: competition possibilities of bankrupt
+Correction: bankcruptcy
+
+4-gram: -START- -START- afford could
+Correction: can
+
+4-gram: -START- lead equipment poor
+Correction: Poor
+
+4-gram: lead to uncertainty large
+Correction: much
+
+4-gram: -START- lead to productions
+Correction: production
+
+4-gram: -START- be due shortage
+Correction: problems
+
+4-gram: -START- -START- are loopholes
+Correction: Loopholes
+
+4-gram: of enterprises shortage the
+Correction: problems
+
+4-gram: enhanced improved factors the
+Correction: these
+
+4-gram: -START- enhanced improved can
+Correction: will
+
+4-gram: -START- believed is not
+Correction: no
+
+4-gram: is connection between innovations
+Correction: innovation
+
+4-gram: -START- -START- does it
+Correction: there
+
+4-gram: -START- -START- -START- does
+Correction: is
+
+4-gram: Comparing examples of innovations
+Correction: innovation
+
+4-gram: -START- -START- -START- notice
+Correction: see
+
+4-gram: -START- -START- -START- is
+Correction: involved
+
+4-gram: -START- -START- set are
+Correction: were
+
+4-gram: -START- -START- are convicted
+Correction: convinced
+
+4-gram: -START- -START- -START- applied
+Correction: is true
+
+4-gram: was supports observation a
+Correction: an
+
+4-gram: was higher than those
+Correction: that
+
+4-gram: -START- -START- -START- costs
+Correction: cost
+
+4-gram: -START- -START- costs many
+Correction: much
+
+4-gram: concluded say kind the
+Correction: support
+
+4-gram: say about supports the
+Correction: how much
+
+4-gram: -START- -START- be mistaken
+Correction: a mistake
+
+4-gram: -START- -START- be without
+Correction: not to
+
+4-gram: -START- be without mentioning
+Correction: mention
+
+4-gram: be without mentioning on
+Correction: in
+
+4-gram: -START- -START- considered provides
+Correction: provide
+
+4-gram: -START- is are impacts
+Correction: impact
+
+4-gram: -START- -START- is are
+Correction: is
+
+4-gram: However , way invented
+Correction: produced or generated
+
+4-gram: way amount of supports
+Correction: support
+
+4-gram: , way amount are
+Correction: were
+
+4-gram: essence of kind each
+Correction: involved : conventional or serendipitous
+
+4-gram: solved problem used worry
+Correction: be a concern of
+
+4-gram: -START- -START- produce Now
+Correction: to produce TV
+
+4-gram: -START- In order praise
+Correction: acknowledge
+
+4-gram: -START- -START- are puzzled
+Correction: waiting for
+
+4-gram: -START- are looking enterprisers
+Correction: enterprises
+
+4-gram: -START- -START- -START- point
+Correction: explain
+
+4-gram: point problems hamper process
+Correction: processes
+
+4-gram: stages of process the
+Correction: these
+
+4-gram: -START- is standard The
+Correction: processes
+
+4-gram: -START- is standard low
+Correction: Low
+
+4-gram: -START- -START- classified is
+Correction: refers to
+
+4-gram: of students from school
+Correction: schools
+
+4-gram: -START- go seek mentors
+Correction: training
+
+4-gram: -START- pay enterprisers China
+Correction: Chinese
+
+4-gram: -START- pay attention on
+Correction: to
+
+4-gram: curbs development of process
+Correction: processes
+
+4-gram: focus enterprisers most of
+Correction: entrepreneurs
+
+4-gram: on product run -
+Correction: products
+
+4-gram: is problem hampering process
+Correction: processes
+
+4-gram: -START- -START- fail inventors
+Correction: Inventors
+
+4-gram: fail inventors of product
+Correction: products
+
+4-gram: -START- -START- -START- discouraged
+Correction: discourage from
+
+4-gram: discouraged put in process
+Correction: processes
+
+4-gram: -START- announced are power
+Correction: key
+
+4-gram: announced are power of
+Correction: to
+
+4-gram: -START- -START- issued The
+Correction: regulations
+
+4-gram: -START- issued regulation related
+Correction: Related
+
+4-gram: -START- issued implemented ensure
+Correction: protect
+
+4-gram: -START- believes improve process
+Correction: processes
+
+4-gram: as factors hamper process
+Correction: processes
+
+4-gram: In order improve process
+Correction: processes
+
+4-gram: -START- hinders act this
+Correction: This
+
+4-gram: -START- -START- be Due
+Correction: Thus , due
+
+4-gram: Due application in aspect
+Correction: work
+
+4-gram: factor in shaping innovations
+Correction: innovation
+
+4-gram: caused affected area of
+Correction: within
+
+4-gram: -START- -START- -START- contributes
+Correction: contribute
+
+4-gram: contributes to difficulties and
+Correction: .
+
+4-gram: -START- contributes lot a
+Correction: rules
+
+4-gram: are difficult find with
+Correction: through
+
+4-gram: of applying technology this
+Correction: uranium
+
+4-gram: -START- costs amount deal
+Correction: dispense
+
+4-gram: total According to summary
+Correction: report
+
+4-gram: makes function in usage
+Correction: uses
+
+4-gram: -START- -START- causes makes
+Correction: make
+
+4-gram: are at levels depressed
+Correction: critical
+
+4-gram: -START- -START- are ;
+Correction: ,
+
+4-gram: -START- are 's so
+Correction: thus
+
+4-gram: In era growing which
+Correction: where
+
+4-gram: becomes consumption of resource
+Correction: resources
+
+4-gram: becomes start suffer aftermath
+Correction: consequences
+
+4-gram: becomes start suffer for
+Correction: . For
+
+4-gram: -START- -START- given ,
+Correction: is
+
+4-gram: -START- -START- neglected ,
+Correction: ;
+
+4-gram: -START- -START- neglected being
+Correction: it is
+
+4-gram: -START- -START- reward you
+Correction: us
+
+4-gram: -START- -START- is Designing
+Correction: Because designing
+
+4-gram: is Designing system efficient
+Correction: efficiently
+
+4-gram: -START- is needs thus
+Correction: ,
+
+4-gram: -START- is needs on
+Correction: of
+
+4-gram: that is quo state
+Correction: status
+
+4-gram: -START- -START- -START- Supposing
+Correction: Suppose
+
+4-gram: is Besides gathering doing
+Correction: making
+
+4-gram: do in process engineering
+Correction: processes
+
+4-gram: as function ergonomics and
+Correction: ,
+
+4-gram: be consuming safe of
+Correction: for
+
+4-gram: consuming safe of using
+Correction: use
+
+4-gram: -START- -START- -START- is
+Correction: are
+
+4-gram: order deal work with
+Correction: a
+
+4-gram: -START- -START- meet Thereupon
+Correction: Therefore
+
+4-gram: -START- tell price the
+Correction: its
+
+4-gram: shows power of code
+Correction: codes
+
+4-gram: -START- is code Bar
+Correction: Using bar
+
+4-gram: -START- -START- is code
+Correction: codes
+
+4-gram: -START- -START- emerged Firs
+Correction: First
+
+4-gram: -START- predicted emergence the
+Correction: its
+
+4-gram: like libraries industry post
+Correction: postal
+
+4-gram: buy devices read code
+Correction: codes
+
+4-gram: -START- became cost economy
+Correction: economic
+
+4-gram: -START- pushed concerns The
+Correction: These
+
+4-gram: -START- -START- pushed and
+Correction: thus
+
+4-gram: -START- -START- -START- wins
+Correction: won
+
+4-gram: -START- -START- wins heart
+Correction: hearts
+
+4-gram: shaping making survive facing
+Correction: in the midst of
+
+4-gram: has adjust meet globalization
+Correction: it
+
+4-gram: -START- standardised code Bar
+Correction: The bar
+
+4-gram: shape to technology implemented
+Correction: used
+
+4-gram: -START- -START- shaped is
+Correction: has been
+
+4-gram: -START- -START- -START- mean
+Correction: means
+
+4-gram: have come from import
+Correction: imports
+
+4-gram: poses problems as cost
+Correction: costs
+
+4-gram: for processes groups hence
+Correction: . Hence
+
+4-gram: in order optimize condition
+Correction: conditions
+
+4-gram: mentioned took Society the
+Correction: for
+
+4-gram: -START- -START- delayed have
+Correction: had
+
+4-gram: requires amount with material
+Correction: materials
+
+4-gram: -START- have is parts
+Correction: part
+
+4-gram: be required in quantity
+Correction: quantities
+
+4-gram: -START- -START- produces claims
+Correction: Tuas
+
+4-gram: by factors perception towards
+Correction: of
+
+4-gram: by factors perception factor
+Correction: factors
+
+4-gram: -START- is factor contributes
+Correction: has contributed
+
+4-gram: -START- were produced When
+Correction: After
+
+4-gram: -START- existed been have
+Correction: had
+
+4-gram: -START- -START- were were
+Correction: was
+
+4-gram: were space place desktop
+Correction: desktops
+
+4-gram: -START- -START- made are
+Correction: were
+
+4-gram: are differences in designing
+Correction: the
+
+4-gram: -START- -START- is process
+Correction: processes
+
+4-gram: -START- -START- -START- is
+Correction: are
+
+4-gram: is is for purpose
+Correction: purposes
+
+4-gram: -START- led to product
+Correction: production
+
+4-gram: of kind is knownPost
+Correction: known Post-it
+
+4-gram: -START- -START- is turn
+Correction: put
+
+4-gram: -START- is turn into
+Correction: to
+
+4-gram: -START- -START- -START- got
+Correction: had
+
+4-gram: -START- invented kind was
+Correction: had
+
+4-gram: kind was luster bright
+Correction: brighter
+
+4-gram: -START- -START- thought made
+Correction: make
+
+4-gram: thought made into dinner
+Correction: a
+
+4-gram: -START- -START- made hope
+Correction: I
+
+4-gram: -START- -START- -START- increases
+Correction: increase
+
+4-gram: -START- -START- includes was
+Correction: a
+
+4-gram: are on scale the
+Correction: a
+
+4-gram: -START- affects incurred cost
+Correction: costs
+
+4-gram: construction of foundations its
+Correction: their
+
+4-gram: -START- -START- -START- hinder
+Correction: affect
+
+4-gram: -START- put requirements on
+Correction: for
+
+4-gram: -START- -START- houses Contradictory
+Correction: Contrary
+
+4-gram: have channeled into portion
+Correction: stage
+
+4-gram: be transit Rail Mass
+Correction: Transit
+
+4-gram: network of shops link
+Correction: is linked
+
+4-gram: contrast about guncotton explosive
+Correction: explosives
+
+4-gram: as invention of explosive
+Correction: explosives
+
+4-gram: -START- -START- spent Nobel
+Correction: ,Nobel
+
+4-gram: -START- -START- are But
+Correction: However ,
+
+4-gram: -START- -START- is Difference
+Correction: The difference
+
+4-gram: work for explosive dead
+Correction: died
+
+4-gram: work in experiment at
+Correction: .At
+
+4-gram: -START- used had affection
+Correction: effect
+
+4-gram: -START- -START- -START- dead
+Correction: died
+
+4-gram: -START- -START- -START- was
+Correction: is
+
+4-gram: -START- found doing is
+Correction: was
+
+4-gram: -START- -START- invent can
+Correction: could
+
+4-gram: came made invention an
+Correction: a
+
+4-gram: invented by chemists prudential
+Correction: prudent
+
+4-gram: -START- -START- -START- is
+Correction: was
+
+4-gram: -START- is person prudential
+Correction: prudent
+
+4-gram: -START- is do invent
+Correction: have invented
+
+4-gram: -START- -START- -START- miss
+Correction: have missed
+
+4-gram: -START- -START- made contribute
+Correction: contributions
+
+4-gram: -START- -START- -START- Engineer
+Correction: Engineers
+
+4-gram: developed resulted from was
+Correction: experiment
+
+4-gram: -START- -START- -START- prevent
+Correction: prevents
+
+4-gram: environment account for stall
+Correction: stalling
+
+4-gram: -START- -START- classified Both
+Correction: While
+
+4-gram: resulted developed glue super
+Correction: was
+
+4-gram: -START- -START- -START- turns
+Correction: turned
+
+4-gram: -START- -START- -START- is
+Correction: was
+
+4-gram: -START- -START- -START- find
+Correction: see
+
+4-gram: -START- -START- find find
+Correction: found
+
+4-gram: -START- -START- -START- turns
+Correction: turned
+
+4-gram: -START- notes share glue
+Correction: shared
+
+4-gram: -START- -START- -START- is
+Correction: was
+
+4-gram: -START- -START- -START- is
+Correction: was
+
+4-gram: is adhesive used can
+Correction: could
+
+4-gram: -START- -START- -START- find
+Correction: found
+
+4-gram: -START- is surprising no
+Correction: not
+
+4-gram: means causes belief of
+Correction: that
+
+4-gram: is vehicles shaped had
+Correction: have
+
+4-gram: by factors are that
+Correction: namely
+
+4-gram: one of elements determine
+Correction: have determined
+
+4-gram: -START- has vehicle Electric
+Correction: The electric
+
+4-gram: -START- -START- utilizes by
+Correction: from
+
+4-gram: are requires charging less
+Correction: fewer
+
+4-gram: -START- -START- met had
+Correction: have
+
+4-gram: -START- advertised in manners
+Correction: manner
+
+4-gram: -START- -START- -START- declined
+Correction: declining
+
+4-gram: was At point this
+Correction: that
+
+4-gram: -START- -START- are in
+Correction: by
+
+4-gram: -START- -START- fading interests
+Correction: interest
+
+4-gram: -START- fading interests towards
+Correction: in
+
+4-gram: -START- -START- fading are
+Correction: is
+
+4-gram: -START- -START- lose interests
+Correction: interest
+
+4-gram: with technology accelerated ever
+Correction: ever-accelerating
+
+4-gram: -START- is poison a
+Correction: the
+
+4-gram: -START- -START- -START- made
+Correction: did
+
+4-gram: hay resulted in puncturing
+Correction: punctured
+
+4-gram: enlightened kind of chemicals
+Correction: chemical
+
+4-gram: -START- -START- came Finally
+Correction: Thus
+
+4-gram: Take invention of dynamics
+Correction: dynamite
+
+4-gram: -START- -START- -START- die
+Correction: have died
+
+4-gram: -START- -START- die of
+Correction: during
+
+4-gram: -START- die of exploding
+Correction: explosion
+
+4-gram: of exploding of dynamics
+Correction: dynamite
+
+4-gram: -START- -START- required at
+Correction: in
+
+4-gram: -START- know things some
+Correction: the microwave oven
+
+4-gram: melted exposed to microwave
+Correction: microwaves
+
+4-gram: -START- -START- -START- interested
+Correction: caused
+
+4-gram: -START- came into use
+Correction: being
+
+4-gram: are is is resulted
+Correction: results
+
+4-gram: -START- needed make magic
+Correction: magical
+
+4-gram: -START- -START- -START- indicates
+Correction: indicate
+
+4-gram: -START- -START- -START- owing
+Correction: due
+
+4-gram: -START- builds provides ,
+Correction: --
+
+4-gram: -START- -START- is undergraduate
+Correction: undergraduates
+
+4-gram: -START- -START- -START- is
+Correction: are
+
+4-gram: -START- is among groups
+Correction: its
+
+4-gram: sites in world virtue
+Correction: virtual
+
+4-gram: like forecast of fortune
+Correction: fortunes
+
+4-gram: been believing boost advertisement
+Correction: advertisements
+
+4-gram: -START- benefit on advertisement
+Correction: advertisements
+
+4-gram: -START- -START- benefit earns
+Correction: earn
+
+4-gram: -START- -START- reaching throughout
+Correction: and
+
+4-gram: add jargon meaning incline
+Correction: are inclined
+
+4-gram: -START- -START- -START- do
+Correction: does
+
+4-gram: -START- does secure in
+Correction: from
+
+4-gram: does secure in advertisement
+Correction: advertisements
+
+4-gram: -START- is identity True
+Correction: The true
+
+4-gram: is identity of user
+Correction: users
+
+4-gram: priority during II the
+Correction: the
+
+4-gram: took promised funding in
+Correction: for
+
+4-gram: -START- -START- provide is
+Correction: was
+
+4-gram: -START- -START- -START- provide
+Correction: have provided
+
+4-gram: -START- -START- invented will
+Correction: might
+
+4-gram: -START- -START- invented be
+Correction: have been
+
+4-gram: -START- invented see do
+Correction: did
+
+4-gram: see need for plane
+Correction: planes
+
+4-gram: -START- meet with fate
+Correction: fates
+
+4-gram: -START- returned prospered economy
+Correction: economies
+
+4-gram: enjoyed development in economics
+Correction: economy
+
+4-gram: introduced amount of capitals
+Correction: capital
+
+4-gram: with products cheap qualified
+Correction: quality
+
+4-gram: -START- -START- have relied
+Correction: dependent
+
+4-gram: -START- -START- -START- hamper
+Correction: hampers
+
+4-gram: -START- -START- exposed of
+Correction: to
+
+4-gram: -START- make products piratical
+Correction: pirated
+
+4-gram: -START- -START- inspired comes
+Correction: came
+
+4-gram: -START- -START- tend hamper
+Correction: hampers
+
+4-gram: is lack of capitals
+Correction: capital
+
+4-gram: make By reducing converting
+Correction: changing
+
+4-gram: required facilities support technology
+Correction: technological
+
+4-gram: facilities in system agriculture
+Correction: agricultural
+
+4-gram: -START- improve satisfy requirements
+Correction: needs
+
+4-gram: make plan build canal
+Correction: canals
+
+4-gram: -START- -START- provide Government
+Correction: The government
+
+4-gram: -START- is Protecting plant
+Correction: plants
+
+4-gram: is mechanize system agriculture
+Correction: agricultural
+
+4-gram: make Armed with machine
+Correction: machinery
+
+4-gram: improvement in system agriculture
+Correction: agricultural
+
+4-gram: -START- -START- make Government
+Correction: The government
+
+4-gram: -START- -START- -START- got
+Correction: obtained
+
+4-gram: -START- is action inhuman
+Correction: inhumane
+
+4-gram: -START- -START- abuse Government
+Correction: The government
+
+4-gram: -START- -START- become Standard
+Correction: The standard
+
+4-gram: -START- -START- existed in
+Correction: on
+
+4-gram: -START- -START- -START- had
+Correction: has
+
+4-gram: -START- is needed labors
+Correction: laborers
+
+4-gram: facilities equipment help that
+Correction: , which
+
+4-gram: -START- -START- gain Undergoing
+Correction: Overcoming
+
+4-gram: important to industry of
+Correction: in
+
+4-gram: has Compared with conduit
+Correction: conduits
+
+4-gram: -START- -START- is from
+Correction: with
+
+4-gram: -START- -START- are steady
+Correction: consistent
+
+4-gram: -START- -START- last fluctuate
+Correction: fluctuates
+
+4-gram: -START- -START- -START- are
+Correction: is
+
+4-gram: -START- -START- are criterions
+Correction: criteria
+
+4-gram: -START- -START- lead exert
+Correction: serve
+
+4-gram: lead exert have follows
+Correction: follow
+
+4-gram: made In sweep board
+Correction: broad
+
+4-gram: was fortune done have
+Correction: has
+
+4-gram: was fortune done job
+Correction: work
+
+4-gram: -START- -START- -START- seems
+Correction: seemed
+
+4-gram: -START- -START- were process
+Correction: processes
+
+4-gram: -START- -START- chanced Often
+Correction: More often
+
+4-gram: popularity usefulness cost usages
+Correction: usage
+
+4-gram: -START- -START- find ,
+Correction: found
+
+4-gram: asked finished giving have
+Correction: had
+
+4-gram: -START- -START- is causes
+Correction: cause
+
+4-gram: -START- is part make
+Correction: makes
+
+4-gram: -START- -START- require varies
+Correction: variety
+
+4-gram: -START- require varies amount
+Correction: a greater number
+
+4-gram: -START- require jobs tough
+Correction: demanding
+
+4-gram: -START- is is tough
+Correction: tedious
+
+4-gram: have overloaded come out
+Correction: up with
+
+4-gram: have repeat until success
+Correction: they succeed
+
+4-gram: tried After concluding experiences
+Correction: experiments
+
+4-gram: be success appeared that
+Correction: when
+
+4-gram: are required jobs tough
+Correction: demanding
+
+4-gram: given by market unpredicted
+Correction: unpredictable
+
+4-gram: -START- is upgraded ,
+Correction: ;
+
+4-gram: -START- -START- receive attitudes
+Correction: responses
+
+4-gram: -START- -START- gained reputations
+Correction: acceptance
+
+4-gram: -START- -START- receive feedbacks
+Correction: feedback
+
+4-gram: -START- -START- has effect
+Correction: effects
+
+4-gram: -START- required remember read
+Correction: say
+
+4-gram: -START- -START- required teaches
+Correction: teachers
+
+4-gram: -START- pursue study in
+Correction: for
+
+4-gram: -START- -START- pursue do
+Correction: doing
+
+4-gram: those more than intelligentsias
+Correction: intelligence
+
+4-gram: use In order issue
+Correction: publish
+
+4-gram: use buy opportunities of
+Correction: for
+
+4-gram: -START- -START- have spends
+Correction: costs
+
+4-gram: proposal due situation economic
+Correction: financial
+
+4-gram: -START- -START- -START- undergo
+Correction: go through
+
+4-gram: technology innovation created was
+Correction: is
+
+4-gram: technology innovation created was
+Correction: is
+
+4-gram: person in place the
+Correction: a
+
+4-gram: -START- are different but
+Correction: yet
+
+4-gram: -START- -START- gone have
+Correction: has
+
+4-gram: in order come out
+Correction: up
+
+4-gram: -START- -START- is resource
+Correction: resources
+
+4-gram: -START- -START- comes Then
+Correction: Hence ,
+
+4-gram: -START- -START- use human
+Correction: humans
+
+4-gram: -START- -START- live human
+Correction: humans
+
+4-gram: -START- -START- need So
+Correction: Therefore
+
+4-gram: -START- -START- becomes step
+Correction: pace
+
+4-gram: -START- -START- -START- becomes
+Correction: has become
+
+4-gram: -START- -START- realize from
+Correction: From
+
+4-gram: -START- -START- -START- realize
+Correction: see
+
+4-gram: -START- are fuel bio
+Correction: bio-fuels
+
+4-gram: -START- means generates fuel
+Correction: is generated
+
+4-gram: -START- -START- -START- means
+Correction: this
+
+4-gram: -START- -START- faced Human
+Correction: Humans
+
+4-gram: machines consume find sorts
+Correction: types
+
+4-gram: is invent replace one
+Correction: ones
+
+4-gram: produce products make live
+Correction: life
+
+4-gram: -START- pumped millions of
+Correction: in
+
+4-gram: -START- is seen in
+Correction: at
+
+4-gram: -START- directed objectives project
+Correction: projects
+
+4-gram: with absence of supports
+Correction: support
+
+4-gram: attributed causing rejection is
+Correction: are
+
+4-gram: rejection is relevant with
+Correction: to
+
+4-gram: -START- engaged facilitate researches
+Correction: research
+
+4-gram: -START- -START- -START- find
+Correction: found
+
+4-gram: -START- -START- faced attempt
+Correction: attempted
+
+4-gram: lack at in diffusion
+Correction: implementation
+
+4-gram: -START- -START- compelled engineer
+Correction: engineers
+
+4-gram: -START- -START- -START- compelled
+Correction: constrained
+
+4-gram: -START- -START- achieved face
+Correction: faces
+
+4-gram: achieved face restrictions less
+Correction: fewer
+
+4-gram: -START- -START- develops in
+Correction: at
+
+4-gram: -START- needs of increase
+Correction: have increased
+
+4-gram: -START- -START- -START- start
+Correction: have started
+
+4-gram: -START- -START- start do
+Correction: conduct research
+
+4-gram: do research design something
+Correction: new things
+
+4-gram: trying repeating experiments the
+Correction: repeating experiments
+
+4-gram: succeed generate technology a
+Correction: new technology
+
+4-gram: -START- -START- comes therefore
+Correction: misplaced link word
+
+4-gram: done matter resulted was
+Correction: has
+
+4-gram: -START- -START- -START- done
+Correction: must have been made
+
+4-gram: -START- -START- believed They
+Correction: Unclear pronoun reference
+
+4-gram: -START- believed undergone researches
+Correction: research
+
+4-gram: -START- -START- is works
+Correction: process
+
+4-gram: -START- -START- is but
+Correction: and it
+
+4-gram: -START- -START- -START- is
+Correction: was
+
+4-gram: -START- -START- saved gave
+Correction: given
+
+4-gram: -START- discovery of benefits
+Correction: has benefited
+
+4-gram: -START- -START- -START- saves
+Correction: has saved
+
+4-gram: brings lot of conveniences
+Correction: convenience
+
+4-gram: -START- -START- combined laptop
+Correction: laptops
+
+4-gram: -START- -START- combined has
+Correction: have
+
+4-gram: -START- need save it
+Correction: this
+
+4-gram: bring time want when
+Correction: Every time we
+
+4-gram: -START- exist differences of
+Correction: between
+
+4-gram: -START- is generates after
+Correction: that resulted
+
+4-gram: -START- -START- is generates
+Correction: generated
+
+4-gram: -START- -START- -START- take
+Correction: incur
+
+4-gram: caused by consuming exists
+Correction: exist
+
+4-gram: fulfil needs people the
+Correction: people 's needs
+
+4-gram: Topic shaped dictionary electrical
+Correction: electronic
+
+4-gram: Topic shaped by need
+Correction: needs
+
+4-gram: function to one ,
+Correction: dictionaries
+
+4-gram: -START- shaped by need
+Correction: needs
+
+4-gram: -START- -START- talk i
+Correction: I
+
+4-gram: -START- talk about need
+Correction: needs
+
+4-gram: -START- is change obevious
+Correction: obvious
+
+4-gram: -START- is improved function
+Correction: functions
+
+4-gram: -START- is improved has
+Correction: have
+
+4-gram: -START- -START- do it
+Correction: the electronic dictionary
+
+4-gram: -START- -START- do can
+Correction: could
+
+4-gram: -START- -START- are dictronary
+Correction: dictionaries
+
+4-gram: -START- -START- look it
+Correction: they
+
+4-gram: -START- look does one
+Correction: ones
+
+4-gram: -START- -START- look does
+Correction: did
+
+4-gram: look well languages ,
+Correction: languages like
+
+4-gram: -START- -START- -START- downloading
+Correction: download
+
+4-gram: -START- act dictronary electronic
+Correction: an MP3/ MP4
+
+4-gram: -START- act possesses function
+Correction: functions
+
+4-gram: is of size hand
+Correction: hand-hand-sized
+
+4-gram: -START- is size -
+Correction: and
+
+4-gram: -START- -START- is size
+Correction: and much lighter
+
+4-gram: -START- -START- is convience
+Correction: convenient
+
+4-gram: is convience carry win
+Correction: wins
+
+4-gram: convience carry win regards
+Correction: favour
+
+4-gram: is belonging to reprsent
+Correction: represent
+
+4-gram: to reprsent appitite and
+Correction: to modernise
+
+4-gram: influenced price of dictronary
+Correction: dictionaries
+
+4-gram: -START- have have job
+Correction: jobs
+
+4-gram: -START- -START- determines limitation
+Correction: limitations
+
+4-gram: limitation as access no
+Correction: the lack of access
+
+4-gram: -START- -START- -START- determines
+Correction: determine
+
+4-gram: -START- plays role importance
+Correction: important
+
+4-gram: students in shape return
+Correction: turn
+
+4-gram: chances discover pursuing were
+Correction: are
+
+4-gram: between technology developed with
+Correction: developed via research
+
+4-gram: problems as warming the
+Correction: such as global warming
+
+4-gram: -START- requires engineers the
+Correction: requires engineers
+
+4-gram: -START- requires identify begin
+Correction: begins
+
+4-gram: goal want researchers the
+Correction: that researchers
+
+4-gram: -START- shaped lifestyle the
+Correction: modern lifestyle
+
+4-gram: -START- use watch surfing
+Correction: surf
+
+4-gram: around billions of website
+Correction: websites
+
+4-gram: -START- is produced are
+Correction: have not been
+
+4-gram: is produced put efforts
+Correction: effort
+
+4-gram: group designated do carry
+Correction: carrying
+
+4-gram: created innovations created were
+Correction: are
+
+4-gram: -START- -START- undergo researches
+Correction: research
+
+4-gram: to inventions procedure organization
+Correction: organizational
+
+4-gram: -START- -START- given was
+Correction: is
+
+4-gram: -START- -START- -START- served
+Correction: serve
+
+4-gram: provide to society the
+Correction: to society
+
+4-gram: meet needs of human
+Correction: humans
+
+4-gram: -START- -START- -START- makes
+Correction: brings
+
+4-gram: -START- bear differences shares
+Correction: share
+
+4-gram: -START- produce heading differs
+Correction: differ
+
+4-gram: is method allows developing
+Correction: develop
+
+4-gram: allows developing solutions to
+Correction: for
+
+4-gram: as approach solve problem
+Correction: problems
+
+4-gram: -START- are carrying out
+Correction: on
+
+4-gram: by using going into
+Correction: on a vegetarian diet
+
+4-gram: work doing seen could
+Correction: can
+
+4-gram: by finding methods reduces
+Correction: reduce
+
+4-gram: source able manipulate onto
+Correction: on
+
+4-gram: -START- sound ideas These
+Correction: This
+
+4-gram: -START- -START- sound ideas
+Correction: idea
+
+4-gram: method enables change prepares
+Correction: prepare
+
+4-gram: has advantages store to
+Correction: it
+
+4-gram: -START- has advantages store
+Correction: provides
+
+4-gram: -START- has advantages reduce
+Correction: reducing
+
+4-gram: has advantages reduce in
+Correction: reducing poultry consumption
+
+4-gram: -START- develop technologies advance
+Correction: advanced
+
+4-gram: -START- -START- reduce ,
+Correction: areas reduces
+
+4-gram: -START- -START- -START- reduce
+Correction: reduces
+
+4-gram: -START- -START- be use
+Correction: used
+
+4-gram: -START- -START- -START- carry
+Correction: carried
+
+4-gram: considered durability life and
+Correction: the ability
+
+4-gram: -START- considered durability able
+Correction: ability
+
+4-gram: -START- -START- allows solution
+Correction: solutions
+
+4-gram: -START- -START- -START- allows
+Correction: allow
+
+4-gram: -START- allows fight temporary
+Correction: temporarily
+
+4-gram: -START- -START- is implement
+Correction: implementation
+
+4-gram: -START- contains thinking Inovative
+Correction: innovation
+
+4-gram: -START- aim taught been
+Correction: that has been taught
+
+4-gram: -START- -START- developed scientist
+Correction: scientists
+
+4-gram: -START- stressed on implement
+Correction: implementation
+
+4-gram: stressed generation of design
+Correction: designs
+
+4-gram: is requires generate could
+Correction: ca
+
+4-gram: -START- -START- hampered have
+Correction: has
+
+4-gram: -START- -START- have ,
+Correction: has

@@ -1,0 +1,23 @@
+4-gram: -START- -START- been ,
+Correction: and
+
+4-gram: by learning students exploring
+Correction: exploration
+
+4-gram: way satisfy demands of
+Correction: for
+
+4-gram: like designing accommodate it
+Correction: the same area of land
+
+4-gram: designing accommodate number more
+Correction: a greater
+
+4-gram: -START- -START- is create
+Correction: use
+
+4-gram: material support despite disaster
+Correction: disasters
+
+4-gram: Besides usage of lands
+Correction: land

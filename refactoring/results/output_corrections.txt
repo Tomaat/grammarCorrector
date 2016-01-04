@@ -1,0 +1,56 @@
+Finding ngrams dependency...
+Compute log likelihood...
+Starting with the spacy stuff..
+Finding corrections...
+no correction found
+20
+40
+no correction found
+60
+80
+no correction found
+number of iterations:  86
+number correct on pos 1:  1 number in top x:  1
+[Finished in 1373.5s]
+
+xxxxxxxxxxxxxxx
+
+Finding ngrams dependency...
+Compute log likelihood...
+Starting with the spacy stuff..
+Finding corrections...
+no correction found
+20
+40
+no correction found
+60
+80
+no correction found
+no correction found
+100
+120
+140
+160
+180
+no correction found
+200
+no correction found
+220
+number of iterations:  231
+number correct on pos 1:  5 number in top x:  5
+[Finished in 1945.9s]
+
+xxxxxxxxxx
+
+
+Finding ngrams linear...
+Compute log likelihood...
+Finding corrections...
+no correction found
+no correction found
+no correction found
+no correction found
+no correction found
+no correction found
+no correction found
+224 6 6

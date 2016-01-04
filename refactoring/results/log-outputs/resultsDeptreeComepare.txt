@@ -1,0 +1,25 @@
+Load data from ../release3.2/data/conll14st-preprocessed.m2
+main 0
+making targets 
+in 9.53674316406e-07 sec 
+loading tbank 
+scoring... 
+spacy loaded in 61.782497 sec. Scored 2.000000 on 150 targets in 0.484965 sec. 
+main 1
+making targets 
+in 2.14576721191e-06 sec 
+loading tbank 
+scoring... 
+ntlk no noise loaded in 5.117029 sec. Scored 141.258360 on 150 targets in 2296.864960 sec. 
+main 4
+making targets 
+in 2.14576721191e-06 sec 
+loading tbank 
+scoring... 
+nltk only random noise loaded in 7.118442 sec. Scored 141.258360 on 150 targets in 1511.201534 sec. 
+main 5
+making targets 
+in 9.53674316406e-07 sec 
+loading tbank 
+scoring... 
+ntlk only flaws noise loaded in 5.175234 sec. Scored 141.258360 on 150 targets in 5102.947399 sec. 
