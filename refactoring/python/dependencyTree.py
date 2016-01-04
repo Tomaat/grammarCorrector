@@ -30,7 +30,8 @@ import random
 import copy
 
 class wordHack(object):
-	"""Class necessary to have the same interface as Spacy
+	"""
+		Class necessary to have the same interface as Spacy
 	"""
 	def __init__(self,word,tag):
 		self.orth_ = word
@@ -93,7 +94,8 @@ class dfirst(object):
 			raise StopIteration()
 
 class tbankparser:
-	"""Object that initialises a dependency-treebank (using nltk)
+	"""
+		Object that initialises a dependency-treebank (using nltk)
 	"""
 	def __init__(self,filename='../release3.2/data/conll14st-preprocessed.m2'):
 		f = open(filename,'r')
@@ -107,19 +109,22 @@ class tbankparser:
 
 	
 	def sen(self,i=0):
-		"""Easy acces to the sentences of the treebank
+		"""
+			Easy acces to the sentences of the treebank
 		"""
 		return self._sents[i]
 	
 	def truncate(self,n):
-		"""Decreasing the amount of train-trees to decrease runtime (and accuracy)
+		"""
+			Decreasing the amount of train-trees to decrease runtime (and accuracy)
 		"""
 		self._parsed = self._parsed[:n]
 		self._n = self._m = n
 		
 	
 	def getParser(self,max=None,load=False,save=False,filename='parser.pkl'):
-		"""load the parser
+		"""
+			load the parser
 			when max is specified, the database is truncated
 			load and save use pickle to load or safe the parser to filename
 		"""
@@ -135,7 +140,8 @@ class tbankparser:
 		self._parser = parser
 	
 	def _change_real_word(self,i):
-		"""On index i of the database, change a word of the tree to a known flaw
+		"""
+			On index i of the database, change a word of the tree to a known flaw
 		"""
 		cursen = self._parsed[i]
 		keys = cursen.nodes.keys()[1:-1]
@@ -157,7 +163,8 @@ class tbankparser:
 		return new_word, wi
 	
 	def _change_word(self,i):
-		"""on index i of the database, change randomly a character of a random chosen word of the tree
+		"""
+			on index i of the database, change randomly a character of a random chosen word of the tree
 		"""
 		keys = self._parsed[i].nodes.keys()[1:-1]
 		wi = random.choice(keys)
@@ -174,7 +181,8 @@ class tbankparser:
 		return new_word,wi
 	
 	def add_noise(self,n=1,keep=True,real=True):
-		"""Add n noisy data to the database.
+		"""
+			Add n noisy data to the database.
 			if keep, add the flaws as new trees, else replace the old tree
 			if real use known flaws, else change random charakters
 		"""
@@ -202,7 +210,8 @@ class tbankparser:
 
 
 	def _get_flaws(self):
-		"""parse the flaw-database to extract the knwon flaws
+		"""
+			parse the flaw-database to extract the knwon flaws
 		"""
 		flaws = {}
 		for s,f in self._sentence_tuples:
@@ -229,7 +238,8 @@ class tbankparser:
 		return ans
 
 	def pprint(self,sen=0,max=None, ptype=1,):
-		"""easy acces to pretty-print from nltk
+		"""
+			easy acces to pretty-print from nltk
 		"""
 		if not hasattr(self,'_parser'):
 			self.getParser(max)
@@ -242,7 +252,8 @@ class tbankparser:
 				t.pretty_print()
 	
 	def parse(self,sentence,possen=False):
-		"""Parse a given sentence and return the tree.
+		"""
+			Parse a given sentence and return the tree.
 			if possen, replace the strings in the tree with WordHack object
 			to achieve a spacy-like interface
 		"""
@@ -253,8 +264,7 @@ class tbankparser:
 		
 		x = self._parser.parse(sentence)
 		(score,tree) = x.next()
-		#print score
-		#tree.pprint()
+		
 		
 		if possen:
 			self._possify(tree)
@@ -262,7 +272,8 @@ class tbankparser:
 		return tree
 
 	def _possify(self,tree):
-		"""Replaces strings in the tree with WordHack objects
+		"""
+		Replaces strings in the tree with WordHack objects
 		"""
 		assert type(tree) == nltk.tree.Tree
 		word = tree.label()
@@ -278,41 +289,6 @@ class tbankparser:
 
 
 
-	
-	# @staticmethod
-	# def _strip(word):
-		# word = str(word).replace("'","")
-		# word = word.replace('"','')
-		# if word == "":
-			# word = "-"
-		# return "'"+word+"'"
-	
-	# def _par(self,i=0):
-		# tr = self._parsed[i].tree()
-		# todo = [tr]
-		# p = ""
-		# while len(todo) > 0:
-			# ctr = todo.pop(0)
-			# p += tbankparser._strip(ctr.label())+" --> "
-			# for i in range(0,len(ctr)):
-				# ans = ctr[i]
-				
-				# if not isinstance(ans,nltk.tree.Tree):
-					# p += tbankparser._strip(ans)+" "
-				# else:
-					# todo.append(ans)
-					# p += tbankparser._strip(ans.label())+" "
-			# p += "\n"
-		# return p
-	
-	# def getNPParser(self,max=None):
-		# if max == None:
-			# max = self._n
-		# p = ""
-		# for i in range(0,max):
-			# p += self._par(i)
-		# gram = nltk.DependencyGrammar.fromstring(p)
-		# self._parser = nltk.ProjectiveDependencyParser(gram)
 	
 def demo():
 	t1 = time.time()

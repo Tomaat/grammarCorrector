@@ -13,7 +13,7 @@ class Sentence:
 	
 
 	def makeTagTouples(self):
-		splited_sentences = self.raw_sentence.split(' ') #Do we need a better way to split a sentence? Little bit tricky to split in spaces
+		splited_sentences = self.raw_sentence.split(' ') 
 		if not self.error_list:
 			return 	[(word, "Ne") for word in splited_sentences]
 		else:
