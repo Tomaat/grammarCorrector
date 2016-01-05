@@ -209,33 +209,9 @@ def makeFeatureDict(processed_sentences,history):
 
 	return feature_dictionary
 
-def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags, distance):#
+def construct_feature_vector(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags, distance, calc_features=[None]):	
 	"""
-		 make a list  with the tag of a word and the feature vector of this word
-		 rtype: list with tuples
-	"""
-	ans = [] #answer
-	
-	for i,history_tags in enumerate(history_vectors[1]):
-		# make a feature vector for all possible history tags
-		feature_vector = np.zeros(len(feature_dictionary))
-		features = makeFeatures(word,history_words,history_tags,history_pos_tags,distance,tag)
-		
-		for feature in features:
-			if feature in feature_dictionary:
-				feature_vector[feature_dictionary[feature]] =  1
-		
-		new_tags = ['']*min(history,len(history_tags)+1)
-		new_tags[-1] = tag
-		for i in range(1,len(new_tags)):
-			new_tags[-(i+1)] = history_tags[-i]
-		
-		ans += [ (feature_vector, tuple(new_tags)) ]
-	return ans
-
-def construct_feature_vector2(word, tag, feature_dictionary, history_words, history, history_vectors, history_pos_tags, distance, calc_features=[None]):	
-	"""
-		 different version of the function above
+		 construct numpy-vector (with history) from features
 		 rtype: list with tuples
 	"""
 
