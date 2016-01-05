@@ -264,7 +264,7 @@ def viterbi(parsed_tree, feature_dict, history, weight_matrix, histories):
 		for j,tag in enumerate(all_tags): 
 			
 			t4=time()
-			feature_vectors_tag = dp.construct_feature_vector2(wrd.orth_, tag, feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3], calc_feat)
+			feature_vectors_tag = dp.construct_feature_vector(wrd.orth_, tag, feature_dict, histories[i][1], history, history_vectors, histories[i][2], histories[i][3], calc_feat)
 			
 			t4=time()-t4
 			t5=time()
